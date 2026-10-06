@@ -188,7 +188,7 @@ export function MemoryPalace({ act, onDone }: { act: ActivityOf<"palace">; onDon
 
   return (
     <div data-testid="palace">
-      <ActivityHeader label="Memory palace" icon={<Castle size={14} />} title={`${act.title}`} prompt={stage === "explore" ? `Tap every object in the ${d.scene}. Each one holds a fact.` : "Look at the empty spot."} />
+      <ActivityHeader label="Memory palace" icon={<Castle size={14} />} title={`${act.title}`} prompt={stage === "explore" ? `${d.scene}. Tap every object: each one holds a fact.` : "Look at the empty spot."} />
       <div className="relative w-full overflow-hidden rounded-3xl border border-line bg-gradient-to-b from-indigo-50 via-surface to-amber-50 shadow-inner dark:from-indigo-950/40 dark:via-surface dark:to-amber-950/20" style={{ aspectRatio: "1 / 1" }}>
         <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-amber-100/60 dark:to-amber-900/20" />
         <div className="absolute left-[8%] top-[8%] h-[30%] w-[26%] rounded-xl border-4 border-white/70 bg-sky-100/70 shadow dark:border-white/10 dark:bg-sky-900/30" aria-hidden />

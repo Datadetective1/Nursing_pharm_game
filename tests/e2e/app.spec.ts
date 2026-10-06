@@ -150,6 +150,16 @@ test("Lab Lock, Contrast, Rapid Review flows", async ({ page }) => {
 
   await page.goto("/contrast");
   await page.getByTestId("contrast-set").first().click();
+  // study (flip every row) → rebuild the table (tap fallback) → quiz
+  const rows = page.getByTestId("flip-row");
+  for (let i = 0; i < (await rows.count()); i++) await rows.nth(i).click();
+  await page.getByTestId("contrast-rebuild").click();
+  while (await page.getByTestId("compare-piece").count()) {
+    const p = page.getByTestId("compare-piece").first();
+    const id = (await p.getAttribute("data-drag-id"))!;
+    await p.tap();
+    await page.locator(`[data-drop-zone="${id}"]`).click();
+  }
   await page.getByTestId("contrast-start").click();
   for (let i = 0; i < 10; i++) {
     if (await page.getByTestId("contrast-done").count()) break;

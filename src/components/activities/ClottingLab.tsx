@@ -12,7 +12,7 @@ import { playSound } from "@/lib/sound";
 type Scene = "existing-clot" | "venous-prevent" | "platelet-clump";
 type Outcome = null | { cls: ClotClass; ok: boolean };
 
-const CLASS_STYLE: Record<ClotClass, { label: string; color: string; does: string }> = {
+export const CLASS_STYLE: Record<ClotClass, { label: string; color: string; does: string }> = {
   anticoagulant: { label: "Anticoagulant", color: "#6366f1", does: "prevents NEW clot formation — does NOT dissolve existing clots" },
   antiplatelet: { label: "Antiplatelet", color: "#0ea5e9", does: "stops platelets clumping (arteries)" },
   thrombolytic: { label: "Thrombolytic", color: "#e11d48", does: "DISSOLVES clots (plasminogen → plasmin)" },

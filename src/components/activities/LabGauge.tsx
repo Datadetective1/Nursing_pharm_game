@@ -12,6 +12,7 @@ type Band = "low" | "in" | "high";
 export const bandOf = (g: Pick<GaugeData, "low" | "high" | "value">): Band => (g.value < g.low ? "low" : g.value > g.high ? "high" : "in");
 
 const COLORS: Record<Band, string> = { low: "#f59e0b", in: "#10b981", high: "#ef4444" };
+const GLYPH: Record<Band, string> = { low: "↓", in: "✓", high: "↑" };
 
 /**
  * Horizontal lab gauge with LOW / TARGET / HIGH zones and an animated needle.
@@ -39,7 +40,9 @@ export function GaugeBar({ g, showNeedle, onZone, picked, compact }: { g: Pick<G
             className={cx("relative h-full transition-all", picked === z.b && "ring-4 ring-inset ring-ink/40", onZone && "cursor-pointer active:brightness-110")}
             style={{ width: `${z.to - z.from}%`, background: COLORS[z.b], opacity: picked && picked !== z.b ? 0.45 : 0.9 }}
           >
-            <span className="pointer-events-none absolute inset-0 grid place-items-center px-1 text-[10.5px] font-extrabold uppercase leading-none tracking-wide text-white drop-shadow">{g.zoneLabels[z.b]}</span>
+            <span className="pointer-events-none absolute inset-0 grid place-items-center px-1 text-[10.5px] font-extrabold uppercase leading-none tracking-wide text-white drop-shadow">
+              {z.to - z.from >= 28 && !compact ? g.zoneLabels[z.b] : GLYPH[z.b]}
+            </span>
           </button>
         ))}
       </div>
@@ -47,6 +50,15 @@ export function GaugeBar({ g, showNeedle, onZone, picked, compact }: { g: Pick<G
       <div className="relative mt-1 h-4 text-[10.5px] font-bold text-muted">
         {g.zoneLabels.low && <span className="absolute -translate-x-1/2" style={{ left: `${lo}%` }}>{g.low}</span>}
         <span className="absolute -translate-x-1/2" style={{ left: `${hi}%` }}>{g.high}</span>
+      </div>
+      {/* legend (labels never truncate inside narrow zones) */}
+      <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[11px] font-bold text-muted" data-testid="gauge-legend">
+        {zones.map((z) => (
+          <span key={z.b} className="inline-flex items-center gap-1">
+            <span className="size-2.5 rounded-full" style={{ background: COLORS[z.b] }} />
+            {g.zoneLabels[z.b]}
+          </span>
+        ))}
       </div>
       {showNeedle && (
         <motion.div className="absolute top-0 flex -translate-x-1/2 flex-col items-center" initial={{ left: "0%" }} animate={{ left: `${pct(g.value)}%` }} transition={{ type: "spring", stiffness: 60, damping: 12 }} data-testid="gauge-needle">
@@ -102,7 +114,7 @@ export function LabGauge({ act, onDone }: { act: ActivityOf<"gauge">; onDone: (r
         label="Lab gauge"
         icon={<Gauge size={14} />}
         title={`${g.drug}: ${g.lab} ${g.value}${g.unit ? " " + g.unit : ""}`}
-        prompt={stage === "zone" ? "Tap the zone where this value falls." : g.context ? `Target ${g.low}–${g.high} · ${g.context}` : `Target ${g.low}–${g.high}`}
+        prompt={stage === "zone" ? (g.context ? `Client: ${g.context}. Tap the zone where this value falls.` : "Tap the zone where this value falls.") : g.context ? `Target ${g.low}–${g.high} · ${g.context}` : `Target ${g.low}–${g.high}`}
       />
       <div className="card px-4 pb-4">
         <GaugeBar g={g} showNeedle={stage !== "zone" || zoneMiss} onZone={stage === "zone" ? tapZone : undefined} picked={picked} />

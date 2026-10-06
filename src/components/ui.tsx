@@ -152,6 +152,7 @@ export function Ring({ value, size = 64, stroke = 7, color = "var(--brand)", tra
           stroke={color}
           strokeWidth={stroke}
           strokeLinecap="round"
+          strokeOpacity={v > 0 ? 1 : 0}
           strokeDasharray={c}
           strokeDashoffset={c - (c * v) / 100}
           style={{ transition: "stroke-dashoffset 0.8s cubic-bezier(.2,.8,.2,1)" }}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { VISUAL_LABS, LAB_BY_SLUG } from "@/data/visualLabs";
 import { useRouter } from "next/navigation";
 import { Flame, Settings, Zap, Target, ChevronRight, CheckCircle2, Swords, Trophy, Brain, AlertTriangle } from "lucide-react";
 import { Onboarding } from "@/components/Onboarding";
@@ -15,6 +16,8 @@ function greeting() {
   const h = new Date().getHours();
   return h < 12 ? "Good morning" : h < 18 ? "Good afternoon" : "Good evening";
 }
+
+const HOME_LABS = ["clot", "rescue", "family", "gauge", "nephron", "sim", "priority", "status"];
 
 export default function HomePage() {
   const router = useRouter();
@@ -126,6 +129,25 @@ export default function HomePage() {
         </div>
         <ChevronRight className="text-muted" />
       </button>
+
+      {/* Visual Labs strip */}
+      <div className="mt-5 flex items-baseline justify-between">
+        <h2 className="text-[13px] font-extrabold uppercase tracking-wider text-muted">Visual Labs</h2>
+        <Link href="/visual" className="text-[13px] font-extrabold text-brand" data-testid="home-visual-all">
+          All {VISUAL_LABS.length} →
+        </Link>
+      </div>
+      <div className="-mx-4 mt-2 flex snap-x gap-2.5 overflow-x-auto px-4 pb-1 [scrollbar-width:none]" data-testid="home-labs">
+        {HOME_LABS.map((slug) => {
+          const l = LAB_BY_SLUG[slug];
+          return (
+            <Link key={slug} href={`/visual/play?lab=${slug}&back=/`} className={cx("flex w-28 shrink-0 snap-start flex-col justify-between gap-2 rounded-2xl bg-gradient-to-br p-3 text-white shadow-md active:scale-[0.97]", l.tone)} data-testid={`home-lab-${slug}`}>
+              <span className="text-2xl">{l.icon}</span>
+              <span className="text-[13px] font-extrabold leading-tight">{l.title}</span>
+            </Link>
+          );
+        })}
+      </div>
 
       {/* Snapshot */}
       <div className="mt-4 grid grid-cols-2 gap-3">

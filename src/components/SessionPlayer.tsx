@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Flame, Heart, X, Trophy, RotateCcw, Home as HomeIcon, Swords, Volume2, VolumeX, ArrowRight, Sparkles } from "lucide-react";
+import { Flame, Heart, X, Trophy, RotateCcw, Home as HomeIcon, Swords, Volume2, VolumeX, ArrowRight, Sparkles, Shuffle } from "lucide-react";
 import type { Question } from "@/lib/types";
 import type { Activity, ActivityResult } from "@/lib/activities/types";
 import { correctAnswerText, isCorrect, responseText, type Response } from "@/lib/engine/grade";
@@ -164,6 +164,22 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
     serve(next);
   };
 
+  /** Swap the current visual activity for a question on the same concept (no result recorded). */
+  const onSwapActivity = () => {
+    if (!act) return;
+    const c = CONCEPT_BY_ID[act.concepts[0]];
+    const s = useStore.getState();
+    const served = new Set(rt.current.served);
+    const fu = c ? pickQuestionForConcept(c, { pool: [c], stats: s.concepts, qstats: s.qstats, recentQ: rt.current.served, recentConcepts: [], now: Date.now(), rng: mulberry32(Date.now() % 2 ** 31), types: cfg.types }, served) : undefined;
+    const next: Item | undefined = fu ? { kind: "q", q: fu } : pickNext({ ...cfg, visual: false }, rt.current);
+    if (!next) return;
+    if (fu) {
+      rt.current.served.push(fu.id);
+      rt.current.servedConcepts.push(fu.concept);
+    }
+    serve(next);
+  };
+
   const answered = results.length;
   const progress = total ? (answered / total) * 100 : 0;
   const world = cfg.worldId ? WORLD_BY_ID[cfg.worldId] : undefined;
@@ -225,6 +241,11 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
           {act && (
             <div key={`${serveIdx}-${act.id}`} className="animate-fade-up" data-testid="session-activity" data-kind={act.kind}>
               <ActivityView act={act} onDone={onActivityDone} />
+              {phase === "q" && (
+                <button onClick={onSwapActivity} className="mx-auto mt-4 flex min-h-11 items-center gap-1.5 rounded-full px-4 text-[13px] font-bold text-muted" data-testid="activity-skip">
+                  <Shuffle size={14} /> Swap for a question
+                </button>
+              )}
             </div>
           )}
           {phase === "fb" && q && last && (

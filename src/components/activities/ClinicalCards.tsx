@@ -18,6 +18,9 @@ const FLAG: Record<NonNullable<ChartRow["flag"]>, { cls: string; sym: string }> 
   note: { cls: "text-brand", sym: "•" },
 };
 
+/** "Client on heparin" + "Heparin" → no duplicate drug name in the title. */
+const withDrug = (client: string, drug: string) => (client.toLowerCase().includes(drug.toLowerCase()) ? client : `${client} · ${drug}`);
+
 export function ChartCard({ patient, meds, rows, findings }: { patient: string; meds?: string[]; rows: ChartRow[]; findings?: string[] }) {
   return (
     <div className="overflow-hidden rounded-2xl border-2 border-line bg-surface shadow-sm" data-testid="patient-chart">
@@ -117,7 +120,7 @@ export function PriorityZone({ act, onDone }: { act: ActivityOf<"priority">; onD
   const v = VISUAL[d.visual];
   return (
     <div data-testid="priority">
-      <ActivityHeader label="Priority Zone" icon={<TriangleAlert size={14} />} title={`${d.client} · ${d.drug}`} prompt="Drag the finding that needs IMMEDIATE action into the red zone." />
+      <ActivityHeader label="Priority Zone" icon={<TriangleAlert size={14} />} title={withDrug(d.client, d.drug)} prompt="Drag the finding that needs IMMEDIATE action into the red zone." />
       <DndProvider onDrop={onDrop}>
         <DropZone id="priority" testId="priority-zone" label="Priority zone" className={cx("relative grid min-h-28 place-items-center overflow-hidden rounded-3xl border-2 border-dashed p-3 text-center", placed ? "border-bad bg-bad-soft" : "border-bad/50 bg-bad-soft/40")} activeClassName="scale-[1.02] border-solid ring-4 ring-bad/40">
           <AnimatePresence mode="wait">
@@ -288,7 +291,7 @@ export function MicroSim({ act, onDone }: { act: ActivityOf<"sim">; onDone: (r: 
       <AnimatePresence mode="wait">
         {node && !finished && (
           <motion.div key={node.id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-            {node.rows && node.rows.length > 0 && <ChartCard patient={`${d.client} · ${d.drug}`} rows={node.rows} />}
+            {node.rows && node.rows.length > 0 && <ChartCard patient={withDrug(d.client, d.drug)} rows={node.rows} />}
             <p className="mt-3 text-[15px] font-semibold leading-snug">{node.text}</p>
             <p className="mt-2 text-[16px] font-extrabold">{node.prompt}</p>
             <div className="mt-2.5 grid gap-2">

@@ -11,7 +11,7 @@ import { playSound } from "@/lib/sound";
 const TARGET_LABEL: Record<RaasTarget, string> = { ace: "ACE (Ang I → Ang II)", receptor: "Ang II receptor", aldosterone: "Aldosterone" };
 
 /** What the course says happens when each point is blocked. */
-const EFFECT: Record<RaasTarget, { lines: string[]; cough?: string }> = {
+export const EFFECT: Record<RaasTarget, { lines: string[]; cough?: string }> = {
   ace: { lines: ["Vasodilation", "↓ Na⁺ / H₂O retention", "K⁺ RETAINED → hyperkalemia"], cough: "↑ Bradykinin → dry hacking cough" },
   receptor: { lines: ["Vasodilation", "↓ Na⁺ / H₂O retention", "K⁺ retained → hyperkalemia"], cough: "Bradykinin untouched → much less cough" },
   aldosterone: { lines: ["Na⁺ + H₂O excreted", "K⁺ RETAINED", "Limit K⁺ foods · no salt substitutes"] },

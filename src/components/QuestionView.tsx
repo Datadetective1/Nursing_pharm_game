@@ -127,15 +127,22 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
 
   return (
     <div className="flex flex-col gap-4" data-testid="question" data-qid={q.id} data-qtype={q.type}>
-      <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider">
-        <span className="rounded-full bg-brand-soft px-2.5 py-1 text-brand">{FORMAT_LABEL[q.format] ?? "Question"}</span>
-        <span className="text-muted">{TYPE_LABEL[q.type]}</span>
-        <span className="ml-auto flex gap-0.5" aria-label={`difficulty ${q.difficulty} of 3`}>
-          {[1, 2, 3].map((d) => (
-            <span key={d} className={cx("h-1.5 w-3 rounded-full", d <= q.difficulty ? "bg-xp" : "bg-line")} />
-          ))}
-        </span>
-      </div>
+      {examMode ? (
+        // clean, test-like header: no topic/format hints, no difficulty — only the item type an exam would state
+        <p className="text-[12px] font-semibold text-muted" data-testid="exam-item-type">
+          {q.type === "sata" ? "Select all that apply." : q.type === "order" ? "Place in the correct order." : q.type === "match" ? "Match each item." : q.type === "fill" ? "Fill in the blank." : ""}
+        </p>
+      ) : (
+        <div className="flex flex-wrap items-center gap-2 text-[11px] font-extrabold uppercase tracking-wider" data-testid="question-chips">
+          <span className="rounded-full bg-brand-soft px-2.5 py-1 text-brand">{FORMAT_LABEL[q.format] ?? "Question"}</span>
+          <span className="text-muted">{TYPE_LABEL[q.type]}</span>
+          <span className="ml-auto flex gap-0.5" aria-label={`difficulty ${q.difficulty} of 3`}>
+            {[1, 2, 3].map((d) => (
+              <span key={d} className={cx("h-1.5 w-3 rounded-full", d <= q.difficulty ? "bg-xp" : "bg-line")} />
+            ))}
+          </span>
+        </div>
+      )}
 
       <p className="text-[19px] font-bold leading-snug tracking-tight" data-testid="stem">
         {q.type === "tf" ? <span className="mb-1 block text-sm font-extrabold uppercase tracking-wide text-muted">True or false?</span> : null}
@@ -164,12 +171,12 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                 className={cx(
                   "flex min-h-14 w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-[15px] font-semibold transition-all",
                   st === "correct" && "border-good bg-good-soft",
-                  st === "wrong" && "border-bad bg-bad-soft animate-shake",
+                  st === "wrong" && "border-warn bg-warn-soft animate-shake",
                   st === "neutral" && (sel ? "border-brand bg-brand-soft" : "border-line bg-surface"),
                   !locked && "active:scale-[0.99]",
                 )}
               >
-                <span className={cx("grid size-7 shrink-0 place-items-center rounded-lg text-xs font-extrabold", st === "correct" ? "bg-good text-white" : st === "wrong" ? "bg-bad text-white" : sel ? "bg-brand text-brand-ink" : "bg-surface-2 text-muted")}>
+                <span className={cx("grid size-7 shrink-0 place-items-center rounded-lg text-xs font-extrabold", st === "correct" ? "bg-good text-white" : st === "wrong" ? "bg-warn text-bg" : sel ? "bg-brand text-brand-ink" : "bg-surface-2 text-muted")}>
                   {st === "correct" ? <Check size={16} /> : st === "wrong" ? <X size={16} /> : String.fromCharCode(65 + i)}
                 </span>
                 <span>{q.options[orig]}</span>
@@ -203,12 +210,12 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                 className={cx(
                   "flex min-h-14 w-full items-center gap-3 rounded-2xl border-2 px-4 py-3 text-left text-[15px] font-semibold transition-all",
                   st === "correct" && "border-good bg-good-soft",
-                  st === "wrong" && "border-bad bg-bad-soft",
+                  st === "wrong" && "border-warn bg-warn-soft",
                   st === "missed" && "border-dashed border-good bg-surface",
                   st === "neutral" && (sel ? "border-brand bg-brand-soft" : "border-line bg-surface"),
                 )}
               >
-                <span className={cx("grid size-6 shrink-0 place-items-center rounded-md border-2", st === "correct" ? "border-good bg-good text-white" : st === "wrong" ? "border-bad bg-bad text-white" : st === "missed" ? "border-good text-good" : sel ? "border-brand bg-brand text-brand-ink" : "border-line")}>
+                <span className={cx("grid size-6 shrink-0 place-items-center rounded-md border-2", st === "correct" ? "border-good bg-good text-white" : st === "wrong" ? "border-warn bg-warn text-bg" : st === "missed" ? "border-good text-good" : sel ? "border-brand bg-brand text-brand-ink" : "border-line")}>
                   {(sel || st === "missed") && <Check size={14} strokeWidth={3} />}
                 </span>
                 <span className="flex-1">{q.options[orig]}</span>
@@ -239,7 +246,7 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                 }}
                 className={cx(
                   "min-h-20 rounded-2xl border-2 text-lg font-extrabold transition-all",
-                  correct ? "border-good bg-good-soft text-good" : wrong ? "border-bad bg-bad-soft text-bad animate-shake" : sel ? "border-brand bg-brand-soft text-brand" : "border-line bg-surface",
+                  correct ? "border-good bg-good-soft text-good" : wrong ? "border-warn bg-warn-soft text-warn animate-shake" : sel ? "border-brand bg-brand-soft text-brand" : "border-line bg-surface",
                 )}
               >
                 {v ? "True" : "False"}
@@ -288,7 +295,7 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                     onClick={() => setUnit(u)}
                     className={cx(
                       "min-h-11 rounded-xl border-2 px-4 text-sm font-bold",
-                      revealed && u === q.unit ? "border-good bg-good-soft" : revealed && u === unit ? "border-bad bg-bad-soft" : unit === u ? "border-brand bg-brand-soft text-brand" : "border-line bg-surface",
+                      revealed && u === q.unit ? "border-good bg-good-soft" : revealed && u === unit ? "border-warn bg-warn-soft" : unit === u ? "border-brand bg-brand-soft text-brand" : "border-line bg-surface",
                     )}
                   >
                     {u}
@@ -317,7 +324,7 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                     onClick={() => setSelLeft(l)}
                     className={cx(
                       "min-h-14 rounded-xl border-2 px-3 py-2 text-left text-sm font-bold",
-                      revealed ? (ok ? "border-good bg-good-soft" : "border-bad bg-bad-soft") : selLeft === l ? "border-brand bg-brand-soft" : matched ? "border-brand/40 bg-surface-2" : "border-line bg-surface",
+                      revealed ? (ok ? "border-good bg-good-soft" : "border-warn bg-warn-soft") : selLeft === l ? "border-brand bg-brand-soft" : matched ? "border-brand/40 bg-surface-2" : "border-line bg-surface",
                     )}
                   >
                     {l}
@@ -378,7 +385,7 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
             {seq.map((s, i) => {
               const ok = revealed && q.items[i] === s;
               return (
-                <li key={s} className={cx("flex items-center gap-3 rounded-xl border-2 px-3 py-2.5 text-sm font-semibold", revealed ? (ok ? "border-good bg-good-soft" : "border-bad bg-bad-soft") : "border-brand bg-brand-soft")}>
+                <li key={s} className={cx("flex items-center gap-3 rounded-xl border-2 px-3 py-2.5 text-sm font-semibold", revealed ? (ok ? "border-good bg-good-soft" : "border-warn bg-warn-soft") : "border-brand bg-brand-soft")}>
                   <span className="grid size-6 place-items-center rounded-full bg-brand text-xs font-extrabold text-brand-ink">{i + 1}</span>
                   {s}
                 </li>

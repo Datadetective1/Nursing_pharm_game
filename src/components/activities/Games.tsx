@@ -11,27 +11,47 @@ import { playSound } from "@/lib/sound";
 import { shuffle } from "@/lib/rng";
 
 // ───────────────────────── Clinical room ─────────────────────────
-const R = ["top-[3%]", "top-[22%]", "top-[41%]", "top-[60%]", "top-[79%]"];
-const C = ["left-[4%]", "left-[37%]", "left-[70%]"];
-const at = (r: number, c: number) => `${R[r]} ${C[c]}`;
-/** Each object type has its own slot so a room never overlaps. */
-const OBJ: Record<RoomObject, { icon: React.ReactNode; pos: string; name: string }> = {
-  "iv-bag": { icon: <Droplets size={24} />, pos: at(0, 0), name: "IV bag" },
-  labs: { icon: <TestTubes size={24} />, pos: at(0, 1), name: "Lab panel" },
-  monitor: { icon: <MonitorDot size={24} />, pos: at(0, 2), name: "Monitor" },
-  pump: { icon: <GaugeIcon size={24} />, pos: at(1, 0), name: "Pump" },
-  patient: { icon: <BedDouble size={26} />, pos: at(1, 1), name: "Client" },
-  skin: { icon: <Hand size={24} />, pos: at(1, 2), name: "Skin" },
-  mouth: { icon: <Smile size={24} />, pos: at(2, 0), name: "Mouth / gums" },
-  bed: { icon: <BedDouble size={26} />, pos: at(2, 1), name: "Bed" },
-  patch: { icon: <Sticker size={24} />, pos: at(2, 2), name: "Patch" },
-  "med-cup": { icon: <Pill size={24} />, pos: at(3, 0), name: "Med cup" },
-  tray: { icon: <Utensils size={24} />, pos: at(3, 1), name: "Food tray" },
-  pca: { icon: <Pointer size={24} />, pos: at(3, 2), name: "PCA button" },
-  vial: { icon: <FlaskConical size={24} />, pos: at(4, 0), name: "Vial" },
-  mar: { icon: <ClipboardList size={24} />, pos: at(4, 1), name: "MAR" },
-  calendar: { icon: <CalendarDays size={24} />, pos: at(4, 2), name: "Calendar" },
+/** Object catalog for the clinical room (order = layout order in the room). */
+const OBJ: Record<RoomObject, { icon: React.ReactNode; name: string }> = {
+  "iv-bag": { icon: <Droplets size={24} />, name: "IV bag" },
+  labs: { icon: <TestTubes size={24} />, name: "Lab panel" },
+  monitor: { icon: <MonitorDot size={24} />, name: "Monitor" },
+  pump: { icon: <GaugeIcon size={24} />, name: "Pump" },
+  patient: { icon: <BedDouble size={26} />, name: "Client" },
+  skin: { icon: <Hand size={24} />, name: "Skin" },
+  mouth: { icon: <Smile size={24} />, name: "Mouth / gums" },
+  bed: { icon: <BedDouble size={26} />, name: "Bed" },
+  patch: { icon: <Sticker size={24} />, name: "Patch" },
+  "med-cup": { icon: <Pill size={24} />, name: "Med cup" },
+  tray: { icon: <Utensils size={24} />, name: "Food tray" },
+  pca: { icon: <Pointer size={24} />, name: "PCA button" },
+  vial: { icon: <FlaskConical size={24} />, name: "Vial" },
+  mar: { icon: <ClipboardList size={24} />, name: "MAR" },
+  calendar: { icon: <CalendarDays size={24} />, name: "Calendar" },
 };
+const OBJ_ORDER = Object.keys(OBJ) as RoomObject[];
+
+/** Original SVG: hospital room with the client in bed, IV pole and monitor. */
+function RoomScene() {
+  return (
+    <svg viewBox="0 0 320 110" className="w-full" aria-hidden>
+      <rect x="18" y="8" width="64" height="44" rx="6" className="fill-sky-100 stroke-sky-300 dark:fill-slate-700 dark:stroke-slate-500" strokeWidth="2" />
+      <line x1="50" y1="8" x2="50" y2="52" className="stroke-sky-300 dark:stroke-slate-500" strokeWidth="2" />
+      <rect x="236" y="10" width="62" height="40" rx="6" className="fill-slate-900" />
+      <polyline points="242,32 254,32 259,20 265,42 271,28 277,32 292,32" fill="none" stroke="#34d399" strokeWidth="2" strokeLinejoin="round" />
+      <line x1="226" y1="18" x2="226" y2="96" className="stroke-slate-400" strokeWidth="2.5" />
+      <rect x="216" y="18" width="20" height="26" rx="5" className="fill-sky-200 stroke-sky-400" strokeWidth="1.5" />
+      <path d="M226 44 C 226 62, 200 64, 186 70" fill="none" className="stroke-slate-400" strokeWidth="1.5" />
+      <rect x="70" y="74" width="140" height="12" rx="5" className="fill-slate-300 dark:fill-slate-600" />
+      <rect x="78" y="86" width="6" height="16" rx="2" className="fill-slate-400" />
+      <rect x="196" y="86" width="6" height="16" rx="2" className="fill-slate-400" />
+      <rect x="66" y="56" width="10" height="30" rx="4" className="fill-slate-400" />
+      <ellipse cx="96" cy="66" rx="16" ry="8" className="fill-white stroke-slate-300 dark:fill-slate-300" strokeWidth="1.5" />
+      <circle cx="98" cy="58" r="11" className="fill-amber-200 stroke-amber-300" strokeWidth="1.5" />
+      <rect x="110" y="60" width="96" height="16" rx="8" className="fill-indigo-300 dark:fill-indigo-400" />
+    </svg>
+  );
+}
 
 export function ClinicalRoom({ act, onDone }: { act: ActivityOf<"room">; onDone: (r: ActivityResult) => void }) {
   const d = act.data;
@@ -42,6 +62,12 @@ export function ClinicalRoom({ act, onDone }: { act: ActivityOf<"room">; onDone:
   const judged = Object.keys(verdicts).length;
   const problems = d.hotspots.filter((h) => h.problem);
   const found = problems.filter((h) => verdicts[h.id] === true).length;
+  const ordered = useMemo(() => [...d.hotspots].sort((a, b) => OBJ_ORDER.indexOf(a.object) - OBJ_ORDER.indexOf(b.object)), [d.hotspots]);
+  const detailRef = useRef<HTMLDivElement>(null);
+  const inspect = (id: string) => {
+    setOpen(id);
+    requestAnimationFrame(() => detailRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" }));
+  };
 
   const judge = (id: string, saysProblem: boolean) => {
     const h = d.hotspots.find((x) => x.id === id)!;
@@ -68,39 +94,39 @@ export function ClinicalRoom({ act, onDone }: { act: ActivityOf<"room">; onDone:
           Problems found {found}/{problems.length}
         </span>
       </div>
-      <div className="relative w-full overflow-hidden rounded-3xl border border-line bg-gradient-to-b from-sky-50 to-amber-50 dark:from-slate-800 dark:to-slate-900" style={{ aspectRatio: "1 / 1.25" }}>
-        <div className="absolute inset-x-0 bottom-0 h-[30%] bg-gradient-to-b from-amber-100/60 to-amber-200/50 dark:from-slate-700/40 dark:to-slate-700/60" />
-        <div className="absolute left-[30%] top-[24%] h-[30%] w-[40%] rounded-2xl bg-white/60 shadow-inner dark:bg-white/5" />
-        {d.hotspots.map((h) => {
-          const o = OBJ[h.object];
-          const v = verdicts[h.id];
-          const done = v !== undefined;
-          const right = done && v === h.problem;
-          return (
-            <motion.button
-              key={h.id}
-              onClick={() => setOpen(h.id)}
-              whileTap={{ scale: 0.92 }}
-              data-testid="room-object"
-              className={cx(
-                "absolute flex w-[26%] flex-col items-center gap-0.5 rounded-2xl border-2 bg-surface/95 px-1 py-2 text-center shadow-md",
-                o.pos,
-                !done && "border-brand/40",
-                done && (h.problem ? "border-bad" : "border-good"),
-                open === h.id && "ring-4 ring-brand/40",
-              )}
-            >
-              <span className={cx(done ? (h.problem ? "text-bad" : "text-good") : "text-brand")}>{o.icon}</span>
-              <span className="text-[10.5px] font-extrabold leading-tight">{h.label}</span>
-              {done && <span className={cx("absolute -right-1.5 -top-1.5 grid size-5 place-items-center rounded-full text-white", right ? "bg-good" : "bg-warn")}>{right ? <Check size={12} /> : <X size={12} />}</span>}
-              {!done && <motion.span className="absolute -right-1 -top-1 size-3 rounded-full bg-brand" animate={{ scale: [1, 1.4, 1] }} transition={{ duration: 1.6, repeat: Infinity }} />}
-            </motion.button>
-          );
-        })}
+      <div className="overflow-hidden rounded-3xl border border-line bg-gradient-to-b from-sky-50 to-amber-50 p-3 dark:from-slate-800 dark:to-slate-900">
+        <RoomScene />
+        <div className="mt-2 grid grid-cols-3 gap-2.5">
+          {ordered.map((h) => {
+            const o = OBJ[h.object];
+            const v = verdicts[h.id];
+            const done = v !== undefined;
+            const right = done && v === h.problem;
+            return (
+              <motion.button
+                key={h.id}
+                onClick={() => inspect(h.id)}
+                whileTap={{ scale: 0.92 }}
+                data-testid="room-object"
+                className={cx(
+                  "relative flex min-h-[84px] flex-col items-center justify-center gap-1 rounded-2xl border-2 bg-surface/95 px-1 py-2 text-center shadow-md",
+                  !done && "border-brand/40",
+                  done && (h.problem ? "border-bad" : "border-good"),
+                  open === h.id && "ring-4 ring-brand/40",
+                )}
+              >
+                <span className={cx(done ? (h.problem ? "text-bad" : "text-good") : "text-brand")}>{o.icon}</span>
+                <span className="text-[11px] font-extrabold leading-tight">{h.label}</span>
+                {done && <span className={cx("absolute -right-1.5 -top-1.5 grid size-5 place-items-center rounded-full text-white", right ? "bg-good" : "bg-warn")}>{right ? <Check size={12} /> : <X size={12} />}</span>}
+                {!done && <motion.span className="absolute -right-1 -top-1 size-3 rounded-full bg-brand" animate={{ scale: [1, 1.4, 1] }} transition={{ duration: 1.6, repeat: Infinity }} />}
+              </motion.button>
+            );
+          })}
+        </div>
       </div>
       <AnimatePresence>
         {hot && (
-          <motion.div key={hot.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="card mt-3 p-4" data-testid="room-detail">
+          <motion.div ref={detailRef} key={hot.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="card mt-3 scroll-mb-24 p-4" data-testid="room-detail">
             <p className="text-[11px] font-extrabold uppercase tracking-wider text-muted">{OBJ[hot.object].name}</p>
             <p className="mt-1 text-[16px] font-bold leading-snug">{hot.detail}</p>
             {verdicts[hot.id] === undefined ? (

@@ -31,7 +31,6 @@ export const FAMILY_DRUGS: { name: string; family: string; suffix: string; cours
   { name: "Metoprolol", family: "bb", suffix: "olol", course: true },
   { name: "Atenolol", family: "bb", suffix: "olol", course: true },
   { name: "Propranolol", family: "bb", suffix: "olol", course: true },
-  { name: "Sotalol", family: "bb", suffix: "olol", course: true },
   { name: "Amlodipine", family: "ccb", suffix: "pine", course: true },
   { name: "Nifedipine", family: "ccb", suffix: "pine", course: true },
   { name: "Diltiazem", family: "ccb", suffix: "zem", course: true },

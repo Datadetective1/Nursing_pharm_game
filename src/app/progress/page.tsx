@@ -8,6 +8,7 @@ import { effectiveMastery } from "@/lib/engine/mastery";
 import { TOPICS, WORLDS, CONCEPTS, TOPIC_BY_ID } from "@/data/curriculum";
 import { ACHIEVEMENTS } from "@/lib/engine/achievements";
 import { rankWeakConcepts } from "@/lib/engine/session";
+import { Heatmap, AccuracyTrend, focusHref } from "@/components/analytics/Heatmap";
 
 export default function ProgressPage() {
   const s = useStore();
@@ -35,6 +36,12 @@ export default function ProgressPage() {
     return { k, label: d.toLocaleDateString([], { weekday: "narrow" }), answered: st?.answered ?? 0, wrong: st ? st.answered - st.correct : 0, acc: st && st.answered ? st.correct / st.answered : 0 };
   });
   const maxA = Math.max(1, ...days.map((d) => d.answered));
+  const trend = Array.from({ length: 14 }, (_, i) => {
+    const d = new Date(now);
+    d.setDate(d.getDate() - (13 - i));
+    const st = s.days[dayKey(d)];
+    return { label: dayKey(d), acc: st && st.answered ? Math.round((st.correct / st.answered) * 100) : null, n: st?.answered ?? 0 };
+  });
 
   const cal = s.calib;
   const calRows = [
@@ -74,21 +81,22 @@ export default function ProgressPage() {
         <Stat label="Study time" value={`${Math.round(totalMs / 60000)}m`} />
       </div>
 
+      <SectionTitle>Weak-spot heatmap</SectionTitle>
+      <Heatmap stats={s.concepts} now={now} />
+
       <SectionTitle>Module mastery</SectionTitle>
-      <div className="card space-y-3 p-4">
+      <div className="grid grid-cols-3 gap-2" data-testid="module-rings">
         {WORLDS.map((w) => {
           const ts = TOPICS.filter((t) => t.world === w.id);
           const m = ts.length ? ts.reduce((a, t) => a + ready.byTopic[t.id] * t.examCount, 0) / ts.reduce((a, t) => a + t.examCount, 0) : 0;
           return (
-            <div key={w.id}>
-              <div className="flex justify-between text-sm font-bold">
-                <span>
-                  {w.module} · {w.title}
-                </span>
-                <span>{Math.round(m)}%</span>
-              </div>
-              <Bar value={m} color={w.accent} className="mt-1" />
-            </div>
+            <Link key={w.id} href={`/play?mode=world&world=${w.id}`} className="card flex flex-col items-center gap-1.5 p-3 text-center active:scale-[0.98]">
+              <Ring value={m} size={64} stroke={7} color={w.accent}>
+                <span className="text-sm font-extrabold">{Math.round(m)}%</span>
+              </Ring>
+              <span className="text-[11px] font-extrabold leading-tight">{w.title}</span>
+              <span className="text-[10px] font-bold text-muted">{w.module}</span>
+            </Link>
           );
         })}
       </div>
@@ -96,7 +104,7 @@ export default function ProgressPage() {
       <SectionTitle>Topic mastery (blueprint weight)</SectionTitle>
       <div className="card divide-y divide-line">
         {TOPICS.map((t) => (
-          <div key={t.id} className="px-4 py-2.5">
+          <Link key={t.id} href={focusHref(CONCEPTS.filter((c) => c.topic === t.id).map((c) => c.id))} className="block px-4 py-2.5 active:bg-surface-2" data-testid="topic-row">
             <div className="flex justify-between text-sm">
               <span className="font-semibold">{t.title}</span>
               <span className="text-muted">
@@ -104,7 +112,7 @@ export default function ProgressPage() {
               </span>
             </div>
             <Bar value={ready.byTopic[t.id]} color={masteryColor(ready.byTopic[t.id], true)} className="mt-1.5 h-1.5" />
-          </div>
+          </Link>
         ))}
       </div>
 
@@ -121,7 +129,7 @@ export default function ProgressPage() {
                 {cs.map((c) => {
                   const st = s.concepts[c.id];
                   const e = effectiveMastery(st, now);
-                  return <span key={c.id} title={`${c.label}: ${Math.round(e)}%`} className="size-4 rounded-[5px]" style={{ background: masteryColor(e, (st?.seen ?? 0) > 0), opacity: st?.seen ? 0.35 + (e / 100) * 0.65 : 1 }} />;
+                  return <Link key={c.id} href={focusHref([c.id])} title={`${c.label}: ${Math.round(e)}%`} aria-label={`Practice ${c.label}`} className="size-5 rounded-[5px]" style={{ background: masteryColor(e, (st?.seen ?? 0) > 0), opacity: st?.seen ? 0.35 + (e / 100) * 0.65 : 1 }} />;
                 })}
               </div>
             </div>
@@ -160,15 +168,20 @@ export default function ProgressPage() {
         </p>
       </div>
 
+      <SectionTitle>Accuracy trend</SectionTitle>
+      <AccuracyTrend points={trend} />
+
       <div className="mt-6 grid grid-cols-1 gap-3">
         <div className="card p-4">
           <p className="text-xs font-extrabold uppercase tracking-wider text-bad">Weakest concepts</p>
           {weakest.length === 0 && <p className="mt-2 text-sm text-muted">Answer some questions to see this.</p>}
           <ul className="mt-2 space-y-2">
             {weakest.map((w) => (
-              <li key={w.concept.id} className="flex items-center justify-between gap-2 text-sm">
-                <span className="min-w-0 truncate">{w.concept.label}</span>
-                <span className="shrink-0 font-bold text-muted">{Math.round(w.mastery)}%</span>
+              <li key={w.concept.id}>
+                <Link href={focusHref([w.concept.id])} className="flex items-center justify-between gap-2 text-sm" data-testid="weak-concept">
+                  <span className="min-w-0 truncate">{w.concept.label}</span>
+                  <span className="shrink-0 font-bold text-muted">{Math.round(w.mastery)}% →</span>
+                </Link>
               </li>
             ))}
           </ul>

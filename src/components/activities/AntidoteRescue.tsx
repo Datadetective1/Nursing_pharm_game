@@ -77,9 +77,9 @@ export function AntidoteRescue({ act, onDone }: { act: ActivityOf<"rescue">; onD
                 <HeartPulse size={13} className={stable ? "text-emerald-400" : "animate-pulse text-rose-400"} />
               </div>
               {d.vitals.map((v) => (
-                <div key={v.label} className="flex justify-between gap-2">
+                <div key={v.label} className="flex items-baseline justify-between gap-2 border-b border-white/5 py-0.5 font-sans text-[11.5px] leading-tight last:border-0">
                   <span className="text-slate-400">{v.label}</span>
-                  <motion.span animate={v.bad && !stable ? { opacity: [1, 0.35, 1] } : { opacity: 1 }} transition={{ duration: 1, repeat: v.bad && !stable ? Infinity : 0 }} className={cx("font-bold", v.bad && !stable ? "text-rose-400" : "text-emerald-300")}>
+                  <motion.span animate={v.bad && !stable ? { opacity: [1, 0.35, 1] } : { opacity: 1 }} transition={{ duration: 1, repeat: v.bad && !stable ? Infinity : 0 }} className={cx("shrink-0 text-right font-mono font-bold", v.bad && !stable ? "text-rose-400" : "text-emerald-300")}>
                     {v.value}
                   </motion.span>
                 </div>

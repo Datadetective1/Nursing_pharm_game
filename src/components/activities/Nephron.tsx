@@ -9,10 +9,10 @@ import { ActivityHeader, MiniQuestionView, Toast } from "@/components/interact/c
 import { cx, haptic } from "@/components/ui";
 import { playSound } from "@/lib/sound";
 
-type DrugId = "furosemide" | "hctz" | "spironolactone" | "mannitol";
+export type DrugId = "furosemide" | "hctz" | "spironolactone" | "mannitol";
 
 /** Course effects per drug (Memory Aid · Diuretics). */
-const EFFECT: Record<DrugId, { site: string; lost: string[]; kept?: string[]; extra: string; kTone: "lost" | "kept" | "none" }> = {
+export const EFFECT: Record<DrugId, { site: string; lost: string[]; kept?: string[]; extra: string; kTone: "lost" | "kept" | "none" }> = {
   furosemide: { site: "Loop of Henle", lost: ["Na⁺", "Cl⁻", "H₂O", "K⁺", "Mg²⁺", "Ca²⁺"], extra: "K⁺-WASTING · ototoxicity · first choice in HF", kTone: "lost" },
   hctz: { site: "Distal tubule", lost: ["Na⁺", "Cl⁻", "H₂O", "K⁺"], extra: "K⁺-WASTING · first-line essential HTN · no hearing loss", kTone: "lost" },
   spironolactone: { site: "Blocks aldosterone", lost: ["Na⁺", "H₂O"], kept: ["K⁺"], extra: "K⁺-SPARING · limit K⁺ foods · no salt substitutes", kTone: "kept" },

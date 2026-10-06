@@ -13,8 +13,18 @@ export async function onboard(page: Page) {
   await page.getByTestId("question").waitFor();
 }
 
+/** Sessions interleave visual activities with questions; swap any activity for a question. */
+export async function toQuestion(page: Page) {
+  await page.locator('[data-testid="question"], [data-testid="session-activity"]').first().waitFor();
+  for (let i = 0; i < 4 && (await page.getByTestId("session-activity").count()); i++) {
+    await page.getByTestId("activity-skip").click();
+    await page.locator('[data-testid="question"], [data-testid="session-activity"]').first().waitFor();
+  }
+}
+
 /** Answer whatever question is on screen (any type). Returns the question type. */
 export async function answerCurrent(page: Page, opts: { wrongOnPurpose?: boolean } = {}) {
+  await toQuestion(page);
   const q = page.getByTestId("question");
   await q.waitFor();
   const type = await q.getAttribute("data-qtype");
