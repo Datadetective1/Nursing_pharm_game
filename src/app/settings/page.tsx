@@ -80,6 +80,7 @@ export default function SettingsPage() {
             ))}
           </div>
         </div>
+        <Toggle label="Sound effects" sub="Subtle chimes for answers and milestones" on={settings.sound} set={(v) => updateSettings({ sound: v })} />
         <Toggle label="Haptic feedback" sub="Light vibration on answers (Android)" on={settings.haptics} set={(v) => updateSettings({ haptics: v })} />
         <Toggle label="Confidence check-ins" sub="Sometimes ask Guessing / Unsure / Confident" on={settings.confidencePrompts} set={(v) => updateSettings({ confidencePrompts: v })} />
       </div>

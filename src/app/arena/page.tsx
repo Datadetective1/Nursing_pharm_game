@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { Timer, Zap, Grid2x2, Check, X, Trophy } from "lucide-react";
 import { Screen, TopBar, Button, cx, haptic } from "@/components/ui";
 import { ANTIDOTES, type AntidotePair } from "@/data/antidotes";
@@ -37,6 +38,13 @@ export default function ArenaPage() {
         <p className="mt-1 text-white/85">Only the pairings in your course materials. Best speed round: {best}/{ROUND}.</p>
       </div>
       <div className="mt-5 grid gap-3">
+        <Link href="/visual/play?lab=rescue&back=/arena" className="relative flex items-center gap-4 overflow-hidden rounded-3xl bg-gradient-to-br from-rose-500 to-red-700 p-4 text-left text-white shadow-lg" data-testid="arena-rescue">
+          <span className="grid size-12 place-items-center rounded-2xl bg-white/20 text-2xl">🚑</span>
+          <span className="flex-1">
+            <span className="block font-extrabold">Rescue mode</span>
+            <span className="block text-sm text-white/85">A client is deteriorating — drag the right rescue kit</span>
+          </span>
+        </Link>
         <button onClick={() => setMode("speed")} className="card flex items-center gap-4 p-4 text-left" data-testid="arena-speed">
           <span className="grid size-12 place-items-center rounded-2xl bg-emerald-500 text-white">
             <Zap size={22} />

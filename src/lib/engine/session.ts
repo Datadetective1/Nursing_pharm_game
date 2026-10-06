@@ -7,8 +7,10 @@ import { nodeProgress } from "./progress";
 import { mulberry32, shuffle, type Rng } from "@/lib/rng";
 import type { DailyMinutes, ExamResult, Mistake } from "@/lib/store";
 import { EXAM_TYPES } from "./exam";
+import type { Activity } from "@/lib/activities/types";
+import { activitiesForConcepts, getActivity, isActivityId } from "@/data/activities";
 
-export type Mode = "mission" | "continue" | "quick5" | "weak" | "node" | "world" | "boss" | "vault" | "similar" | "misses" | "highyield";
+export type Mode = "mission" | "continue" | "quick5" | "weak" | "node" | "world" | "boss" | "vault" | "similar" | "misses" | "highyield" | "focus";
 
 export interface SessionConfig {
   mode: Mode;
@@ -30,6 +32,37 @@ export interface SessionConfig {
   confidenceRate: number;
   mix?: [number, number, number, number];
   emptyMessage?: string;
+  /** soft preference for question formats in this slot (composer) */
+  prefer?: QuestionType[];
+  /** learning modes interleave visual/interactive activities with questions (never the exam or bosses) */
+  visual?: boolean;
+}
+
+/** A session item: a question or an interactive activity. */
+export type Item = { kind: "q"; q: Question } | { kind: "a"; a: Activity };
+
+/**
+ * Session composer: varies the interaction type so learning sessions never become a run of plain MCQs.
+ * Per 10 slots: 4 interactive activities, 6 questions with rotating format preferences + a hard closer.
+ */
+export function slotPlan(i: number): { kind: "q" | "a"; prefer?: QuestionType[]; minDifficulty?: number } {
+  switch (i % 10) {
+    case 1:
+    case 3:
+    case 6:
+    case 8:
+      return { kind: "a" };
+    case 2:
+      return { kind: "q", prefer: ["sata", "match", "order", "fill", "tf"] };
+    case 4:
+      return { kind: "q", prefer: ["sata", "fill"] };
+    case 7:
+      return { kind: "q", prefer: ["match", "order", "tf", "fill"] };
+    case 9:
+      return { kind: "q", minDifficulty: 3 };
+    default:
+      return { kind: "q" };
+  }
 }
 
 export const MISSION_QUESTIONS: Record<DailyMinutes, number> = { 5: 7, 10: 14, 20: 26, 30: 38 };
@@ -50,6 +83,8 @@ export interface BuildArgs {
   exams: ExamResult[];
   dailyMinutes: DailyMinutes;
   now: number;
+  /** concept ids for "focus" mode (e.g. tapped from the progress heatmap) */
+  concepts?: string[];
   /** onboarding self-rating: "almost" ready learners get harder, application-heavy missions from the start */
   startConfidence?: "not" | "somewhat" | "almost";
 }
@@ -81,7 +116,7 @@ export function rankWeakConcepts(stats: Record<string, ConceptStat>, mistakes: R
 }
 
 export function buildSession(a: BuildArgs): SessionConfig {
-  const base = { confidenceRate: 0.4 };
+  const base = { confidenceRate: 0.4, visual: true };
   switch (a.mode) {
     case "mission": {
       const plan = missionPlan(a.dailyMinutes);
@@ -145,6 +180,7 @@ export function buildSession(a: BuildArgs): SessionConfig {
         minDifficulty: 2,
         types: [...EXAM_TYPES, "match"],
         confidenceRate: 0,
+        visual: false,
         mix: [0.3, 0.3, 0.2, 0.2],
       };
     }
@@ -155,18 +191,19 @@ export function buildSession(a: BuildArgs): SessionConfig {
       return { ...base, mode: "weak", title: "Fix My Weak Spots", subtitle: "Your 8 weakest concepts", total: 10, pool: top, confidenceRate: 0.5, mix: [0.6, 0.25, 0.15, 0] };
     }
     case "vault": {
-      if (a.qid && getQuestion(a.qid)) {
+      if (a.qid && (getQuestion(a.qid) || getActivity(a.qid))) {
         const m = a.mistakes[a.qid];
         const c = m ? CONCEPT_BY_ID[m.concept] : undefined;
-        return { ...base, mode: "vault", title: "Mistake Vault", subtitle: "Retry", total: 1, fixed: [a.qid], pool: c ? [c] : [] };
+        return { ...base, visual: false, mode: "vault", title: "Mistake Vault", subtitle: "Retry", total: 1, fixed: [a.qid], pool: c ? [c] : [] };
       }
       const open = Object.values(a.mistakes)
-        .filter((m) => !m.resolved && getQuestion(m.qid))
+        .filter((m) => !m.resolved && (getQuestion(m.qid) || getActivity(m.qid)))
         .sort((x, y) => y.misses - x.misses || y.at - x.at)
         .slice(0, 10);
       return {
         ...base,
         mode: "vault",
+        visual: false,
         title: "Mistake Vault",
         subtitle: "Retry what you missed",
         total: open.length,
@@ -179,7 +216,7 @@ export function buildSession(a: BuildArgs): SessionConfig {
       const c = CONCEPT_BY_ID[a.concept ?? ""];
       const others = c ? questionsForConcept(c.id).filter((q) => q.id !== a.qid) : [];
       const fixed = shuffle(others).slice(0, 3).map((q) => q.id);
-      return { ...base, mode: "similar", title: "Practice Similar", subtitle: c?.label, total: fixed.length, fixed, pool: c ? [c] : [], emptyMessage: "No similar questions available for this concept yet." };
+      return { ...base, visual: false, mode: "similar", title: "Practice Similar", subtitle: c?.label, total: fixed.length, fixed, pool: c ? [c] : [], emptyMessage: "No similar questions available for this concept yet." };
     }
     case "misses": {
       const last = a.exams[0];
@@ -199,7 +236,11 @@ export function buildSession(a: BuildArgs): SessionConfig {
     }
     case "highyield": {
       const pool = CONCEPTS.filter((c) => c.highYield);
-      return { ...base, mode: "highyield", title: "High-Yield Sprint", subtitle: "Antidotes · holds · labs · priorities", total: 10, pool, types: EXAM_TYPES };
+      return { ...base, visual: false, mode: "highyield", title: "High-Yield Sprint", subtitle: "Antidotes · holds · labs · priorities", total: 10, pool, types: EXAM_TYPES };
+    }
+    case "focus": {
+      const pool = (a.concepts ?? []).map((id) => CONCEPT_BY_ID[id]).filter(Boolean);
+      return { ...base, mode: "focus", title: "Focused practice", subtitle: `${pool.length} concept${pool.length === 1 ? "" : "s"} from your map`, total: pool.length ? 8 : 0, pool, confidenceRate: 0.5, mix: [0.6, 0.3, 0.1, 0], emptyMessage: "Nothing selected to practice." };
     }
   }
 }
@@ -211,9 +252,80 @@ export interface RuntimeState {
   requeue: { concept: string; at: number }[]; // concept to revisit when served.length >= at
   fixedIdx: number;
   lastType?: QuestionType;
+  /** activity template keys / kinds already used this session */
+  actKeys: string[];
+  actKinds: string[];
 }
 
-export const newRuntime = (): RuntimeState => ({ served: [], servedConcepts: [], requeue: [], fixedIdx: 0 });
+export const newRuntime = (): RuntimeState => ({ served: [], servedConcepts: [], requeue: [], fixedIdx: 0, actKeys: [], actKinds: [] });
+
+const actKey = (id: string) => id.replace(/:\d+$/, "");
+
+/** Pick an interactive activity for the current pool (weak concepts + unused interaction kinds first). */
+export function pickActivity(cfg: SessionConfig, rt: RuntimeState, stats: Record<string, ConceptStat>, recentGlobal: string[], now: number, rng: Rng): Activity | undefined {
+  const pools = cfg.focus && cfg.focus.length && rng() < 0.7 ? [cfg.focus, cfg.pool] : [cfg.pool];
+  const recent = new Set(recentGlobal.slice(-30).map(actKey));
+  for (const pool of pools) {
+    const cands = activitiesForConcepts(pool, rng).filter((a) => !rt.actKeys.includes(actKey(a.id)) && !recent.has(actKey(a.id)));
+    if (!cands.length) continue;
+    const weights = cands.map((a) => {
+      const m = effectiveMastery(stats[a.concepts[0]], now);
+      let w = 1 + (100 - m) / 40;
+      if (!rt.actKinds.includes(a.kind)) w *= 3;
+      return w;
+    });
+    const total = weights.reduce((x, y) => x + y, 0);
+    let r = rng() * total;
+    for (let i = 0; i < cands.length; i++) {
+      r -= weights[i];
+      if (r <= 0) return cands[i];
+    }
+    return cands[cands.length - 1];
+  }
+  return undefined;
+}
+
+/** Next item (question or interactive activity) for a live session; records it in the runtime. */
+export function nextItem(
+  cfg: SessionConfig,
+  rt: RuntimeState,
+  stats: Record<string, ConceptStat>,
+  qstats: Record<string, QStat>,
+  recentGlobal: string[],
+  now: number,
+  rng: Rng = mulberry32(Math.floor(Math.random() * 2 ** 31)),
+  mistakeCount?: Record<string, number>,
+): Item | undefined {
+  const mark = (it: Item): Item => {
+    if (it.kind === "q") {
+      rt.served.push(it.q.id);
+      rt.servedConcepts.push(it.q.concept);
+      rt.lastType = it.q.type;
+    } else {
+      rt.served.push(it.a.id);
+      rt.servedConcepts.push(it.a.concepts[0]);
+      rt.actKeys.push(actKey(it.a.id));
+      rt.actKinds.push(it.a.kind);
+    }
+    return it;
+  };
+  // the fixed queue (Mistake Vault) may contain activities
+  if (cfg.fixed && rt.fixedIdx < cfg.fixed.length && isActivityId(cfg.fixed[rt.fixedIdx])) {
+    const a = getActivity(cfg.fixed[rt.fixedIdx]);
+    rt.fixedIdx += 1;
+    if (a) return mark({ kind: "a", a });
+  }
+  const slot = slotPlan(rt.served.length);
+  const dueRequeue = rt.requeue.some((r) => rt.served.length >= r.at);
+  const fixedLeft = !!cfg.fixed && rt.fixedIdx < cfg.fixed.length;
+  if (cfg.visual && slot.kind === "a" && !dueRequeue && !fixedLeft) {
+    const a = pickActivity(cfg, rt, stats, recentGlobal, now, rng);
+    if (a) return mark({ kind: "a", a });
+  }
+  const qcfg = cfg.visual && slot.kind === "q" ? { ...cfg, minDifficulty: cfg.minDifficulty ?? slot.minDifficulty, prefer: slot.prefer } : cfg;
+  const q = nextForSession(qcfg, rt, stats, qstats, recentGlobal, now, rng, mistakeCount);
+  return q ? mark({ kind: "q", q }) : undefined;
+}
 
 export function nextForSession(
   cfg: SessionConfig,
@@ -246,6 +358,7 @@ export function nextForSession(
     minDifficulty: cfg.minDifficulty,
     lastType: rt.lastType,
     mix: cfg.mix,
+    preferTypes: cfg.prefer,
   };
   const servedSet = new Set(rt.served);
 

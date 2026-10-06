@@ -2,12 +2,14 @@
 
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { Question, QuestionType, TopicId } from "@/lib/types";
+import type { MCQQuestion, Question, QuestionType, TopicId } from "@/lib/types";
+import type { Activity, ActivityResult } from "@/lib/activities/types";
 import { CONCEPT_BY_ID } from "@/data/curriculum";
 import { effectiveMastery, updateConcept, type ConceptStat, type Confidence } from "@/lib/engine/mastery";
 import type { QStat } from "@/lib/engine/select";
 import { dayKey, levelFromXp, touchStreak, xpForAnswer, XP, type StreakState, type StreakEvent } from "@/lib/engine/progress";
 import { ACH_BY_ID, BOSS_BADGE, type AchievementDef } from "@/lib/engine/achievements";
+import { playSound } from "@/lib/sound";
 
 export type DailyMinutes = 5 | 10 | 20 | 30;
 export type StartConfidence = "not" | "somewhat" | "almost";
@@ -24,6 +26,8 @@ export interface Settings {
   theme: "system" | "light" | "dark";
   haptics: boolean;
   confidencePrompts: boolean;
+  /** subtle synthesized sound effects (easily muted) */
+  sound: boolean;
 }
 
 export interface Mistake {
@@ -48,6 +52,8 @@ export interface LogEntry {
   ms: number;
   at: number;
   mode: string;
+  /** interactive activity kind (absent for questions) */
+  k?: string;
 }
 
 export interface DayStat {
@@ -126,6 +132,8 @@ export interface RecordInput {
   awardXp?: boolean;
   /** don't store a miss in the Mistake Vault (dynamic items that can't be re-asked) */
   noVault?: boolean;
+  /** set when recording an interactive activity */
+  activityKind?: string;
 }
 
 export interface RecordResult {
@@ -143,6 +151,7 @@ interface Actions {
   updateProfile: (p: Partial<Profile>) => void;
   updateSettings: (s: Partial<Settings>) => void;
   recordAnswer: (i: RecordInput) => RecordResult;
+  recordActivity: (a: Activity, r: ActivityResult, ctx: { ms: number; mode: string; sessionId: string; sessionStreak: number }) => RecordResult;
   finishSession: (p: { mode: string; correct: number; total: number }) => { bonusXp: number; unlocked: AchievementDef[]; missionCompleted: boolean };
   recordBoss: (bossId: string, won: boolean, correct: number) => { xp: number; unlocked: AchievementDef[] };
   recordExam: (r: ExamResult) => AchievementDef[];
@@ -158,7 +167,7 @@ export type PQState = PQData & Actions;
 
 const freshData = (): PQData => ({
   profile: { onboarded: false, examDate: null, dailyMinutes: 10, startConfidence: "somewhat", createdAt: Date.now() },
-  settings: { theme: "system", haptics: true, confidencePrompts: true },
+  settings: { theme: "system", haptics: true, confidencePrompts: true, sound: true },
   xp: 0,
   streak: { count: 0, best: 0, lastDay: null, restUsed: null },
   concepts: {},
@@ -202,6 +211,7 @@ export const useToasts = create<ToastState>((set) => ({
 
 function announce(unlocked: AchievementDef[], levelUp: number | null) {
   const push = useToasts.getState().push;
+  if (unlocked.length || levelUp) playSound(levelUp ? "level" : "achievement");
   for (const a of unlocked) push({ kind: "achievement", title: a.name, body: a.desc, icon: a.icon });
   if (levelUp) push({ kind: "level", title: `Level ${levelUp}!`, body: levelFromXp(useStore.getState().xp).title, icon: "⭐" });
 }
@@ -299,7 +309,7 @@ export const useStore = create<PQState>()(
           if (q.topic === "calc") counters.calcRun = i.correct ? counters.calcRun + 1 : 0;
 
           const concepts = { ...s.concepts, [q.concept]: nextStat };
-          const log = [...s.log, { q: q.id, c: q.concept, t: q.topic, ty: q.type, ok: i.correct, conf: i.confidence, ms: i.ms, at: now, mode: i.mode }];
+          const log = [...s.log, { q: q.id, c: q.concept, t: q.topic, ty: q.type, ok: i.correct, conf: i.confidence, ms: i.ms, at: now, mode: i.mode, ...(i.activityKind ? { k: i.activityKind } : {}) }];
           if (log.length > LOG_CAP) log.splice(0, log.length - LOG_CAP);
 
           // Achievements
@@ -330,6 +340,36 @@ export const useStore = create<PQState>()(
           const levelUp = levelAfter > levelBefore ? levelAfter : null;
           announce(unlocked, levelUp);
           return { xp, masteryBefore: before, masteryAfter: after, levelUp, streakEvent, fixedMistake, unlocked };
+        },
+
+        recordActivity: (a, r, ctx) => {
+          // An activity is recorded like one question on its primary concept (mastery, XP, streak, vault)…
+          const pseudo: MCQQuestion = {
+            id: a.id,
+            type: "mcq",
+            topic: a.topic,
+            concept: a.concepts[0],
+            drugs: [],
+            difficulty: a.difficulty,
+            cognitive: "apply",
+            format: "case",
+            stem: a.title,
+            options: [],
+            answer: 0,
+            why: r.summary,
+            source: a.source,
+          };
+          const res = get().recordAnswer({ q: pseudo, correct: r.correct, responseText: r.summary, ms: ctx.ms, mode: ctx.mode, sessionId: ctx.sessionId, sessionStreak: ctx.sessionStreak, activityKind: a.kind });
+          // …and the other concepts it exercised get a lighter mastery update (no XP / log entry).
+          const others = a.concepts.slice(1, 4);
+          if (others.length) {
+            const now = Date.now();
+            const s = get();
+            const concepts = { ...s.concepts };
+            for (const c of others) concepts[c] = updateConcept(concepts[c], { correct: r.correct, difficulty: 1, cognitive: "apply", ms: ctx.ms, sessionId: ctx.sessionId, now });
+            set({ concepts });
+          }
+          return res;
         },
 
         finishSession: ({ mode, correct, total }) => {
@@ -436,7 +476,7 @@ export const useStore = create<PQState>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { completeOnboarding, updateProfile, updateSettings, recordAnswer, finishSession, recordBoss, recordExam, markUnderstood, recordArena, recordLabLock, recordContrast, addXp, resetAll, ...data } = s;
+        const { completeOnboarding, updateProfile, updateSettings, recordAnswer, recordActivity, finishSession, recordBoss, recordExam, markUnderstood, recordArena, recordLabLock, recordContrast, addXp, resetAll, ...data } = s;
         return data;
       },
       merge: (persisted, current) => {

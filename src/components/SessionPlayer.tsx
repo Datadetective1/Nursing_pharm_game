@@ -2,44 +2,46 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Flame, Heart, X, Trophy, RotateCcw, Home as HomeIcon, Swords } from "lucide-react";
+import { Flame, Heart, X, Trophy, RotateCcw, Home as HomeIcon, Swords, Volume2, VolumeX, ArrowRight, Sparkles } from "lucide-react";
 import type { Question } from "@/lib/types";
+import type { Activity, ActivityResult } from "@/lib/activities/types";
 import { correctAnswerText, isCorrect, responseText, type Response } from "@/lib/engine/grade";
 import type { Confidence } from "@/lib/engine/mastery";
-import { newRuntime, nextForSession, type SessionConfig } from "@/lib/engine/session";
+import { newRuntime, nextItem, pickActivity, type Item, type SessionConfig } from "@/lib/engine/session";
 import { pickQuestionForConcept } from "@/lib/engine/select";
 import { CONCEPT_BY_ID, WORLD_BY_ID } from "@/data/curriculum";
 import { openMistakesByConcept, useStore } from "@/lib/store";
 import { mulberry32 } from "@/lib/rng";
+import { playSound } from "@/lib/sound";
 import { QuestionView } from "./QuestionView";
 import { Feedback } from "./Feedback";
+import { ActivityView, KIND_LABEL } from "./activities/ActivityView";
 import { Button, cx, haptic } from "./ui";
 import { celebrate } from "./celebrate";
 
 interface Result {
-  q: Question;
+  id: string;
+  concept: string;
+  title: string;
   correct: boolean;
   xp: number;
   before: number;
   after: number;
   chosen: string;
+  q?: Question;
+  act?: Activity;
 }
 
-function pickNext(cfg: SessionConfig, rt: ReturnType<typeof newRuntime>) {
+function pickNext(cfg: SessionConfig, rt: ReturnType<typeof newRuntime>): Item | undefined {
   const s = useStore.getState();
   const recent = s.log.slice(-40).map((l) => l.q);
-  const q = nextForSession(cfg, rt, s.concepts, s.qstats, recent, Date.now(), undefined, openMistakesByConcept(s.mistakes));
-  if (q) {
-    rt.served.push(q.id);
-    rt.servedConcepts.push(q.concept);
-    rt.lastType = q.type;
-  }
-  return q;
+  return nextItem(cfg, rt, s.concepts, s.qstats, recent, Date.now(), undefined, openMistakesByConcept(s.mistakes));
 }
 
 export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: () => void }) {
   const router = useRouter();
   const confPref = useStore((s) => s.settings.confidencePrompts);
+  const sound = useStore((s) => s.settings.sound);
   const [boot] = useState(() => {
     const runtime = newRuntime();
     return { runtime, first: cfg.total > 0 ? pickNext(cfg, runtime) : undefined, sessionId: `s-${Date.now()}-${Math.random().toString(36).slice(2, 7)}` };
@@ -47,8 +49,8 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
   const rt = useRef(boot.runtime);
   const sessionId = boot.sessionId;
   const [total, setTotal] = useState(cfg.total);
-  const [q, setQ] = useState<Question | undefined>(boot.first);
-  const [phase, setPhase] = useState<"q" | "fb" | "done">(() => (cfg.total > 0 ? "q" : "done"));
+  const [item, setItem] = useState<Item | undefined>(boot.first);
+  const [phase, setPhase] = useState<"q" | "fb" | "done">(() => (cfg.total > 0 && boot.first ? "q" : "done"));
   const [results, setResults] = useState<Result[]>([]);
   const [streak, setStreak] = useState(0);
   const [hearts, setHearts] = useState(cfg.hearts ?? 0);
@@ -59,11 +61,14 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
   const [confirmExit, setConfirmExit] = useState(false);
   const [serveIdx, setServeIdx] = useState(0);
   const isBoss = cfg.mode === "boss";
+  const q = item?.kind === "q" ? item.q : undefined;
+  const act = item?.kind === "a" ? item.a : undefined;
 
   const serve = useCallback(
-    (next: Question | undefined) => {
-      setQ(next);
+    (next: Item | undefined) => {
+      setItem(next);
       setServeIdx((n) => n + 1);
+      setLast(null);
       setPhase(next ? "q" : "done");
       setAskConf(confPref && Math.random() < cfg.confidenceRate);
       shownAt.current = Date.now();
@@ -85,7 +90,10 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
         const won = heartsLeft > 0 && res.length >= cfg.total;
         const b = s.recordBoss(cfg.bossId, won, correct);
         extra += b.xp;
-        if (won) celebrate("big");
+        if (won) {
+          celebrate("big");
+          playSound("boss");
+        }
       } else if (res.length >= 5 && correct / res.length >= 0.8) celebrate("small");
       setBonus(extra);
       setPhase("done");
@@ -104,9 +112,22 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
     if (!correct && !isBoss) rt.current.requeue.push({ concept: q.concept, at: rt.current.served.length + 3 });
     if (isBoss && !correct) setHearts((h) => h - 1);
     haptic(correct ? 15 : [30, 40, 30]);
+    playSound(correct ? "correct" : "wrong");
     const elaborate = correct && !q.steps && (q.cognitive === "apply" || q.cognitive === "analyze" || q.cognitive === "evaluate") && Math.random() < 0.3;
     setLast({ correct, chosen, xp: res.xp, elaborate });
-    setResults((prev) => [...prev, { q, correct, xp: res.xp, before: res.masteryBefore, after: res.masteryAfter, chosen }]);
+    setResults((prev) => [...prev, { id: q.id, concept: q.concept, title: q.stem, correct, xp: res.xp, before: res.masteryBefore, after: res.masteryAfter, chosen, q }]);
+    setPhase("fb");
+  };
+
+  const onActivityDone = (r: ActivityResult) => {
+    if (!act || phase !== "q") return;
+    const ms = shownAt.current ? Date.now() - shownAt.current : 0;
+    const newStreak = r.correct ? streak + 1 : 0;
+    const res = useStore.getState().recordActivity(act, r, { ms, mode: cfg.mode, sessionId, sessionStreak: newStreak });
+    setStreak(newStreak);
+    if (!r.correct) rt.current.requeue.push({ concept: act.concepts[0], at: rt.current.served.length + 3 });
+    setLast({ correct: r.correct, chosen: r.summary, xp: res.xp, elaborate: false });
+    setResults((prev) => [...prev, { id: act.id, concept: act.concepts[0], title: act.title, correct: r.correct, xp: res.xp, before: res.masteryBefore, after: res.masteryAfter, chosen: r.summary, act }]);
     setPhase("fb");
   };
 
@@ -119,20 +140,28 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
     serve(next);
   };
 
+  /** Retrieval retry: a different question (or a fresh activity) on the same concept, right now. */
   const onFollowUp = () => {
-    if (!q) return;
-    const c = CONCEPT_BY_ID[q.concept];
+    const conceptId = q?.concept ?? act?.concepts[0];
+    if (!conceptId) return onNext();
+    const c = CONCEPT_BY_ID[conceptId];
     const s = useStore.getState();
     const served = new Set(rt.current.served);
-    const fu = c
-      ? pickQuestionForConcept(c, { pool: [c], stats: s.concepts, qstats: s.qstats, recentQ: rt.current.served, recentConcepts: [], now: Date.now(), rng: mulberry32(Date.now() % 2 ** 31), types: cfg.types }, served)
-      : undefined;
-    if (!fu || served.has(fu.id)) return onNext();
-    rt.current.requeue = rt.current.requeue.filter((x) => x.concept !== q.concept);
-    rt.current.served.push(fu.id);
-    rt.current.servedConcepts.push(fu.concept);
+    let next: Item | undefined;
+    if (act && c) {
+      const fresh = pickActivity({ ...cfg, pool: [c], focus: undefined }, { ...rt.current, actKeys: [] }, s.concepts, [], Date.now(), mulberry32(Date.now() % 2 ** 31));
+      if (fresh && fresh.id !== act.id) next = { kind: "a", a: fresh };
+    }
+    if (!next && c) {
+      const fu = pickQuestionForConcept(c, { pool: [c], stats: s.concepts, qstats: s.qstats, recentQ: rt.current.served, recentConcepts: [], now: Date.now(), rng: mulberry32(Date.now() % 2 ** 31), types: cfg.types }, served);
+      if (fu && !served.has(fu.id)) next = { kind: "q", q: fu };
+    }
+    if (!next) return onNext();
+    rt.current.requeue = rt.current.requeue.filter((x) => x.concept !== conceptId);
+    rt.current.served.push(next.kind === "q" ? next.q.id : next.a.id);
+    rt.current.servedConcepts.push(conceptId);
     setTotal((t) => t + 1);
-    serve(fu);
+    serve(next);
   };
 
   const answered = results.length;
@@ -145,80 +174,114 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
 
   return (
     <div className={cx(isBoss && "dark min-h-dvh bg-bg bg-[radial-gradient(ellipse_at_top,rgba(225,29,72,0.22),transparent_60%)] text-ink")}>
-    <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col">
-      <div className={cx("sticky top-0 z-30 px-4 pb-3 pt-[max(env(safe-area-inset-top),12px)] backdrop-blur-xl", isBoss ? "bg-black/40 text-white" : "bg-bg/85")}>
-        <div className="flex items-center gap-3">
-          <button aria-label="End session" onClick={() => (answered === 0 ? router.back() : setConfirmExit(true))} className={cx("-ml-2 grid size-11 place-items-center rounded-full", isBoss ? "text-white/70" : "text-muted")}>
-            <X size={22} />
-          </button>
-          <div className="relative h-3.5 flex-1 overflow-hidden rounded-full bg-line/70" role="progressbar" aria-valuenow={answered} aria-valuemax={total}>
-            <div className={cx("h-full rounded-full transition-all duration-500", isBoss ? "bg-gradient-to-r from-rose-500 to-amber-400" : "bg-gradient-to-r from-brand to-brand-2")} style={{ width: `${progress}%` }} />
-          </div>
-          {isBoss ? (
-            <div className="flex gap-0.5" data-testid="hearts" aria-label={`${hearts} hearts left`}>
-              {Array.from({ length: cfg.hearts ?? 3 }).map((_, i) => (
-                <Heart key={i} size={20} className={cx("transition-all", i < hearts ? "fill-rose-500 text-rose-500" : "text-white/25")} />
-              ))}
+      <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col">
+        <div className={cx("sticky top-0 z-30 px-4 pb-3 pt-[max(env(safe-area-inset-top),12px)] backdrop-blur-xl", isBoss ? "bg-black/40 text-white" : "bg-bg/85")}>
+          <div className="flex items-center gap-2">
+            <button aria-label="End session" onClick={() => (answered === 0 ? router.back() : setConfirmExit(true))} className={cx("-ml-2 grid size-11 place-items-center rounded-full", isBoss ? "text-white/70" : "text-muted")}>
+              <X size={22} />
+            </button>
+            <div className="relative h-3.5 flex-1 overflow-hidden rounded-full bg-line/70" role="progressbar" aria-valuenow={answered} aria-valuemax={total}>
+              <div className={cx("h-full rounded-full transition-all duration-500", isBoss ? "bg-gradient-to-r from-rose-500 to-amber-400" : "bg-gradient-to-r from-brand to-brand-2")} style={{ width: `${progress}%` }} />
             </div>
-          ) : (
-            <div className={cx("flex items-center gap-1 text-sm font-extrabold", streak >= 3 ? "text-xp" : "text-muted")} data-testid="session-streak">
-              <Flame size={18} className={streak >= 3 ? "fill-xp" : ""} />
-              {streak}
+            {isBoss ? (
+              <div className="flex gap-0.5" data-testid="hearts" aria-label={`${hearts} hearts left`}>
+                {Array.from({ length: cfg.hearts ?? 3 }).map((_, i) => (
+                  <Heart key={i} size={20} className={cx("transition-all", i < hearts ? "fill-rose-500 text-rose-500" : "text-white/25")} />
+                ))}
+              </div>
+            ) : (
+              <div className={cx("flex items-center gap-1 text-sm font-extrabold", streak >= 3 ? "text-xp" : "text-muted")} data-testid="session-streak">
+                <Flame size={18} className={streak >= 3 ? "fill-xp" : ""} />
+                {streak}
+              </div>
+            )}
+            <button
+              aria-label={sound ? "Mute sounds" : "Turn sounds on"}
+              onClick={() => useStore.getState().updateSettings({ sound: !sound })}
+              className={cx("grid size-10 place-items-center rounded-full", isBoss ? "text-white/70" : "text-muted")}
+              data-testid="sound-toggle"
+            >
+              {sound ? <Volume2 size={19} /> : <VolumeX size={19} />}
+            </button>
+          </div>
+          <div className={cx("mt-2 flex items-center justify-between text-xs font-bold", isBoss ? "text-white/75" : "text-muted")}>
+            <span className="truncate">
+              {isBoss && <Swords size={13} className="mr-1 inline" />}
+              {cfg.title}
+              {world && !isBoss ? ` · W${world.num}` : ""}
+            </span>
+            <span>
+              {Math.min(answered + (phase === "q" ? 1 : 0), total)}/{total}
+            </span>
+          </div>
+        </div>
+
+        <main className="flex-1 px-4 pb-8 pt-2">
+          {q && (
+            <div key={`${serveIdx}-${q.id}`} className="animate-fade-up">
+              <QuestionView q={q} revealed={phase === "fb"} askConfidence={askConf} onSubmit={onSubmit} />
             </div>
           )}
-        </div>
-        <div className={cx("mt-2 flex items-center justify-between text-xs font-bold", isBoss ? "text-white/75" : "text-muted")}>
-          <span className="truncate">
-            {isBoss && <Swords size={13} className="mr-1 inline" />}
-            {cfg.title}
-            {world && !isBoss ? ` · W${world.num}` : ""}
-          </span>
-          <span>
-            {Math.min(answered + (phase === "q" ? 1 : 0), total)}/{total}
-          </span>
-        </div>
-      </div>
+          {act && (
+            <div key={`${serveIdx}-${act.id}`} className="animate-fade-up" data-testid="session-activity" data-kind={act.kind}>
+              <ActivityView act={act} onDone={onActivityDone} />
+            </div>
+          )}
+          {phase === "fb" && q && last && (
+            <div className="mt-4">
+              <Feedback
+                q={q}
+                correct={last.correct}
+                chosenText={last.chosen}
+                xp={last.xp}
+                elaborate={last.elaborate}
+                onNext={onNext}
+                onFollowUp={!isBoss ? onFollowUp : undefined}
+                nextLabel={isBoss && hearts <= 0 ? "See result" : answered >= total ? "Finish" : "Continue"}
+                scheduledNote={!isBoss}
+              />
+            </div>
+          )}
+          {phase === "fb" && act && last && (
+            <div className={cx("sticky bottom-3 mt-4 rounded-3xl border-2 p-3 shadow-xl backdrop-blur", last.correct ? "border-good/40 bg-good-soft/95" : "border-warn/40 bg-warn-soft/95")} data-testid="activity-footer" data-correct={String(last.correct)}>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-[14px] font-extrabold">
+                  {last.correct ? "Nicely done" : "Good work getting there"} <span className="font-semibold text-muted">· {last.chosen}</span>
+                </p>
+                {last.xp > 0 && <span className="shrink-0 font-black text-xp">+{last.xp} XP</span>}
+              </div>
+              {!last.correct && <p className="mt-0.5 text-[12px] font-semibold text-muted">This concept will come back — try a fresh one now to lock it in.</p>}
+              <div className={cx("mt-2 grid gap-2", !last.correct ? "grid-cols-2" : "grid-cols-1")}>
+                {!last.correct && (
+                  <Button variant="secondary" size="md" onClick={onFollowUp} data-testid="activity-retry">
+                    <Sparkles size={16} /> Try a fresh one
+                  </Button>
+                )}
+                <Button size="md" onClick={onNext} data-testid="next">
+                  {answered >= total ? "Finish" : "Continue"} <ArrowRight size={16} />
+                </Button>
+              </div>
+            </div>
+          )}
+        </main>
 
-      <main className="flex-1 px-4 pb-8 pt-2">
-        {q && (
-          <div key={`${serveIdx}-${q.id}`} className="animate-fade-up">
-            <QuestionView q={q} revealed={phase === "fb"} askConfidence={askConf} onSubmit={onSubmit} />
-          </div>
-        )}
-        {phase === "fb" && q && last && (
-          <div className="mt-4">
-            <Feedback
-              q={q}
-              correct={last.correct}
-              chosenText={last.chosen}
-              xp={last.xp}
-              elaborate={last.elaborate}
-              onNext={onNext}
-              onFollowUp={!isBoss ? onFollowUp : undefined}
-              nextLabel={isBoss && hearts <= 0 ? "See result" : answered >= total ? "Finish" : "Continue"}
-              scheduledNote={!isBoss}
-            />
-          </div>
-        )}
-      </main>
-
-      {confirmExit && (
-        <div className="fixed inset-0 z-50 grid place-items-end bg-black/40 p-4 sm:place-items-center" onClick={() => setConfirmExit(false)}>
-          <div className="card w-full max-w-sm animate-pop p-5" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-lg font-extrabold">End this session?</h3>
-            <p className="mt-1 text-sm text-muted">Everything you answered is already saved.</p>
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <Button variant="secondary" size="md" onClick={() => setConfirmExit(false)}>
-                Keep going
-              </Button>
-              <Button variant="primary" size="md" onClick={() => finish(results, isBoss ? 0 : hearts)}>
-                End
-              </Button>
+        {confirmExit && (
+          <div className="fixed inset-0 z-50 grid place-items-end bg-black/40 p-4 sm:place-items-center" onClick={() => setConfirmExit(false)}>
+            <div className="card w-full max-w-sm animate-pop p-5" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-lg font-extrabold">End this session?</h3>
+              <p className="mt-1 text-sm text-muted">Everything you answered is already saved.</p>
+              <div className="mt-4 grid grid-cols-2 gap-2">
+                <Button variant="secondary" size="md" onClick={() => setConfirmExit(false)}>
+                  Keep going
+                </Button>
+                <Button variant="primary" size="md" onClick={() => finish(results, isBoss ? 0 : hearts)}>
+                  End
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -233,8 +296,8 @@ function Summary({ cfg, results, hearts, bonus, onAgain }: { cfg: SessionConfig;
   const improved = useMemo(() => {
     const byConcept = new Map<string, { before: number; after: number }>();
     for (const r of results) {
-      const e = byConcept.get(r.q.concept);
-      if (!e) byConcept.set(r.q.concept, { before: r.before, after: r.after });
+      const e = byConcept.get(r.concept);
+      if (!e) byConcept.set(r.concept, { before: r.before, after: r.after });
       else e.after = r.after;
     }
     return [...byConcept.entries()].map(([c, v]) => ({ c, delta: v.after - v.before, after: v.after })).sort((a, b) => b.delta - a.delta);
@@ -291,16 +354,26 @@ function Summary({ cfg, results, hearts, bonus, onAgain }: { cfg: SessionConfig;
         <div className="card mt-4 p-4">
           <h2 className="text-sm font-extrabold uppercase tracking-wider text-muted">Review your misses</h2>
           <ul className="mt-2 space-y-3">
-            {missed.map((m, i) => (
-              <li key={m.q.id + i} className="text-sm">
-                <p className="font-semibold">{m.q.stem}</p>
-                <p className="mt-1 text-good">
-                  <span className="font-bold">Answer: </span>
-                  {correctAnswerText(m.q)}
-                </p>
-                <p className="mt-0.5 text-muted">{m.q.why}</p>
-              </li>
-            ))}
+            {missed.map((m, i) =>
+              m.q ? (
+                <li key={m.id + i} className="text-sm">
+                  <p className="font-semibold">{m.q.stem}</p>
+                  <p className="mt-1 text-good">
+                    <span className="font-bold">Answer: </span>
+                    {correctAnswerText(m.q)}
+                  </p>
+                  <p className="mt-0.5 text-muted">{m.q.why}</p>
+                </li>
+              ) : (
+                <li key={m.id + i} className="text-sm">
+                  <p className="font-semibold">
+                    <span className="mr-1.5 rounded-md bg-brand-soft px-1.5 py-0.5 text-[11px] font-extrabold text-brand">{m.act ? KIND_LABEL[m.act.kind] : "Activity"}</span>
+                    {m.title}
+                  </p>
+                  <p className="mt-0.5 text-muted">{m.chosen} — {CONCEPT_BY_ID[m.concept]?.label}</p>
+                </li>
+              ),
+            )}
           </ul>
           <p className="mt-3 text-xs font-semibold text-muted">These are in your Mistake Vault and will be scheduled to return.</p>
         </div>

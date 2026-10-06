@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useSyncExternalStore } from "react";
+import { MotionConfig } from "motion/react";
 import { useStore, useToasts } from "@/lib/store";
 
 function useHydrated() {
@@ -74,10 +75,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
     );
   }
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <ThemeSync />
       <Toaster />
       {children}
-    </>
+    </MotionConfig>
   );
 }

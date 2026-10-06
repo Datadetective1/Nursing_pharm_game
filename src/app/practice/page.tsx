@@ -5,6 +5,7 @@ import { Zap, Brain, Archive, FlaskConical, Lock, Shuffle, Calculator, Timer, Sp
 import { Screen, cx, SectionTitle } from "@/components/ui";
 import { useStore } from "@/lib/store";
 import { WORLDS } from "@/data/curriculum";
+import { VISUAL_LABS } from "@/data/visualLabs";
 
 const MODES = [
   { href: "/play?mode=quick5", title: "Quick 5", sub: "Five fast retrievals", icon: Zap, tone: "from-amber-400 to-orange-500", id: "quick5" },
@@ -23,7 +24,34 @@ export default function PracticePage() {
     <Screen>
       <h1 className="text-[26px] font-extrabold tracking-tight">Practice</h1>
       <p className="text-sm text-muted">Pick a mode. Every answer feeds your mastery map.</p>
-      <div className="mt-5 grid grid-cols-2 gap-3">
+
+      <Link href="/visual" className="relative mt-4 block overflow-hidden rounded-3xl bg-gradient-to-br from-[#2b1f7a] via-brand to-fuchsia-500 p-5 text-white shadow-xl" data-testid="visual-labs">
+        <div className="absolute -right-8 -top-8 size-36 rounded-full bg-white/10" />
+        <div className="absolute -bottom-10 right-10 size-24 rounded-full bg-white/10" />
+        <p className="text-xs font-extrabold uppercase tracking-widest text-white/80">New · {VISUAL_LABS.length} hands-on labs</p>
+        <p className="mt-1 text-2xl font-extrabold leading-tight">Visual Labs</p>
+        <p className="mt-1 max-w-[16rem] text-sm text-white/85">Drag, sort, trace and rescue: Clotting Lab, Antidote Rescue, RAAS, nephron, lab gauges, simulations…</p>
+        <div className="mt-3 flex gap-1.5 text-xl">
+          {VISUAL_LABS.slice(0, 8).map((l) => (
+            <span key={l.slug} className="grid size-9 place-items-center rounded-xl bg-white/15">
+              {l.icon}
+            </span>
+          ))}
+        </div>
+      </Link>
+      <div className="mt-3 grid grid-cols-4 gap-2">
+        {["clot", "rescue", "family", "gauge"].map((slug) => {
+          const l = VISUAL_LABS.find((x) => x.slug === slug)!;
+          return (
+            <Link key={slug} href={`/visual/play?lab=${slug}&back=/practice`} className="card flex flex-col items-center gap-1 p-2.5 text-center" data-testid={`quick-lab-${slug}`}>
+              <span className="text-2xl">{l.icon}</span>
+              <span className="text-[10.5px] font-extrabold leading-tight">{l.title}</span>
+            </Link>
+          );
+        })}
+      </div>
+      <SectionTitle>Modes</SectionTitle>
+      <div className="grid grid-cols-2 gap-3">
         {MODES.map((m) => (
           <Link key={m.id} href={m.href} className="card relative flex min-h-36 flex-col justify-between overflow-hidden p-4 transition-transform active:scale-[0.98]" data-testid={`mode-${m.id}`}>
             <span className={cx("grid size-11 place-items-center rounded-2xl bg-gradient-to-br text-white shadow-md", m.tone)}>

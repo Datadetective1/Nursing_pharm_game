@@ -26,6 +26,8 @@ export interface SelectCtx {
   types?: QuestionType[];
   /** raise difficulty floor (boss battles) */
   minDifficulty?: number;
+  /** soft preference for question formats (session composer) */
+  preferTypes?: QuestionType[];
   /** last question type served (for variety) */
   lastType?: QuestionType;
   /** bucket weights [weak, medium, review, mastered]; default 50/25/15/10 */
@@ -117,6 +119,10 @@ export function pickQuestionForConcept(c: Concept, ctx: SelectCtx, exclude?: Set
   if (ctx.minDifficulty) {
     const hard = qs.filter((q) => q.difficulty >= ctx.minDifficulty!);
     if (hard.length) qs = hard;
+  }
+  if (ctx.preferTypes) {
+    const pref = qs.filter((q) => ctx.preferTypes!.includes(q.type));
+    if (pref.length) qs = pref;
   }
   if (exclude) {
     const fresh = qs.filter((q) => !exclude.has(q.id));

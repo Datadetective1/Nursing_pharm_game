@@ -6,6 +6,8 @@ import { RotateCcw, CheckCheck, Copy, ChevronDown } from "lucide-react";
 import { Screen, TopBar, Button, cx, Chip } from "@/components/ui";
 import { useStore, conceptLabel } from "@/lib/store";
 import { getQuestion } from "@/data/bank";
+import { getActivity } from "@/data/activities";
+import { KIND_LABEL } from "@/components/activities/ActivityView";
 import { correctAnswerText } from "@/lib/engine/grade";
 import { TOPIC_BY_ID } from "@/data/curriculum";
 
@@ -16,9 +18,9 @@ export default function VaultPage() {
   const [tab, setTab] = useState<"open" | "fixed">("open");
   const [expanded, setExpanded] = useState<string | null>(null);
   const list = Object.values(mistakes)
-    .filter((m) => (tab === "open" ? !m.resolved : m.resolved) && getQuestion(m.qid))
+    .filter((m) => (tab === "open" ? !m.resolved : m.resolved) && (getQuestion(m.qid) || getActivity(m.qid)))
     .sort((a, b) => (tab === "open" ? b.misses - a.misses || b.at - a.at : (b.fixedAt ?? 0) - (a.fixedAt ?? 0)));
-  const openCount = Object.values(mistakes).filter((m) => !m.resolved && getQuestion(m.qid)).length;
+  const openCount = Object.values(mistakes).filter((m) => !m.resolved && (getQuestion(m.qid) || getActivity(m.qid))).length;
   const fixedCount = Object.values(mistakes).filter((m) => m.resolved).length;
 
   return (
@@ -44,7 +46,8 @@ export default function VaultPage() {
       <div className="mt-3 flex flex-col gap-3">
         {list.length === 0 && <p className="py-10 text-center text-sm text-muted">{tab === "open" ? "No open mistakes. Go earn some — that's how learning happens." : "Nothing fixed yet."}</p>}
         {list.map((m) => {
-          const q = getQuestion(m.qid)!;
+          const q = getQuestion(m.qid);
+          const act = q ? undefined : getActivity(m.qid);
           const isOpen = expanded === m.qid;
           return (
             <div key={m.qid} className="card p-4" data-testid="vault-item">
@@ -55,12 +58,24 @@ export default function VaultPage() {
                     {m.misses > 1 && <Chip className="bg-bad-soft text-bad">missed ×{m.misses}</Chip>}
                     {m.understood && <Chip className="bg-good-soft text-good">understood</Chip>}
                   </div>
-                  <p className={cx("text-[15px] font-semibold leading-snug", !isOpen && "line-clamp-2")}>{q.stem}</p>
+                  <p className={cx("text-[15px] font-semibold leading-snug", !isOpen && "line-clamp-2")}>
+                    {act && <span className="mr-1.5 rounded-md bg-brand-soft px-1.5 py-0.5 text-[11px] font-extrabold text-brand">{KIND_LABEL[act.kind]}</span>}
+                    {q ? q.stem : act?.title}
+                  </p>
                   <p className="mt-1 text-xs text-muted">{conceptLabel(m.concept)}</p>
                 </div>
                 <ChevronDown size={18} className={cx("mt-1 shrink-0 text-muted transition-transform", isOpen && "rotate-180")} />
               </button>
-              {isOpen && (
+              {isOpen && act && (
+                <div className="mt-3 text-sm">
+                  <p>
+                    <span className="font-bold text-warn">Last attempt: </span>
+                    {m.chosen}
+                  </p>
+                  <p className="mt-1 text-muted">Retry rebuilds the same interactive activity.</p>
+                </div>
+              )}
+              {isOpen && q && (
                 <div className="mt-3 space-y-2 text-sm">
                   <p>
                     <span className="font-bold text-bad">You chose: </span>

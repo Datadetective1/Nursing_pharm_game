@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import type { WorldId } from "@/lib/types";
 import { nowMs } from "@/lib/time";
 
-const MODES: Mode[] = ["mission", "continue", "quick5", "weak", "node", "world", "boss", "vault", "similar", "misses", "highyield"];
+const MODES: Mode[] = ["mission", "continue", "quick5", "weak", "node", "world", "boss", "vault", "similar", "misses", "highyield", "focus"];
 
 function PlayInner() {
   const sp = useSearchParams();
@@ -20,6 +20,7 @@ function PlayInner() {
   const world = (sp.get("world") as WorldId | null) ?? undefined;
   const concept = sp.get("concept") ?? undefined;
   const qid = sp.get("qid") ?? undefined;
+  const conceptsParam = sp.get("concepts") ?? "";
 
   const cfg = useMemo(() => {
     const s = useStore.getState();
@@ -34,10 +35,11 @@ function PlayInner() {
       exams: s.exams,
       dailyMinutes: s.profile.dailyMinutes,
       startConfidence: s.profile.startConfidence,
+      concepts: conceptsParam ? conceptsParam.split(",") : undefined,
       now: plan.now,
     });
     // a new plan (round) forces a fresh session for "Another round"
-  }, [mode, node, world, concept, qid, round, plan.now]);
+  }, [mode, node, world, concept, qid, round, plan.now, conceptsParam]);
 
   return <SessionPlayer key={round} cfg={cfg} onAgain={() => setPlan((p) => ({ round: p.round + 1, now: nowMs() }))} />;
 }
