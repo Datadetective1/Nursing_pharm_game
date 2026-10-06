@@ -1,7 +1,7 @@
 import type { Question } from "@/lib/types";
 
 /* Module 7 · Lipid-lowering agents.
-   Source: docs/source/memory-aid.md (Lipid-lowering agents + One-member exceptions). */
+   Sources: M7L3 Lipid-Lowering Agents (lecture, primary); Exam2 Memory Aid (Lipid-lowering agents + One-member exceptions). */
 export const lipidsQuestions: Question[] = [
   // ───────── lip-statin-moa ─────────
   {
@@ -16,7 +16,8 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 1,
     why: "Statins inhibit HMG-CoA reductase, which decreases cholesterol synthesis. The other options describe bile acid sequestrants, gemfibrozil, and ezetimibe.",
-    source: "Memory Aid · Lipid-lowering agents",
+    clue: "Statins = HMG-CoA reductase inhibitors.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents",
   },
   {
     id: "li-002", topic: "lipids", concept: "lip-statin-moa", drugs: ["statins"], type: "fill",
@@ -24,7 +25,7 @@ export const lipidsQuestions: Question[] = [
     stem: "Statins inhibit the enzyme ____ reductase.",
     accept: ["HMG-CoA", "HMG CoA", "HMGCoA", "HMG-CoA reductase"],
     why: "Statins are HMG-CoA reductase inhibitors. Blocking this enzyme decreases cholesterol synthesis.",
-    source: "Memory Aid · Lipid-lowering agents",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents",
   },
   {
     id: "li-003", topic: "lipids", concept: "lip-statin-moa", drugs: ["statins"], type: "tf",
@@ -32,7 +33,8 @@ export const lipidsQuestions: Question[] = [
     stem: "Statins lower LDL, VLDL, and triglycerides and raise HDL.",
     answer: true,
     why: "Inhibiting HMG-CoA reductase decreases cholesterol synthesis, which lowers LDL, VLDL, and triglycerides and raises HDL.",
-    source: "Memory Aid · Lipid-lowering agents",
+    clue: "Statins lower the 'bad' fats and raise HDL.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents",
   },
   {
     id: "li-004", topic: "lipids", concept: "lip-statin-moa", drugs: ["rosuvastatin", "statins"], type: "mcq",
@@ -46,7 +48,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 3,
     why: "All lipid-lowering agents are used WITH diet, activity, and weight control.",
-    source: "Memory Aid · Lipid-lowering agents (MOA/USE)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (MOA/USE)",
   },
   {
     id: "li-005", topic: "lipids", concept: "lip-statin-moa", drugs: ["statins", "colesevelam", "gemfibrozil", "ezetimibe"], type: "match",
@@ -59,7 +61,7 @@ export const lipidsQuestions: Question[] = [
       ["Ezetimibe", "Decreases cholesterol absorption from bile and food"],
     ],
     why: "Statins decrease cholesterol synthesis. Sequestrants bind bile acids, so the body uses cholesterol to make more. Gemfibrozil activates lipoprotein lipase. Ezetimibe decreases cholesterol absorption.",
-    source: "Memory Aid · Lipid-lowering agents (MOA/USE)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (MOA/USE)",
   },
 
   // ───────── lip-statin-se ─────────
@@ -76,7 +78,7 @@ export const lipidsQuestions: Question[] = [
     answer: 3,
     why: "Unexplained muscle pain, tenderness, or weakness on a statin raises concern for myopathy and rhabdomyolysis: hold the statin and check the CK. Grapefruit raises statin levels toward toxicity.",
     clue: "Muscle pain on a statin = possible rhabdomyolysis.",
-    source: "Memory Aid · Lipid-lowering agents (HOLD)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (HOLD)",
   },
   {
     id: "li-007", topic: "lipids", concept: "lip-statin-se", drugs: ["statins"], type: "sata",
@@ -84,8 +86,8 @@ export const lipidsQuestions: Question[] = [
     stem: "A client taking a statin is assessed for rhabdomyolysis. Which findings support this complication? Select all that apply.",
     options: ["Elevated CK", "Dark urine", "Muscle pain and tenderness", "Facial flushing", "Constipation"],
     answers: [0, 1, 2],
-    why: "Statin myopathy causes muscle aches, pain, and tenderness, which can progress to rhabdomyolysis (↑CK, dark urine, profound weight loss). Flushing is niacin's side effect and constipation is the sequestrants'.",
-    source: "Memory Aid · Lipid-lowering agents (S/S)",
+    why: "Statin myopathy causes muscle aches, pain, and tenderness, which can progress to rhabdomyolysis (↑CK, dark urine, profound weight loss). Flushing is not a statin effect, and constipation belongs to the sequestrants.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (S/S)",
   },
   {
     id: "li-008", topic: "lipids", concept: "lip-statin-se", drugs: ["statins"], type: "tf",
@@ -93,7 +95,8 @@ export const lipidsQuestions: Question[] = [
     stem: "Hepatotoxicity is a major adverse effect of statins, so AST/ALT levels are monitored.",
     answer: true,
     why: "Statins can cause hepatotoxicity (↑AST), so AST/ALT are monitored. Liver disorders are a statin contraindication.",
-    source: "Memory Aid · Lipid-lowering agents (S/S, LAB)",
+    clue: "Statins: watch the liver (AST/ALT) and the muscles (CK).",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (S/S, LAB)",
   },
   {
     id: "li-009", topic: "lipids", concept: "lip-statin-se", drugs: ["statins"], type: "fill",
@@ -101,7 +104,7 @@ export const lipidsQuestions: Question[] = [
     stem: "A client on a statin who reports muscle pain should have a ____ level checked for rhabdomyolysis.",
     accept: ["CK", "creatine kinase", "CPK", "creatine phosphokinase"],
     why: "Check CK/CPK if muscle pain develops. An elevated CK points to rhabdomyolysis.",
-    source: "Memory Aid · Lipid-lowering agents (LAB, HOLD)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (LAB, HOLD)",
   },
   {
     id: "li-010", topic: "lipids", concept: "lip-statin-se", drugs: ["statins"], type: "mcq",
@@ -109,9 +112,9 @@ export const lipidsQuestions: Question[] = [
     stem: "A client taking a statin reports profound weight loss, dark urine, and muscle tenderness. The nurse suspects:",
     options: ["Gallstones", "Rhabdomyolysis", "Bowel obstruction", "A flushing reaction"],
     answer: 1,
-    why: "Muscle tenderness with dark urine and profound weight loss fits statin-induced rhabdomyolysis. Hold the statin and check the CK. Gallstones go with gemfibrozil, bowel obstruction is a sequestrant contraindication, and flushing goes with niacin.",
+    why: "Muscle tenderness with dark urine and profound weight loss fits statin-induced rhabdomyolysis. Hold the statin and check the CK. Gallstones go with gemfibrozil, and bowel obstruction is a sequestrant contraindication.",
     clue: "Muscle + dark urine on a statin = rhabdo.",
-    source: "Memory Aid · Lipid-lowering agents (S/S)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (S/S)",
   },
   {
     id: "li-011", topic: "lipids", concept: "lip-statin-se", drugs: ["statins"], type: "mcq",
@@ -125,7 +128,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 2,
     why: "Clients must REPORT muscle pain, tenderness, weakness, or profound weight loss, because these may signal myopathy leading to rhabdomyolysis.",
-    source: "Memory Aid · Lipid-lowering agents (DO/TEACH)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (DO/TEACH)",
   },
 
   // ───────── lip-statin-ci ─────────
@@ -142,7 +145,7 @@ export const lipidsQuestions: Question[] = [
     answer: 1,
     why: "Statins are contraindicated in pregnancy and in liver disorders. The other clients have lipid values outside the goals, which is a reason to treat.",
     clue: "Pregnancy is a statin contraindication.",
-    source: "Memory Aid · Lipid-lowering agents (CI)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (CI)",
   },
   {
     id: "li-013", topic: "lipids", concept: "lip-statin-ci", drugs: ["rosuvastatin"], type: "mcq",
@@ -165,7 +168,7 @@ export const lipidsQuestions: Question[] = [
     options: ["Pregnancy", "A liver disorder", "Elevated LDL", "Gallbladder disease", "Bowel obstruction"],
     answers: [0, 1],
     why: "Statin contraindications are liver disorders and pregnancy. Gallbladder disease is a gemfibrozil contraindication, bowel obstruction is a sequestrant contraindication, and elevated LDL is the reason to treat.",
-    source: "Memory Aid · Lipid-lowering agents (CI)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (CI)",
   },
   {
     id: "li-015", topic: "lipids", concept: "lip-statin-ci", drugs: ["statins"], type: "tf",
@@ -173,7 +176,7 @@ export const lipidsQuestions: Question[] = [
     stem: "Older adults and frail, small-framed clients are at greater risk for statin-induced myopathy.",
     answer: true,
     why: "Caution: the risk of myopathy is greater in older adults and in frail or small-framed clients.",
-    source: "Memory Aid · Lipid-lowering agents (CAUT)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (CAUT)",
   },
   {
     id: "li-016", topic: "lipids", concept: "lip-statin-ci", drugs: ["rosuvastatin"], type: "tf",
@@ -197,7 +200,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 3,
     why: "Grapefruit increases statin levels, which can lead to toxicity. Teach the client to avoid grapefruit.",
-    source: "Memory Aid · Lipid-lowering agents (INTX, DO/TEACH)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (INTX, DO/TEACH)",
   },
   {
     id: "li-018", topic: "lipids", concept: "lip-statin-intx", drugs: ["statins", "ezetimibe"], type: "sata",
@@ -211,7 +214,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Statin + fibrates increases myopathy, liver, and kidney injury. Statin + ezetimibe increases liver dysfunction and myopathy. Statin + grapefruit raises statin levels toward toxicity. Diet and activity are always part of therapy.",
-    source: "Memory Aid · Lipid-lowering agents (INTX)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (INTX)",
   },
   {
     id: "li-019", topic: "lipids", concept: "lip-statin-intx", drugs: ["statins", "ezetimibe"], type: "tf",
@@ -219,7 +222,7 @@ export const lipidsQuestions: Question[] = [
     stem: "Adding ezetimibe to a statin lowers the client's risk of myopathy.",
     answer: false,
     why: "Statin + ezetimibe INCREASES the risk of liver dysfunction and myopathy. Monitor AST/ALT and teach the client to report muscle pain.",
-    source: "Memory Aid · Lipid-lowering agents (INTX)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (INTX)",
   },
   {
     id: "li-020", topic: "lipids", concept: "lip-statin-intx", drugs: ["statins"], type: "mcq",
@@ -233,7 +236,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 2,
     why: "Statin + fibrates increases myopathy, liver injury, and kidney injury.",
-    source: "Memory Aid · Lipid-lowering agents (INTX)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (INTX)",
   },
 
   // ───────── lip-seq ─────────
@@ -249,7 +252,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 3,
     why: "Sequestrants block absorption of other drugs, including digoxin. Give other medications 1 hour BEFORE or 4–6 hours AFTER the sequestrant.",
-    source: "Memory Aid · Lipid-lowering agents (INTX, DO/TEACH)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (INTX, DO/TEACH)",
   },
   {
     id: "li-022", topic: "lipids", concept: "lip-seq", drugs: ["colesevelam"], type: "tf",
@@ -258,6 +261,7 @@ export const lipidsQuestions: Question[] = [
     answer: false,
     why: "The hallmark sequestrant side effect is CONSTIPATION. Sequestrants are also the lipid drugs that block absorption of other drugs.",
     hook: "Sequestrants = constipation + they sequester other drugs.",
+    clue: "Sequestrants slow the bowel down.",
     source: "Memory Aid · One-member exceptions (-statin and other antilipemics)",
   },
   {
@@ -273,15 +277,16 @@ export const lipidsQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Sequestrant teaching: mix the powder in juice or water, increase fluid, fiber, and ambulation for constipation, and space other meds 1 hour before or 4–6 hours after. Sequestrants block levothyroxine absorption.",
-    source: "Memory Aid · Lipid-lowering agents (DO/TEACH)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (DO/TEACH)",
   },
   {
     id: "li-024", topic: "lipids", concept: "lip-seq", drugs: ["colesevelam"], type: "fill",
     difficulty: 2, cognitive: "remember", format: "teaching",
     stem: "Other medications should be taken 1 hour before or ____ hours after colesevelam.",
-    accept: ["4–6", "4-6", "4 to 6", "4 - 6", "four to six"],
-    why: "Space other meds 1 hour BEFORE or 4–6 hours AFTER a bile acid sequestrant, because it blocks their absorption.",
-    source: "Memory Aid · Lipid-lowering agents (DO/TEACH)",
+    accept: ["4–6", "4-6", "4 to 6", "4 - 6", "four to six", "4", "four"],
+    why: "Space other meds 1 hour BEFORE or 4–6 hours AFTER a bile acid sequestrant, because it blocks their absorption. (The slide says 4 hours after; the notes say 4–6 — both are accepted.)",
+    clue: "Colesevelam grabs other drugs in the gut — give them well apart.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (DO/TEACH)",
   },
   {
     id: "li-025", topic: "lipids", concept: "lip-seq", drugs: ["colesevelam", "warfarin"], type: "mcq",
@@ -295,7 +300,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 1,
     why: "Sequestrants block absorption of warfarin, as well as levothyroxine, digoxin, phenytoin, OCPs, thiazides, 2nd-gen sulfonylureas, and ADEK vitamins. Other meds go 1 hour before or 4–6 hours after.",
-    source: "Memory Aid · Lipid-lowering agents (INTX, DO/TEACH)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (INTX, DO/TEACH)",
   },
   {
     id: "li-026", topic: "lipids", concept: "lip-seq", drugs: ["colesevelam"], type: "mcq",
@@ -309,7 +314,8 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 2,
     why: "Bile acid sequestrants (colesevelam, cholestyramine) bind bile acids, so the body makes more bile acid from cholesterol.",
-    source: "Memory Aid · Lipid-lowering agents (MOA/USE)",
+    clue: "Bile acid SEQUESTRANT = binds bile acids.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (MOA/USE)",
   },
   {
     id: "li-027", topic: "lipids", concept: "lip-seq", drugs: ["colesevelam"], type: "mcq",
@@ -323,7 +329,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 1,
     why: "Sequestrant contraindications are bowel obstruction and pancreatitis from high triglycerides.",
-    source: "Memory Aid · Lipid-lowering agents (CI)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (CI)",
   },
 
   // ───────── lip-gem ─────────
@@ -335,7 +341,7 @@ export const lipidsQuestions: Question[] = [
     answer: 1,
     why: "Gemfibrozil is the lipid drug that causes GALLSTONES (RUQ pain, fat intolerance, bloating).",
     hook: "Gemfibrozil = Gallstones.",
-    source: "Memory Aid · Lipid-lowering agents (S/S); One-member exceptions",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (S/S); One-member exceptions",
   },
   {
     id: "li-029", topic: "lipids", concept: "lip-gem", drugs: ["gemfibrozil", "warfarin"], type: "mcq",
@@ -349,15 +355,16 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 0,
     why: "Gemfibrozil + warfarin increases bleeding risk.",
-    source: "Memory Aid · Lipid-lowering agents (INTX)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (INTX)",
   },
   {
-    id: "li-030", topic: "lipids", concept: "lip-gem", drugs: ["gemfibrozil", "niacin"], type: "tf",
+    id: "li-030", topic: "lipids", concept: "lip-gem", drugs: ["gemfibrozil", "colesevelam"], type: "tf",
     difficulty: 1, cognitive: "remember", format: "side-effect",
-    stem: "Gemfibrozil is the lipid-lowering drug best known for causing flushing.",
+    stem: "Constipation is the signature adverse effect of gemfibrozil.",
     answer: false,
-    why: "Niacin is the one that causes FLUSHING. Gemfibrozil is the one that causes GALLSTONES, and it is contraindicated in gallbladder disease, liver disorders, and severe kidney dysfunction.",
-    source: "Memory Aid · Lipid-lowering agents (CI)",
+    why: "Constipation is the signature effect of colesevelam (bile acid sequestrant). Gemfibrozil's signature effect is GALLSTONES (RUQ pain, fat intolerance, bloating), plus GI distress, myopathy, and hepatotoxicity.",
+    clue: "Gemfibrozil = Gallstones; constipation belongs to the bile acid sequestrant.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 3–4",
   },
   {
     id: "li-031", topic: "lipids", concept: "lip-gem", drugs: ["gemfibrozil"], type: "mcq",
@@ -371,7 +378,8 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 0,
     why: "Gemfibrozil activates lipoprotein lipase. Statins inhibit HMG-CoA reductase, sequestrants bind bile acids, and ezetimibe decreases absorption.",
-    source: "Memory Aid · Lipid-lowering agents (MOA/USE)",
+    clue: "Gemfibrozil activates an enzyme — lipoprotein lipase.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (MOA/USE)",
   },
   {
     id: "li-032", topic: "lipids", concept: "lip-gem", drugs: ["gemfibrozil"], type: "sata",
@@ -386,20 +394,19 @@ export const lipidsQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Gemfibrozil contraindications are liver disorders, severe kidney dysfunction, and gallbladder disease. Bowel obstruction is a sequestrant contraindication, and high LDL is a reason to treat.",
-    source: "Memory Aid · Lipid-lowering agents (CI)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (CI)",
   },
   {
-    id: "li-033", topic: "lipids", concept: "lip-gem", drugs: ["statins", "colesevelam", "gemfibrozil", "niacin"], type: "match",
+    id: "li-033", topic: "lipids", concept: "lip-gem", drugs: ["statins", "colesevelam", "gemfibrozil"], type: "match",
     difficulty: 2, cognitive: "understand", format: "side-effect",
     stem: "Match each lipid-lowering drug with its hallmark adverse effect.",
     pairs: [
       ["Statin", "Rhabdomyolysis (↑CK, dark urine)"],
       ["Colesevelam", "Constipation"],
       ["Gemfibrozil", "Gallstones"],
-      ["Niacin", "Flushing"],
     ],
-    why: "One-member exceptions: gemfibrozil is the one that causes gallstones, niacin is the one that causes flushing, and sequestrants are the ones that cause constipation. Statins cause myopathy that can progress to rhabdomyolysis.",
-    source: "Memory Aid · One-member exceptions (-statin and other antilipemics)",
+    why: "Gemfibrozil is the one that causes gallstones, colesevelam (a sequestrant) causes constipation, and statins cause myopathy that can progress to rhabdomyolysis (↑CK).",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–4; Memory Aid · One-member exceptions",
   },
 
   // ───────── lip-eze ─────────
@@ -415,7 +422,8 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 2,
     why: "Ezetimibe decreases cholesterol absorption from bile and food.",
-    source: "Memory Aid · Lipid-lowering agents (MOA/USE)",
+    clue: "Ezetimibe = cholesterol ABSORPTION inhibitor.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (MOA/USE)",
   },
   {
     id: "li-035", topic: "lipids", concept: "lip-eze", drugs: ["ezetimibe"], type: "mcq",
@@ -429,7 +437,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 0,
     why: "Ezetimibe contraindications are pregnancy and moderate or severe liver disorders.",
-    source: "Memory Aid · Lipid-lowering agents (CI)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (CI)",
   },
   {
     id: "li-036", topic: "lipids", concept: "lip-eze", drugs: ["ezetimibe"], type: "tf",
@@ -437,7 +445,8 @@ export const lipidsQuestions: Question[] = [
     stem: "Adverse effects of ezetimibe include hepatitis and myopathy.",
     answer: true,
     why: "Ezetimibe can cause hepatitis and myopathy. Combined with a statin, it increases liver dysfunction and myopathy.",
-    source: "Memory Aid · Lipid-lowering agents (S/S)",
+    clue: "Ezetimibe's S/E: the liver and the muscles.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (S/S)",
   },
   {
     id: "li-037", topic: "lipids", concept: "lip-eze", drugs: ["ezetimibe"], type: "fill",
@@ -445,7 +454,7 @@ export const lipidsQuestions: Question[] = [
     stem: "The lipid-lowering drug that decreases absorption of cholesterol from bile and food is ____.",
     accept: ["ezetimibe"],
     why: "Ezetimibe decreases cholesterol absorption from bile and food. It is contraindicated in pregnancy and moderate/severe liver disorders.",
-    source: "Memory Aid · Lipid-lowering agents (MOA/USE)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (MOA/USE)",
   },
 
   // ───────── lip-goals ─────────
@@ -456,7 +465,7 @@ export const lipidsQuestions: Question[] = [
     options: ["LDL 130", "Total cholesterol 220", "HDL 65", "HDL 45"],
     answer: 2,
     why: "Goals: total cholesterol < 200, LDL < 100, HDL > 60. Only the HDL of 65 meets its goal.",
-    source: "Memory Aid · Lipid-lowering agents (LAB)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (LAB)",
   },
   {
     id: "li-039", topic: "lipids", concept: "lip-goals", drugs: ["statins"], type: "sata",
@@ -465,7 +474,7 @@ export const lipidsQuestions: Question[] = [
     options: ["Total cholesterol 185", "LDL 110", "HDL 62", "LDL 95", "Total cholesterol 215"],
     answers: [0, 2, 3],
     why: "Goals: total < 200, LDL < 100, HDL > 60. 185 total, HDL 62, and LDL 95 meet them. LDL 110 and total 215 do not.",
-    source: "Memory Aid · Lipid-lowering agents (LAB)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (LAB)",
   },
   {
     id: "li-040", topic: "lipids", concept: "lip-goals", drugs: ["statins"], type: "fill",
@@ -474,7 +483,7 @@ export const lipidsQuestions: Question[] = [
     accept: ["100"],
     numeric: { value: 100 },
     why: "Lipid goals: total cholesterol < 200, LDL < 100, HDL > 60.",
-    source: "Memory Aid · Lipid-lowering agents (LAB)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (LAB)",
   },
   {
     id: "li-041", topic: "lipids", concept: "lip-goals", drugs: ["statins"], type: "tf",
@@ -482,7 +491,7 @@ export const lipidsQuestions: Question[] = [
     stem: "An HDL of 45 meets the lipid goal.",
     answer: false,
     why: "The HDL goal is > 60. For HDL, higher is better, so 45 is below the goal.",
-    source: "Memory Aid · Lipid-lowering agents (LAB)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (LAB)",
   },
   {
     id: "li-042", topic: "lipids", concept: "lip-goals", drugs: ["statins"], type: "sata",
@@ -497,7 +506,7 @@ export const lipidsQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Statin monitoring: baseline and periodic cholesterol, AST/ALT (hepatotoxicity), and CK/CPK if muscle pain develops. aPTT and fibrinogen are coagulation labs.",
-    source: "Memory Aid · Lipid-lowering agents (LAB)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (LAB)",
   },
   {
     id: "li-043", topic: "lipids", concept: "lip-goals", drugs: ["statins", "colesevelam", "gemfibrozil", "ezetimibe"], type: "mcq",
@@ -511,6 +520,134 @@ export const lipidsQuestions: Question[] = [
     ],
     answer: 0,
     why: "All lipid-lowering agents are evaluated the same way: did the cholesterol drop? A normal CK reflects safety (no rhabdomyolysis), not effectiveness.",
-    source: "Memory Aid · Lipid-lowering agents (DO/TEACH)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2–6; Memory Aid · Lipid-lowering agents (DO/TEACH)",
+  },
+
+  // ───────── added: recognition (guided practice) + lecture gap facts ─────────
+  {
+    id: "li-044", topic: "lipids", concept: "lip-statin-se", drugs: ["statins"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "side-effect",
+    stem: "Cataract formation is listed as a side effect of statins.",
+    answer: true,
+    why: "Statin side effects on the slide: elevated liver enzymes, rhabdomyolysis, and cataract formation.",
+    clue: "The statin slide lists the liver, the muscles — and the eyes.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 2",
+  },
+  {
+    id: "li-045", topic: "lipids", concept: "lip-statin-ci", drugs: ["statins"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "contraindication",
+    stem: "Which is a contraindication to statins?",
+    options: ["Pregnancy", "High LDL", "Low HDL", "History of MI"],
+    answer: 0,
+    why: "Statin CI: pregnancy, allergy, liver disease. High LDL, low HDL, and a prior MI are reasons to treat.",
+    clue: "Three options are reasons TO give a statin.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 2",
+  },
+  {
+    id: "li-046", topic: "lipids", concept: "lip-statin-ci", drugs: ["rosuvastatin"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "contraindication",
+    stem: "Rosuvastatin should be avoided or prescribed in smaller doses for clients of Asian descent.",
+    answer: true,
+    why: "Per the notes, rosuvastatin should be avoided or prescribed in smaller doses for clients of Asian descent.",
+    clue: "This population note belongs to one specific statin.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 2 (notes)",
+  },
+  {
+    id: "li-047", topic: "lipids", concept: "lip-statin-intx", drugs: ["statins"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "interaction",
+    stem: "Which food or drink is listed as an interaction on the statin slide?",
+    options: ["Grapefruit juice", "Vitamin K–rich foods", "Salt substitutes", "Potassium-rich foods"],
+    answer: 0,
+    why: "Grapefruit juice can increase statin levels → toxicity. Vitamin K foods matter for warfarin; salt substitutes for ACE inhibitors; potassium foods for diuretics.",
+    clue: "It's a citrus juice that raises statin levels.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 2",
+  },
+  {
+    id: "li-048", topic: "lipids", concept: "lip-statin-intx", drugs: ["statins", "gemfibrozil"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "interaction",
+    stem: "Taking a statin with a fibrate such as gemfibrozil increases the risk of myopathy.",
+    answer: true,
+    why: "Fibrates (gemfibrozil) + statins increase the risk of myopathy and liver and kidney injury.",
+    clue: "Fibrate + statin = double trouble for the muscles.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2 & 4 (notes)",
+  },
+  {
+    id: "li-049", topic: "lipids", concept: "lip-goals", drugs: ["statins"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "lab",
+    stem: "What is the LDL goal for a client on lipid-lowering therapy?",
+    options: ["Less than 100", "Less than 200", "Greater than 60", "Less than 160"],
+    answer: 0,
+    why: "Goals: total cholesterol < 200, LDL < 100, HDL > 60.",
+    clue: "Total < 200 and HDL > 60 are the other two goals.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 6 (planning)",
+  },
+  {
+    id: "li-050", topic: "lipids", concept: "lip-goals", drugs: ["statins"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "lab",
+    stem: "The HDL goal is greater than 60.",
+    answer: true,
+    why: "Goals: total cholesterol < 200, LDL < 100, HDL > 60.",
+    clue: "HDL is the 'healthy' cholesterol — the goal is to keep it HIGH.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 6 (planning)",
+  },
+  {
+    id: "li-051", topic: "lipids", concept: "lip-statin-moa", drugs: ["statins", "gemfibrozil", "ezetimibe", "colesevelam"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "class-id",
+    stem: "Which drug is an HMG-CoA reductase inhibitor (statin)?",
+    options: ["Pravastatin", "Gemfibrozil", "Ezetimibe", "Colesevelam"],
+    answer: 0,
+    why: "Statins on the slide: pravastatin, simvastatin, atorvastatin, fluvastatin, rosuvastatin, pitavastatin. All end in -statin.",
+    clue: "Look at the ending: -statin.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 2",
+  },
+  {
+    id: "li-052", topic: "lipids", concept: "lip-gem", drugs: ["gemfibrozil", "statins"], type: "mcq",
+    difficulty: 2, cognitive: "apply", format: "interaction",
+    stem: "A client who takes atorvastatin is started on gemfibrozil. Which finding should the nurse monitor for?",
+    options: ["Muscle pain or weakness", "Constipation", "Tinnitus", "Dry, hacking cough"],
+    answer: 0,
+    why: "Gemfibrozil + statins → increased risk of myopathy. Constipation = colesevelam; tinnitus = aspirin; dry cough = ACE inhibitors.",
+    clue: "Fibrate + statin → think muscles.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 4 (notes)",
+  },
+  {
+    id: "li-053", topic: "lipids", concept: "lip-eze", drugs: ["ezetimibe", "colesevelam"], type: "mcq",
+    difficulty: 2, cognitive: "apply", format: "interaction",
+    stem: "A client takes ezetimibe and colesevelam. What is the nurse's concern?",
+    options: [
+      "Colesevelam can interfere with the absorption of ezetimibe",
+      "Colesevelam raises ezetimibe to toxic levels",
+      "The combination causes hyperkalemia",
+      "The combination causes tinnitus",
+    ],
+    answer: 0,
+    why: "Bile acid sequestrants interfere with ezetimibe's absorption (and many other drugs'), so other meds are given 1 hour before or 4–6 hours after colesevelam.",
+    clue: "Sequestrants bind other drugs in the gut.",
+    source: "M7L3 Lipid-Lowering Agents · Slides 3 & 5 (notes)",
+  },
+  {
+    id: "li-054", topic: "lipids", concept: "lip-eze", drugs: ["ezetimibe", "statins", "gemfibrozil", "colesevelam"], type: "sata",
+    difficulty: 2, cognitive: "analyze", format: "interaction",
+    stem: "Which ezetimibe interactions are described in the course notes? Select all that apply.",
+    options: [
+      "Statins increase the risk of liver dysfunction and myopathy",
+      "Fibrates increase the risk of cholelithiasis and myopathy",
+      "Bile acid sequestrants interfere with its absorption",
+      "Vitamin K–rich foods decrease its effect",
+      "Salt substitutes cause hyperkalemia",
+    ],
+    answers: [0, 1, 2],
+    why: "Ezetimibe + statins → liver dysfunction + myopathy; + fibrates → cholelithiasis + myopathy; bile acid sequestrants interfere with absorption. Vitamin K = warfarin; salt substitutes = ACE inhibitors.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 5 (notes)",
+  },
+  {
+    id: "li-055", topic: "lipids", concept: "lip-seq", drugs: ["colesevelam"], type: "mcq",
+    difficulty: 2, cognitive: "apply", format: "teaching",
+    stem: "A client asks how to take colesevelam powder. Which instruction is correct?",
+    options: ["Mix it in juice or water", "Swallow the dry powder, then drink water", "Let it dissolve under the tongue", "Mix it with your other morning pills"],
+    answer: 0,
+    why: "Colesevelam is a dry powder that should be mixed in juice or water. Other medications are taken 1 hour before or 4–6 hours after it.",
+    clue: "The notes call it a dry powder to be mixed into a drink.",
+    source: "M7L3 Lipid-Lowering Agents · Slide 6 (teaching)",
   },
 ];

@@ -10,6 +10,7 @@ import type { QStat } from "@/lib/engine/select";
 import { dayKey, levelFromXp, touchStreak, xpForAnswer, XP, type StreakState, type StreakEvent } from "@/lib/engine/progress";
 import { ACH_BY_ID, BOSS_BADGE, type AchievementDef } from "@/lib/engine/achievements";
 import { playSound } from "@/lib/sound";
+import { activityLevel, migrateLearnFromHistory, questionLevel, teach, testOut, updateLearn, type LearnStat, type UnitStat } from "@/lib/engine/learning";
 
 export type DailyMinutes = 5 | 10 | 20 | 30;
 export type StartConfidence = "not" | "somewhat" | "almost";
@@ -117,6 +118,10 @@ export interface PQData {
   exams: ExamResult[];
   calib: Record<Confidence, { n: number; ok: number }>;
   counters: Counters;
+  /** knowledge state per concept (Learn → Practice → Test), separate from mastery — added in v2 */
+  learn: Record<string, LearnStat>;
+  /** per study selection ("unit:u-acei", "group:g-anticonv", "drug:d-heparin"): lesson/test history — added in v2 */
+  units: Record<string, UnitStat>;
 }
 
 export interface RecordInput {
@@ -134,6 +139,23 @@ export interface RecordInput {
   noVault?: boolean;
   /** set when recording an interactive activity */
   activityKind?: string;
+  /** served as a guided-practice item (counts toward "guided" in the knowledge state) */
+  guided?: boolean;
+}
+
+export interface GuidedInput {
+  q: Question;
+  /** final outcome after any retry */
+  correct: boolean;
+  /** correct on the first try without a hint */
+  firstTry: boolean;
+  /** a hint was shown or a retry was needed */
+  assisted: boolean;
+  responseText: string;
+  ms: number;
+  mode: string;
+  sessionId: string;
+  sessionStreak: number;
 }
 
 export interface RecordResult {
@@ -160,6 +182,15 @@ interface Actions {
   recordLabLock: (perfect: boolean) => AchievementDef[];
   recordContrast: (setId: string, perfect: boolean) => AchievementDef[];
   addXp: (n: number) => void;
+  /** guided practice: hints + retries never count against the learner */
+  recordGuided: (i: GuidedInput) => RecordResult;
+  /** first-exposure teaching / relearn shown for these concepts */
+  teachConcepts: (concepts: string[], how: "exposed" | "relearn") => void;
+  /** a whole lesson finished (selection key like "unit:u-acei") */
+  completeLesson: (key: string, concepts: string[]) => { xp: number };
+  recordUnitTest: (key: string, correct: number, total: number) => void;
+  /** Test-out diagnostic: concepts answered correctly count as demonstrated */
+  recordPretest: (key: string, results: Record<string, boolean>, pct: number) => void;
   resetAll: () => void;
 }
 
@@ -192,9 +223,38 @@ const freshData = (): PQData => ({
     missionsDone: 0,
     bestRun: 0,
   },
+  learn: {},
+  units: {},
 });
 
 const LOG_CAP = 3000;
+
+/**
+ * Persisted-state upgrade (v1 → v2). Keeps EVERY v1 field — XP, streak, mastery, mistakes, history,
+ * exam date, achievements — and adds the knowledge state. Concepts already demonstrated count as taught.
+ */
+export function migratePQ(persisted: unknown, version: number, now: number): Partial<PQData> {
+  const p = (persisted ?? {}) as Partial<PQData>;
+  if (version < 2) return { ...p, learn: migrateLearnFromHistory(p.concepts ?? {}, now), units: p.units ?? {} };
+  return p;
+}
+
+/** Fills any field missing from persisted data with defaults (never drops persisted values). */
+export function mergePQ(persisted: unknown): PQData {
+  const p = (persisted ?? {}) as Partial<PQData>;
+  const base = freshData();
+  return {
+    ...base,
+    ...p,
+    profile: { ...base.profile, ...p.profile },
+    settings: { ...base.settings, ...p.settings },
+    counters: { ...base.counters, ...p.counters },
+    calib: { ...base.calib, ...p.calib },
+    streak: { ...base.streak, ...p.streak },
+    learn: { ...base.learn, ...p.learn },
+    units: { ...base.units, ...p.units },
+  };
+}
 
 /** Notifications for the UI (not persisted). */
 interface ToastState {
@@ -309,6 +369,8 @@ export const useStore = create<PQState>()(
           if (q.topic === "calc") counters.calcRun = i.correct ? counters.calcRun + 1 : 0;
 
           const concepts = { ...s.concepts, [q.concept]: nextStat };
+          const qLevel = i.activityKind ? activityLevel({ kind: i.activityKind as Activity["kind"] }) : questionLevel(q);
+          const learn = { ...s.learn, [q.concept]: updateLearn(s.learn[q.concept], { qLevel, firstTry: i.correct, assisted: false, guided: !!i.guided, now }) };
           const log = [...s.log, { q: q.id, c: q.concept, t: q.topic, ty: q.type, ok: i.correct, conf: i.confidence, ms: i.ms, at: now, mode: i.mode, ...(i.activityKind ? { k: i.activityKind } : {}) }];
           if (log.length > LOG_CAP) log.splice(0, log.length - LOG_CAP);
 
@@ -327,6 +389,7 @@ export const useStore = create<PQState>()(
 
           set({
             concepts,
+            learn,
             qstats: { ...s.qstats, [q.id]: qstat },
             mistakes,
             xp: s.xp + xp,
@@ -467,32 +530,88 @@ export const useStore = create<PQState>()(
           announce([], levelAfter > levelBefore ? levelAfter : null);
         },
 
+        recordGuided: (i) => {
+          // a clean first-try answer is real evidence → normal recording (mastery, XP, streak)
+          if (i.firstTry && !i.assisted) {
+            return get().recordAnswer({ q: i.q, correct: true, responseText: i.responseText, ms: i.ms, mode: i.mode, sessionId: i.sessionId, sessionStreak: i.sessionStreak, guided: true });
+          }
+          // hinted / retried attempts: knowledge state only — no mastery penalty, no Mistake Vault
+          const s = get();
+          const now = Date.now();
+          const today = dayKey();
+          const learn = { ...s.learn, [i.q.concept]: updateLearn(s.learn[i.q.concept], { qLevel: questionLevel(i.q), firstTry: false, assisted: true, guided: true, now }) };
+          const prevQ = s.qstats[i.q.id];
+          const qstat: QStat = { seen: (prevQ?.seen ?? 0) + 1, correct: prevQ?.correct ?? 0, last: now, lastCorrect: false };
+          const xp = i.correct ? 5 : 0;
+          const { state: streak, event: streakEvent } = touchStreak(s.streak, today);
+          const d = s.days[today] ?? { answered: 0, correct: 0, ms: 0, xp: 0 };
+          const days = { ...s.days, [today]: { ...d, answered: d.answered + 1, ms: d.ms + Math.min(i.ms, 180_000), xp: d.xp + xp } };
+          const log = [...s.log, { q: i.q.id, c: i.q.concept, t: i.q.topic, ty: i.q.type, ok: false, ms: i.ms, at: now, mode: `${i.mode}:guided` }];
+          if (log.length > LOG_CAP) log.splice(0, log.length - LOG_CAP);
+          const levelBefore = levelFromXp(s.xp).level;
+          set({ learn, qstats: { ...s.qstats, [i.q.id]: qstat }, xp: s.xp + xp, streak, days, log });
+          const levelAfter = levelFromXp(s.xp + xp).level;
+          const levelUp = levelAfter > levelBefore ? levelAfter : null;
+          announce([], levelUp);
+          const m = effectiveMastery(s.concepts[i.q.concept], now);
+          return { xp, masteryBefore: m, masteryAfter: m, levelUp, streakEvent, fixedMistake: false, unlocked: [] };
+        },
+
+        teachConcepts: (ids, how) =>
+          set((s) => {
+            const now = Date.now();
+            const learn = { ...s.learn };
+            for (const c of ids) learn[c] = teach(learn[c], how, now);
+            return { learn };
+          }),
+
+        completeLesson: (key, ids) => {
+          const s = get();
+          const now = Date.now();
+          const learn = { ...s.learn };
+          for (const c of ids) learn[c] = teach(learn[c], "lesson", now);
+          const xp = s.units[key]?.lessonDone ? 5 : 20;
+          const { state: streak } = touchStreak(s.streak, dayKey());
+          const levelBefore = levelFromXp(s.xp).level;
+          set({ learn, units: { ...s.units, [key]: { ...s.units[key], lessonDone: now } }, xp: s.xp + xp, streak });
+          const levelAfter = levelFromXp(s.xp + xp).level;
+          announce([], levelAfter > levelBefore ? levelAfter : null);
+          return { xp };
+        },
+
+        recordUnitTest: (key, correct, total) =>
+          set((s) => {
+            if (!total) return {};
+            const pct = Math.round((correct / total) * 100);
+            const prev = s.units[key];
+            return { units: { ...s.units, [key]: { ...prev, test: { at: Date.now(), pct, n: total }, bestTest: Math.max(prev?.bestTest ?? 0, pct) } } };
+          }),
+
+        recordPretest: (key, results, pct) =>
+          set((s) => {
+            const now = Date.now();
+            const learn = { ...s.learn };
+            for (const [c, ok] of Object.entries(results)) if (ok) learn[c] = testOut(learn[c], now);
+            return { learn, units: { ...s.units, [key]: { ...s.units[key], pretest: { at: now, pct } } } };
+          }),
+
         resetAll: () => set({ ...freshData() }),
       };
     },
     {
+      // The storage key stays "pharm-quest-v1" forever — renaming it would orphan existing progress.
       name: "pharm-quest-v1",
-      version: 1,
+      version: 2,
+      // v1 → v2 keeps EVERYTHING (XP, streak, mastery, mistakes, history, exam date, achievements) and adds the
+      // knowledge state. Concepts already demonstrated count as taught, so she isn't sent back to lessons for them.
+      migrate: (persisted, version) => migratePQ(persisted, version, Date.now()) as PQState,
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { completeOnboarding, updateProfile, updateSettings, recordAnswer, recordActivity, finishSession, recordBoss, recordExam, markUnderstood, recordArena, recordLabLock, recordContrast, addXp, resetAll, ...data } = s;
+        const { completeOnboarding, updateProfile, updateSettings, recordAnswer, recordActivity, finishSession, recordBoss, recordExam, markUnderstood, recordArena, recordLabLock, recordContrast, addXp, recordGuided, teachConcepts, completeLesson, recordUnitTest, recordPretest, resetAll, ...data } = s;
         return data;
       },
-      merge: (persisted, current) => {
-        const p = (persisted ?? {}) as Partial<PQData>;
-        const base = freshData();
-        return {
-          ...current,
-          ...base,
-          ...p,
-          profile: { ...base.profile, ...p.profile },
-          settings: { ...base.settings, ...p.settings },
-          counters: { ...base.counters, ...p.counters },
-          calib: { ...base.calib, ...p.calib },
-          streak: { ...base.streak, ...p.streak },
-        };
-      },
+      merge: (persisted, current) => ({ ...current, ...mergePQ(persisted) }),
     },
   ),
 );

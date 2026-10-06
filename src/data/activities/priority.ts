@@ -62,7 +62,7 @@ export const PRIORITY: Activity[] = [
     title: "Heparin: what's urgent?",
     topic: "coag",
     concepts: ["hep-hit", "hep-lab", "hep-admin"],
-    source: "Coag Notes · Slides 2, 4; Memory Aid · Heparin",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 4; Memory Aid · Heparin",
     difficulty: 3,
     data: {
       client: "Client on a heparin infusion for DVT",
@@ -79,7 +79,7 @@ export const PRIORITY: Activity[] = [
     title: "Alteplase: what's urgent?",
     topic: "coag",
     concepts: ["tpa-nursing", "tpa-antidote", "hep-bleeding"],
-    source: "Coag Notes · Slides 12–13; Memory Aid · Alteplase",
+    source: "M7L2 Coagulation Modifiers · Slides 12–13; Memory Aid · Alteplase",
     difficulty: 2,
     data: {
       client: "Client receiving alteplase for acute ischemic stroke",

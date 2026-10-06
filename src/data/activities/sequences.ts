@@ -131,7 +131,7 @@ export const SEQUENCES: Activity[] = [
     title: "Alteplase bleed: in order",
     topic: "coag",
     concepts: ["tpa-antidote", "tpa-nursing", "hep-bleeding"],
-    source: "Coag Notes · Slides 12–13; Memory Aid · Alteplase",
+    source: "M7L2 Coagulation Modifiers · Slides 12–13; Memory Aid · Alteplase",
     difficulty: 2,
     data: {
       prompt: "Life-threatening bleeding on alteplase: order the steps.",

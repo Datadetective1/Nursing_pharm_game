@@ -11,7 +11,7 @@ export const SIMS: Activity[] = [
     title: "Heparin Drip Snapshots",
     topic: "coag",
     concepts: ["hep-lab", "hep-bleeding", "hep-antidote", "hep-hit"],
-    source: "Coag Notes · Slides 2, 4",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 4",
     difficulty: 3,
     data: {
       client: "Client, 64, on IV heparin for a DVT",
@@ -469,7 +469,7 @@ export const SIMS: Activity[] = [
     title: "Warfarin INR Visits",
     topic: "coag",
     concepts: ["war-lab", "war-antidote", "war-teach", "war-intx"],
-    source: "Coag Notes · Slides 5–6",
+    source: "M7L2 Coagulation Modifiers · Slides 5–6",
     difficulty: 3,
     data: {
       client: "Client, 67, mechanical heart valve",

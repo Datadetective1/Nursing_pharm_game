@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { answerCurrent, noHorizontalScroll, onboard } from "./helpers";
+import { ITEM, answerCurrent, noHorizontalScroll, onboard } from "./helpers";
 
 test("first launch: 3 onboarding questions → mission starts → answers persist across refresh", async ({ page }) => {
   await onboard(page);
@@ -28,12 +28,13 @@ test("Quick 5 runs start to finish and shows a summary with XP", async ({ page }
   await expect(page.getByTestId("summary-xp")).toBeVisible();
   // Another round restarts
   await page.getByTestId("again").click();
-  await expect(page.getByTestId("question")).toBeVisible();
+  await expect(page.locator(ITEM).first()).toBeVisible();
 });
 
 test("wrong answer shows full error-based feedback, follow-up, and lands in the Mistake Vault", async ({ page }) => {
   await onboard(page);
-  await page.goto("/play?mode=world&world=w6");
+  // an independent Test (no hints) — guided-practice misses are deliberately kept out of the vault
+  await page.goto("/play?mode=test&sel=group%3Ag-diuretics&min=10");
   // answer until we get one wrong
   let wrong = false;
   for (let i = 0; i < 12 && !wrong; i++) {
@@ -57,6 +58,9 @@ test("wrong answer shows full error-based feedback, follow-up, and lands in the 
   await page.goto("/vault");
   await expect(page.getByTestId("vault-item").first()).toBeVisible();
   const openBefore = await page.getByTestId("vault-item").count();
+  // each open mistake offers RELEARN / TRY AGAIN / SIMILAR
+  await expect(page.getByTestId("vault-relearn-btn").first()).toBeVisible();
+  await expect(page.getByTestId("vault-similar").first()).toBeVisible();
   // retry one from the vault
   await page.getByTestId("vault-retry").first().click();
   await expect(page.getByTestId("question")).toBeVisible();
@@ -206,7 +210,7 @@ test("quest map shows 4 worlds + bosses, node page shows reveal-able drug cards"
   await expect(card).toBeVisible();
   await card.getByTestId("chunk").first().click();
   await page.getByTestId("practice-node").click();
-  await expect(page.getByTestId("question")).toBeVisible();
+  await expect(page.locator(ITEM).first()).toBeVisible();
 });
 
 test("dark mode toggle applies and persists", async ({ page }) => {

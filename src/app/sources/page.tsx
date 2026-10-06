@@ -9,15 +9,16 @@ import { RAPID } from "@/data/rapid";
 import { LAB_LOCKS } from "@/data/labs";
 
 const COVERAGE_NOTES: { title: string; body: string }[] = [
-  { title: "Antihypertensive \"common terms\"", body: "The blueprint says to review common terms, but no glossary is in the supplied files. Pharm Quest only uses terms that appear in the Memory Aid (orthostatic hypotension, reflex tachycardia, angioedema, dysgeusia, peripheral edema, neutropenia, rebound hypertension, therapeutic duplication, inotropic/chronotropic/dromotropic). Check your lecture slides for any others." },
-  { title: "Meperidine", body: "The only meperidine-specific fact is a Memory Aid line marked 'standard pharm, not in her notes' (toxic metabolite; avoid in renal impairment and older adults; seizure risk). It's covered lightly and labeled as such." },
-  { title: "Rivaroxaban antidote", body: "The Memory Aid says 'none in her notes', but the coagulation slide (slide 8) lists andexanet alfa as the Xa-inhibitor antidote. The app follows the slide." },
-  { title: "Argatroban antidote", body: "The slides list idarucizumab under 'direct thrombin inhibitors', while the Memory Aid ties it to dabigatran only. To avoid teaching something ambiguous, the app only asks dabigatran → idarucizumab and never asks for an argatroban antidote." },
-  { title: "Digoxin therapeutic range", body: "Memory Aid: 0.5–1.5 ng/mL, noting a quiz printed 0.5–2.0 ('use the range given in the question'). Questions either state the range or use values that are unambiguous under both." },
-  { title: "Potassium values", body: "The files give no numeric K+ normal range, so potassium items describe results as low/high rather than quoting mEq/L cutoffs." },
-  { title: "Acetaminophen level timing", body: "Taught exactly as the Memory Aid states (level drawn < 4 hr; after 4 hr assume toxic and treat). Confirm with your instructor if your lecture said otherwise." },
-  { title: "Dosage calculations", body: "The files provide formulas but no worked problems. Dosage Dojo generates practice problems from those formulas with generic 'medication' wording — the numbers are for math practice only, not dosing guidance. Every answer is verified by automated tests." },
-  { title: "Antiplatelet antidote", body: "No antidote for aspirin/clopidogrel is given in the files, so none is taught." },
+  { title: "Digoxin therapeutic range", body: "Your M6L3 lecture slide says 0.5–0.8 ng/mL and > 2 ng/mL = toxicity. The Memory Aid, Study Guide and Rapid Reference list 0.5–1.5. Pharm Quest teaches the lecture range and never uses a value between 0.8 and 2.0 as the deciding fact. On the exam, use the range given in the question." },
+  { title: "ARBs and potassium", body: "Your M6L1 notes say ARBs do NOT cause hyperkalemia and potassium supplements are not an ARB interaction (\"potassium isn't influenced by ARBs\"). The Memory Aid and Rapid Reference say otherwise — the lecture wins. The M6L3 digoxin slide still lists ACE inhibitors and ARBs as digoxin interactions, so that is taught only in the digoxin lesson." },
+  { title: "Oxygen in acute MI (NAOMI)", body: "The M7L1 notes say oxygen if saturation is below 94% on room air; the slide says below 90%. Pharm Quest teaches oxygen for low saturation but never tests the exact cutoff." },
+  { title: "Colesevelam spacing", body: "The slide says other drugs 1 hour before or 4 hours after; the notes say 1 hour before or 4–6 hours after. Taught as \"1 hour before or 4–6 hours after\"." },
+  { title: "Opioid hold parameters", body: "The lecture notes say hold if respirations are below 12 (naloxone below 10). The extra SBP < 100 and HR < 60 rules come from the Study Guide and are labeled that way." },
+  { title: "Meperidine", body: "The only meperidine-specific facts are a Memory Aid line marked 'standard pharm, not in her notes'. They are covered lightly and labeled as such." },
+  { title: "Rivaroxaban / argatroban antidotes", body: "The M7L2 slide lists andexanet alfa for Xa inhibitors (the app follows it). No argatroban antidote is asked, because the files don't assign one clearly." },
+  { title: "Beta-blockers", body: "Their full lecture is in Module 4 (not in this folder). Details beyond the M7L1 slide come from the Memory Aid and are labeled." },
+  { title: "Potassium values", body: "The files give no numeric potassium normal range, so items describe results as low/high." },
+  { title: "Dosage calculations", body: "The folder gives formulas (Memory Aid CALC) but no worked problems. Dosage Dojo generates practice problems from those formulas — numbers are for math practice only." },
 ];
 
 export default function SourcesPage() {
@@ -27,7 +28,7 @@ export default function SourcesPage() {
       <TopBar back="/settings" title="Sources & coverage" />
       <div className="card p-4 text-sm leading-relaxed">
         <p>
-          All study content comes from three files: the <b>Fall 2026 Exam 2 Blueprint</b> (what is tested and how much), the <b>Exam 2 Memory Aid</b> (Modules 5–8 knowledge base), and the <b>M7L2 Coagulation Modifiers Notes</b> (including the on-slide text). Where general references differ, the course material wins.
+          All study content comes from your course folder: the twelve <b>Module 5–8 lecture files</b> (instructor notes and on-slide text — the primary teaching source), the <b>Exam 2 Blueprint</b> (scope and weighting), the <b>chapter objectives</b>, the syllabus, and the <b>Memory Aid</b>, <b>Study Guide</b> and <b>Rapid Reference</b> as support. Where they disagree, the lecture wins (see below). General pharmacology references are never used.
         </p>
         <p className="mt-2 text-muted">
           {total} hand-written questions · {CONCEPTS.length} concepts · {NODES.length} quest nodes · {ANTIDOTES.length} antidote pairs · {LAB_LOCKS.length} Lab Lock scenarios · {CONTRASTS.length} contrast sets · {RAPID.length} rapid-review cards · unlimited generated calculation problems.

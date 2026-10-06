@@ -1,7 +1,7 @@
 import type { Question } from "@/lib/types";
 
 /* Module 7 · Coagulation modifiers.
-   Sources: docs/source/coag-notes.md, coag-slides.md, memory-aid.md (Module 7). */
+   Sources: M7L2 Coagulation Modifiers (lecture slides + notes, primary); Exam2 Memory Aid; Study Guide (Slide 9 image description). */
 export const coagQuestions: Question[] = [
   // ───────── hep-moa ─────────
   {
@@ -16,7 +16,8 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "Heparin activates antithrombin, which indirectly inactivates both thrombin and factor Xa and inhibits fibrin formation. The other options describe warfarin, alteplase, and clopidogrel.",
-    source: "Coag Notes · Slide 2 (heparin)",
+    clue: "Heparin works through antithrombin.",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (heparin)",
   },
   {
     id: "co-002", topic: "coag", concept: "hep-moa", drugs: ["heparin"], type: "mcq",
@@ -31,7 +32,7 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "Anticoagulants do NOT dissolve existing clots. The goal of heparin is no new clots and no extension of the existing clot. Only a thrombolytic (alteplase) dissolves clots. Anticoagulants are the drugs for low-velocity venous clots such as DVT.",
     clue: "“Dissolve the clot”: only thrombolytics dissolve clots. Anticoagulants prevent them.",
-    source: "Coag Notes · Slide 1 & Slide 4 (evaluation)",
+    source: "M7L2 Coagulation Modifiers · Slide 1 & Slide 4 (evaluation)",
   },
   {
     id: "co-003", topic: "coag", concept: "hep-moa", drugs: ["heparin"], type: "tf",
@@ -39,7 +40,8 @@ export const coagQuestions: Question[] = [
     stem: "Heparin is a high-alert medication, partly because many anticoagulants have a narrow therapeutic index.",
     answer: true,
     why: "Many anticoagulants have a narrow therapeutic index, so doses must be individualized, monitored, and controlled. That is why anticoagulants are considered high-alert medications.",
-    source: "Coag Notes · Slide 1",
+    clue: "Narrow therapeutic index → high-alert.",
+    source: "M7L2 Coagulation Modifiers · Slide 1",
   },
   {
     id: "co-004", topic: "coag", concept: "hep-moa", drugs: ["heparin"], type: "fill",
@@ -47,7 +49,7 @@ export const coagQuestions: Question[] = [
     stem: "Heparin prevents clotting by activating ____, which indirectly inactivates thrombin and factor Xa.",
     accept: ["antithrombin", "antithrombin III", "antithrombin 3"],
     why: "Heparin activates antithrombin, and antithrombin inactivates thrombin and factor Xa, which inhibits fibrin formation.",
-    source: "Coag Slides · Slide 2",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
   },
 
   // ───────── hep-use-ci ─────────
@@ -64,7 +66,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "Heparin is contraindicated during eye or brain surgery. Thrombocytopenia and uncontrolled bleeding are also contraindications. Dialysis, PE, and post-op DVT prophylaxis are all heparin indications.",
     clue: "“Brain surgery”: heparin is contraindicated during eye or brain surgery.",
-    source: "Coag Notes · Slide 2 (heparin)",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (heparin)",
   },
   {
     id: "co-006", topic: "coag", concept: "hep-use-ci", drugs: ["heparin"], type: "sata",
@@ -79,7 +81,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Heparin contraindications are thrombocytopenia, uncontrolled bleeding, and surgery of the eyes or brain. DIC and open heart surgery are indications for heparin.",
-    source: "Coag Slides · Slide 2",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
   },
   {
     id: "co-007", topic: "coag", concept: "hep-use-ci", drugs: ["heparin"], type: "tf",
@@ -87,7 +89,7 @@ export const coagQuestions: Question[] = [
     stem: "Severe hypertension is a contraindication to heparin.",
     answer: false,
     why: "For heparin, severe hypertension is listed under “use with caution”: the drug can be given, but the client is assessed more often. The contraindications are thrombocytopenia, uncontrolled bleeding, and eye or brain surgery.",
-    source: "Coag Slides · Slide 2; Memory Aid · Heparin",
+    source: "M7L2 Coagulation Modifiers · Slide 2; Memory Aid · Heparin",
   },
   {
     id: "co-008", topic: "coag", concept: "hep-use-ci", drugs: ["heparin"], type: "mcq",
@@ -102,7 +104,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "Dissecting aneurysm is a heparin CAUTION, not a contraindication. In the course legend, a caution means give the drug and assess more often.",
     clue: "Dissecting aneurysm is on the “use with caution” list.",
-    source: "Coag Notes · Slide 2; Memory Aid · legend (CAUT)",
+    source: "M7L2 Coagulation Modifiers · Slide 2; Memory Aid · legend (CAUT)",
   },
 
   // ───────── hep-bleeding ─────────
@@ -119,7 +121,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2, 3],
     why: "Signs of bleeding include falling H&H, falling BP, rising HR, easy or excessive bruising, bleeding around the IV catheter, epistaxis, and blood in the stool or urine. Calf heat, redness, pain, and swelling point to a DVT (a clot), not bleeding.",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
   {
     id: "co-010", topic: "coag", concept: "hep-bleeding", drugs: ["warfarin"], type: "mcq",
@@ -133,7 +135,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "Tarry stools are a bleeding sign that must be reported, along with bruising, bleeding gums, nosebleeds, abdominal pain, and coffee-ground emesis. A warm, red, swollen calf suggests a clot (DVT). Steady salad intake and using an electric razor are correct behaviors.",
-    source: "Coag Notes · Slides 4 & 6 (teaching)",
+    source: "M7L2 Coagulation Modifiers · Slides 4 & 6 (teaching)",
   },
   {
     id: "co-011", topic: "coag", concept: "hep-bleeding", drugs: ["enoxaparin"], type: "mcq",
@@ -147,7 +149,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 2,
     why: "Clients on anticoagulants should use a SOFT-bristle toothbrush to prevent bleeding gums, and an electric razor. They should report signs of bleeding and should not massage injection sites.",
-    source: "Coag Notes · Slide 4 (patient teaching)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (patient teaching)",
   },
   {
     id: "co-012", topic: "coag", concept: "hep-bleeding", drugs: ["heparin"], type: "tf",
@@ -155,7 +157,7 @@ export const coagQuestions: Question[] = [
     stem: "A client receiving heparin whose heart rate rises to 118 while BP falls to 92/54 may be bleeding.",
     answer: true,
     why: "Decreasing blood pressure and increasing heart rate are listed signs of bleeding for clients on heparin or enoxaparin.",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
   {
     id: "co-013", topic: "coag", concept: "hep-bleeding", drugs: ["heparin"], type: "mcq",
@@ -170,7 +172,7 @@ export const coagQuestions: Question[] = [
     answer: 0,
     why: "Falling H&H with falling BP and rising HR are signs of bleeding. Hemorrhage is the greatest risk of heparin toxicity. HIT is identified by a drop in platelets (≥50% or below 100,000), not by hemoglobin.",
     clue: "Falling hemoglobin + ↓BP + ↑HR = blood loss.",
-    source: "Coag Notes · Slides 2 & 4",
+    source: "M7L2 Coagulation Modifiers · Slides 2 & 4",
   },
   {
     id: "co-014", topic: "coag", concept: "hep-bleeding", drugs: ["heparin", "enoxaparin"], type: "fill",
@@ -178,7 +180,7 @@ export const coagQuestions: Question[] = [
     stem: "Bleeding from the nares, a sign of bleeding on anticoagulants, is called ____.",
     accept: ["epistaxis", "nosebleed", "nose bleed", "nosebleeds"],
     why: "Epistaxis (bleeding from the nares) is one of the listed signs of bleeding to monitor for in clients on heparin, enoxaparin, or warfarin.",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
 
   // ───────── hep-hit ─────────
@@ -195,7 +197,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "Suspect HIT when platelets drop by 50% or more, or fall below 100,000. A drop from 320,000 to 150,000 is about a 53% drop, so it meets the criteria even though the count is still above 100,000. The other drops are 16–30% and stay above 100,000.",
     clue: "Calculate the percent drop as well as the absolute count. Either criterion is enough.",
-    source: "Memory Aid · Heparin (HOLD); Coag Notes · Slide 4",
+    source: "Memory Aid · Heparin (HOLD); M7L2 Coagulation Modifiers · Slide 4",
   },
   {
     id: "co-016", topic: "coag", concept: "hep-hit", drugs: ["heparin"], type: "mcq",
@@ -210,7 +212,7 @@ export const coagQuestions: Question[] = [
     answer: 3,
     why: "Platelets below 100,000 (here also a drop of more than 50%) mean HIT is suspected: hold the heparin and notify the provider. Protamine is the antidote for heparin toxicity or overdose. HIT can also occur with enoxaparin, which is held under the same criteria.",
     clue: "Platelets < 100,000 on heparin = suspect HIT → hold.",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
   {
     id: "co-017", topic: "coag", concept: "hep-hit", drugs: ["heparin", "enoxaparin"], type: "fill",
@@ -219,7 +221,7 @@ export const coagQuestions: Question[] = [
     accept: ["100,000", "100000", "100 000"],
     numeric: { value: 100000 },
     why: "Also hold for a platelet drop of 50% or more. Either finding suggests heparin-induced thrombocytopenia (HIT).",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
   {
     id: "co-018", topic: "coag", concept: "hep-hit", drugs: ["enoxaparin"], type: "tf",
@@ -227,7 +229,7 @@ export const coagQuestions: Question[] = [
     stem: "Heparin-induced thrombocytopenia cannot occur with enoxaparin because it is a low-molecular-weight heparin.",
     answer: false,
     why: "HIT is much less likely with a LMWH, but it can still happen. Platelets are monitored for HIT with both heparin and enoxaparin.",
-    source: "Coag Notes · Slide 3 (LMWH side effects)",
+    source: "M7L2 Coagulation Modifiers · Slide 3 (LMWH side effects)",
   },
   {
     id: "co-019", topic: "coag", concept: "hep-hit", drugs: ["heparin"], type: "mcq",
@@ -241,7 +243,8 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "HIT is a rare but major complication: an immune-mediated decrease in platelets that occurs together with thrombosis.",
-    source: "Coag Notes · Slide 2 (side effects)",
+    clue: "HIT = an immune drop in platelets WITH clotting.",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (side effects)",
   },
   {
     id: "co-020", topic: "coag", concept: "hep-hit", drugs: ["enoxaparin"], type: "sata",
@@ -257,7 +260,7 @@ export const coagQuestions: Question[] = [
     answers: [0, 1],
     why: "A drop of 50% or more (260,000 → 120,000 is about 54%) suggests HIT even though the count is above 100,000: hold the dose and notify the provider. Vitamin K reverses warfarin, and injection sites are never massaged.",
     clue: "More than half of the platelets are gone.",
-    source: "Memory Aid · Heparin (HOLD); Coag Notes · Slide 4",
+    source: "Memory Aid · Heparin (HOLD); M7L2 Coagulation Modifiers · Slide 4",
   },
 
   // ───────── hep-lab ─────────
@@ -274,7 +277,7 @@ export const coagQuestions: Question[] = [
     answer: 3,
     why: "The goal aPTT is 1.5–2.5 × normal, about 60–80 seconds. A value above the goal is supratherapeutic and puts the client at greater risk for bleeding.",
     clue: "110 sec is well above the 60–80 sec goal.",
-    source: "Coag Notes · Slide 2 (therapeutic response)",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (therapeutic response)",
   },
   {
     id: "co-022", topic: "coag", concept: "hep-lab", drugs: ["heparin"], type: "mcq",
@@ -289,7 +292,7 @@ export const coagQuestions: Question[] = [
     answer: 3,
     why: "An aPTT below the 60–80 second goal is subtherapeutic, which means the client is STILL at risk for clots.",
     clue: "42 sec is below 60.",
-    source: "Coag Notes · Slide 2 (therapeutic response)",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (therapeutic response)",
   },
   {
     id: "co-023", topic: "coag", concept: "hep-lab", drugs: ["heparin"], type: "fill",
@@ -299,7 +302,7 @@ export const coagQuestions: Question[] = [
     numeric: { value: 80 },
     unit: "seconds",
     why: "Heparin aPTT goal: 1.5–2.5 × normal ≈ 60–80 seconds. Below this range = clot risk; above it = bleeding risk.",
-    source: "Coag Slides · Slide 2",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
   },
   {
     id: "co-024", topic: "coag", concept: "hep-lab", drugs: ["heparin"], type: "tf",
@@ -307,7 +310,8 @@ export const coagQuestions: Question[] = [
     stem: "The PT/INR is the lab used to evaluate the therapeutic response to heparin.",
     answer: false,
     why: "Heparin is monitored with the aPTT (goal 60–80 sec). PT/INR is used to monitor warfarin.",
-    source: "Coag Notes · Slides 2 & 5",
+    clue: "Match the lab to the drug: heparin = aPTT; warfarin = PT/INR.",
+    source: "M7L2 Coagulation Modifiers · Slides 2 & 5",
   },
   {
     id: "co-025", topic: "coag", concept: "hep-lab", drugs: ["heparin"], type: "sata",
@@ -316,7 +320,7 @@ export const coagQuestions: Question[] = [
     options: ["aPTT", "Platelet count", "Hemoglobin and hematocrit", "Creatine kinase (CK)"],
     answers: [0, 1, 2],
     why: "For heparin: aPTT shows the therapeutic response, platelets screen for HIT, and H&H screens for bleeding. CK is checked for statin-related muscle injury.",
-    source: "Coag Notes · Slide 4 (assessment)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (assessment)",
   },
   {
     id: "co-026", topic: "coag", concept: "hep-lab", drugs: ["heparin"], type: "mcq",
@@ -325,7 +329,7 @@ export const coagQuestions: Question[] = [
     options: ["38 seconds", "52 seconds", "72 seconds", "104 seconds"],
     answer: 2,
     why: "The goal is about 60–80 seconds (1.5–2.5 × normal). 38 and 52 are subtherapeutic (still a clot risk), and 104 is supratherapeutic (bleeding risk).",
-    source: "Coag Notes · Slide 2; Coag Notes · Slide 4 (evaluation)",
+    source: "M7L2 Coagulation Modifiers · Slide 2; M7L2 Coagulation Modifiers · Slide 4 (evaluation)",
   },
   {
     id: "co-027", topic: "coag", concept: "hep-lab", drugs: ["heparin"], type: "match",
@@ -337,7 +341,7 @@ export const coagQuestions: Question[] = [
       ["105 seconds", "Supratherapeutic: increased bleeding risk"],
     ],
     why: "Goal aPTT ≈ 60–80 sec. Below the goal = client is still at risk for clots; above the goal = client is at greater risk for bleeding.",
-    source: "Coag Notes · Slide 2 (therapeutic response)",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (therapeutic response)",
   },
 
   // ───────── hep-antidote ─────────
@@ -349,7 +353,8 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "Protamine sulfate reverses heparin (and enoxaparin). Vitamin K reverses warfarin, idarucizumab reverses dabigatran, and aminocaproic acid reverses alteplase.",
     hook: "PRO-tamine PROtects from HEParin: protamine reverses heparin and enoxaparin.",
-    source: "Coag Notes · Slide 2",
+    clue: "PRO-tamine PROtects from heparin.",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
   },
   {
     id: "co-029", topic: "coag", concept: "hep-antidote", drugs: ["heparin", "protamine"], type: "mcq",
@@ -364,7 +369,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "Protamine must be given slowly, no faster than 50 mg per 10 minutes, because it can cause hypotension. “50 mg/min” is the IV phenytoin limit and “20 mg/min” is the IV furosemide limit.",
     clue: "Protamine: ≤ 50 mg per 10 MINUTES (not per minute).",
-    source: "Coag Notes · Slide 2 (toxicity and management of overdose)",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (toxicity and management of overdose)",
   },
   {
     id: "co-030", topic: "coag", concept: "hep-antidote", drugs: ["protamine"], type: "mcq",
@@ -378,7 +383,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 3,
     why: "Protamine can cause hypotension, so it is given no faster than 50 mg per 10 minutes.",
-    source: "Coag Notes · Slide 2; Memory Aid · Heparin (ANTIDOTE)",
+    source: "M7L2 Coagulation Modifiers · Slide 2; Memory Aid · Heparin (ANTIDOTE)",
   },
   {
     id: "co-031", topic: "coag", concept: "hep-antidote", drugs: ["enoxaparin", "protamine"], type: "tf",
@@ -386,7 +391,7 @@ export const coagQuestions: Question[] = [
     stem: "A client who received too much enoxaparin would be expected to receive protamine sulfate.",
     answer: true,
     why: "The same antidote, protamine sulfate, works for both heparin and low-molecular-weight heparin (enoxaparin).",
-    source: "Coag Notes · Slide 3; Memory Aid · One-member exceptions",
+    source: "M7L2 Coagulation Modifiers · Slide 3; Memory Aid · One-member exceptions",
   },
   {
     id: "co-032", topic: "coag", concept: "hep-antidote", drugs: ["heparin", "protamine"], type: "fill",
@@ -395,7 +400,7 @@ export const coagQuestions: Question[] = [
     accept: ["protamine sulfate", "protamine"],
     why: "Protamine sulfate reverses heparin and enoxaparin. Give it slowly (≤ 50 mg/10 min) because it can cause hypotension.",
     hook: "PRO-tamine PROtects from HEParin.",
-    source: "Coag Slides · Slide 2",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
   },
   {
     id: "co-033", topic: "coag", concept: "hep-antidote", drugs: ["heparin", "protamine", "vitamin-k"], type: "tf",
@@ -403,7 +408,7 @@ export const coagQuestions: Question[] = [
     stem: "A client on heparin who has an aPTT of 125 seconds and bleeding gums should be expected to receive vitamin K.",
     answer: false,
     why: "The heparin antidote is protamine sulfate. Vitamin K (phytonadione) reverses warfarin only.",
-    source: "Coag Notes · Slide 2; Memory Aid · One-member exceptions",
+    source: "M7L2 Coagulation Modifiers · Slide 2; Memory Aid · One-member exceptions",
   },
 
   // ───────── hep-admin ─────────
@@ -419,7 +424,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 2,
     why: "Give SubQ heparin in the abdomen, avoiding the 2 inches around the umbilicus. Do NOT aspirate, and rotate and record sites. Injection sites are not massaged.",
-    source: "Coag Notes · Slide 4 (implementation & teaching)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation & teaching)",
   },
   {
     id: "co-035", topic: "coag", concept: "hep-admin", drugs: ["heparin"], type: "sata",
@@ -434,7 +439,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Rotate and record sites, take bleeding precautions (soft toothbrush, electric razor), and assess the calves for signs of a DVT. Do not aspirate and do not massage the sites.",
-    source: "Coag Notes · Slide 4",
+    source: "M7L2 Coagulation Modifiers · Slide 4",
   },
   {
     id: "co-036", topic: "coag", concept: "hep-admin", drugs: ["heparin"], type: "tf",
@@ -442,7 +447,8 @@ export const coagQuestions: Question[] = [
     stem: "When giving heparin subcutaneously, the nurse should aspirate before injecting.",
     answer: false,
     why: "Do NOT aspirate SubQ heparin. Inject into the abdomen at least 2 inches from the umbilicus, and rotate and record sites.",
-    source: "Coag Notes · Slide 4; Memory Aid · Heparin (DO/TEACH)",
+    clue: "Heparin SubQ: no aspirating.",
+    source: "M7L2 Coagulation Modifiers · Slide 4; Memory Aid · Heparin (DO/TEACH)",
   },
   {
     id: "co-037", topic: "coag", concept: "hep-admin", drugs: ["heparin", "protamine"], type: "mcq",
@@ -456,7 +462,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "After a heparin or enoxaparin overdose: avoid invasive procedures and give the antidote, protamine sulfate, as prescribed. Vitamin K is for warfarin.",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
 
   // ───────── hep-intx ─────────
@@ -468,7 +474,7 @@ export const coagQuestions: Question[] = [
     answers: [0, 1, 2],
     why: "Bleeding risk rises with aspirin, NSAIDs, antiplatelets, other anticoagulants, and the “4 G” herbals (garlic, ginger, glucosamine, ginkgo). CoQ10 is structurally similar to vitamin K and can DECREASE coagulation effects (noted with warfarin).",
     hook: "4 G = Garlic, Ginger, Glucosamine, Ginkgo: all increase bleeding.",
-    source: "Coag Notes · Slides 2 & 5",
+    source: "M7L2 Coagulation Modifiers · Slides 2 & 5",
   },
   {
     id: "co-039", topic: "coag", concept: "hep-intx", drugs: ["heparin"], type: "mcq",
@@ -478,7 +484,8 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "The 4 G herbals are garlic, ginger, glucosamine, and ginkgo biloba. CoQ10 decreases coagulation effects with warfarin. Valerian and kava kava are CNS-depressant interactions (benzodiazepines).",
     hook: "4 G = Garlic, Ginger, Glucosamine, Ginkgo.",
-    source: "Coag Notes · Slides 2 & 4",
+    clue: "All four herbals start with G.",
+    source: "M7L2 Coagulation Modifiers · Slides 2 & 4",
   },
   {
     id: "co-040", topic: "coag", concept: "hep-intx", drugs: ["heparin", "aspirin"], type: "tf",
@@ -486,7 +493,8 @@ export const coagQuestions: Question[] = [
     stem: "Taking aspirin or other NSAIDs with heparin increases the risk of bleeding.",
     answer: true,
     why: "Heparin interacts with any drug that can cause bleeding: aspirin, NSAIDs, antiplatelets, thrombolytics, and other anticoagulants.",
-    source: "Coag Slides · Slide 2",
+    clue: "Anything that bleeds adds to heparin's bleeding risk.",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
   },
   {
     id: "co-041", topic: "coag", concept: "hep-intx", drugs: ["heparin"], type: "mcq",
@@ -501,7 +509,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "NSAIDs such as ibuprofen increase bleeding risk when taken with heparin.",
     clue: "Ibuprofen is an NSAID, and NSAIDs + anticoagulant = more bleeding.",
-    source: "Coag Notes · Slide 2 (interactions)",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (interactions)",
   },
 
   // ───────── lmwh-moa ─────────
@@ -517,7 +525,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 2,
     why: "LMWHs inactivate factor Xa ONLY, so they affect fewer factors. They do not need routine monitoring and are safe for home use. Heparin inactivates thrombin AND Xa and is monitored with aPTT. Neither drug dissolves clots.",
-    source: "Coag Notes · Slide 3; Memory Aid · One-member exceptions",
+    source: "M7L2 Coagulation Modifiers · Slide 3; Memory Aid · One-member exceptions",
   },
   {
     id: "co-043", topic: "coag", concept: "lmwh-moa", drugs: ["enoxaparin"], type: "mcq",
@@ -531,7 +539,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 3,
     why: "Enoxaparin inactivates only factor Xa, which affects fewer factors than heparin. It doesn't have to be monitored and is safe for home use. Bleeding is still its #1 side effect, and protamine is its antidote.",
-    source: "Coag Notes · Slide 3 (mechanism of action)",
+    source: "M7L2 Coagulation Modifiers · Slide 3 (mechanism of action)",
   },
   {
     id: "co-044", topic: "coag", concept: "lmwh-moa", drugs: ["enoxaparin"], type: "sata",
@@ -546,7 +554,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "LMWH indications are post-op DVT prophylaxis, treating DVT/PE, and preventing complications of angina and MI. Restoring central line patency is an alteplase use. Clients with HIT need argatroban, because HIT can still occur with LMWH.",
-    source: "Coag Slides · Slide 3",
+    source: "M7L2 Coagulation Modifiers · Slide 3",
   },
   {
     id: "co-045", topic: "coag", concept: "lmwh-moa", drugs: ["enoxaparin"], type: "tf",
@@ -554,6 +562,7 @@ export const coagQuestions: Question[] = [
     stem: "Like heparin, enoxaparin inactivates both thrombin and factor Xa.",
     answer: false,
     why: "Heparin inactivates thrombin AND factor Xa. Enoxaparin (a LMWH) inactivates factor Xa ONLY.",
+    clue: "LMWH = factor Xa ONLY.",
     source: "Memory Aid · One-member exceptions (anticoagulants)",
   },
 
@@ -565,7 +574,8 @@ export const coagQuestions: Question[] = [
     options: ["aPTT", "Creatinine clearance", "PT/INR", "Fibrinogen"],
     answer: 1,
     why: "LMWHs are eliminated by the kidneys. Creatinine clearance shows renal function and whether the dose needs adjustment. No lab measures enoxaparin's anticoagulant effect.",
-    source: "Coag Notes · Slide 4 (assessment)",
+    clue: "The kidneys clear enoxaparin.",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (assessment)",
   },
   {
     id: "co-047", topic: "coag", concept: "lmwh-lab", drugs: ["enoxaparin"], type: "tf",
@@ -573,7 +583,8 @@ export const coagQuestions: Question[] = [
     stem: "The therapeutic effect of enoxaparin is measured with the aPTT.",
     answer: false,
     why: "No lab measures enoxaparin's effect. Effectiveness = no new venous clots and no extension of existing ones. Monitor CrCl, platelets, and H&H. The aPTT is the lab for heparin.",
-    source: "Coag Notes · Slide 3 (therapeutic response)",
+    clue: "No lab measures enoxaparin's effect.",
+    source: "M7L2 Coagulation Modifiers · Slide 3 (therapeutic response)",
   },
   {
     id: "co-048", topic: "coag", concept: "lmwh-lab", drugs: ["enoxaparin"], type: "sata",
@@ -588,7 +599,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "For LMWH: H&H for bleeding, platelets for HIT, and creatinine clearance for renal function (dose adjustment). No lab measures the drug's therapeutic effect.",
-    source: "Coag Notes · Slide 4 (assessment)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (assessment)",
   },
   {
     id: "co-049", topic: "coag", concept: "lmwh-lab", drugs: ["enoxaparin"], type: "mcq",
@@ -602,7 +613,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 2,
     why: "No lab measures how well enoxaparin works. Effectiveness is judged by no development or extension of venous thrombi or emboli. (CrCl, platelets, and H&H are still monitored for safety.)",
-    source: "Coag Notes · Slide 3; Memory Aid · Enoxaparin (LAB)",
+    source: "M7L2 Coagulation Modifiers · Slide 3; Memory Aid · Enoxaparin (LAB)",
   },
   {
     id: "co-050", topic: "coag", concept: "lmwh-lab", drugs: ["enoxaparin"], type: "mcq",
@@ -617,7 +628,7 @@ export const coagQuestions: Question[] = [
     answer: 0,
     why: "The kidneys eliminate LMWHs, so kidney dysfunction requires a dose adjustment. Creatinine clearance guides it. The aPTT does not measure enoxaparin's effect, and protamine is only for toxicity.",
     clue: "Kidney disease + renally eliminated drug → dose adjustment.",
-    source: "Coag Notes · Slides 3 & 4",
+    source: "M7L2 Coagulation Modifiers · Slides 3 & 4",
   },
   {
     id: "co-051", topic: "coag", concept: "lmwh-lab", drugs: ["heparin", "warfarin", "enoxaparin", "alteplase"], type: "match",
@@ -630,7 +641,7 @@ export const coagQuestions: Question[] = [
       ["Alteplase", "Baseline fibrinogen, with CBC, aPTT, and PT/INR"],
     ],
     why: "Heparin is monitored with aPTT. Warfarin is monitored with PT/INR. For enoxaparin, no lab measures its effect, so CrCl, platelets, and H&H are monitored. Before alteplase, baseline CBC, aPTT, PT, INR, and fibrinogen are drawn.",
-    source: "Coag Notes · Slides 2–5 & 13",
+    source: "M7L2 Coagulation Modifiers · Slides 2–5 & 13",
   },
 
   // ───────── lmwh-admin ─────────
@@ -646,7 +657,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "Do NOT expel the air bubble in the prefilled syringe unless the dose has been adjusted. Inject at least 2 inches from the umbilicus, and do not massage the site for 1–2 minutes after the injection.",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
   {
     id: "co-053", topic: "coag", concept: "lmwh-admin", drugs: ["enoxaparin"], type: "mcq",
@@ -660,7 +671,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 3,
     why: "Injection sites are NOT massaged (no massage for 1–2 minutes after enoxaparin). The other statements are correct technique.",
-    source: "Coag Notes · Slide 4 (implementation & teaching)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation & teaching)",
   },
   {
     id: "co-054", topic: "coag", concept: "lmwh-admin", drugs: ["enoxaparin"], type: "tf",
@@ -668,6 +679,7 @@ export const coagQuestions: Question[] = [
     stem: "Before injecting enoxaparin from a prefilled syringe, the nurse should expel the air bubble even when the dose has not been adjusted.",
     answer: false,
     why: "Do not expel the air bubble in an enoxaparin prefilled syringe unless the dose has been adjusted.",
+    clue: "Keep the bubble unless the dose was changed.",
     source: "Memory Aid · Enoxaparin (DO/TEACH)",
   },
   {
@@ -678,7 +690,7 @@ export const coagQuestions: Question[] = [
     numeric: { value: 2 },
     unit: "inches",
     why: "Enoxaparin: posterolateral/anterolateral abdominal wall, at least 2 inches from the umbilicus. Rotate and record sites, and do not massage afterward.",
-    source: "Coag Notes · Slide 4 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
   },
 
   // ───────── war-moa ─────────
@@ -694,7 +706,8 @@ export const coagQuestions: Question[] = [
     ],
     answer: 3,
     why: "Warfarin antagonizes vitamin K, which prevents synthesis of four clotting factors: VII, IX, X, and prothrombin. The other options describe heparin, the direct thrombin inhibitors, and aspirin.",
-    source: "Coag Slides · Slide 5",
+    clue: "Warfarin works against a vitamin.",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-057", topic: "coag", concept: "war-moa", drugs: ["warfarin"], type: "sata",
@@ -703,7 +716,7 @@ export const coagQuestions: Question[] = [
     options: ["Factor VII", "Factor VIII", "Factor IX", "Factor X", "Prothrombin", "Fibrinogen"],
     answers: [0, 2, 3, 4],
     why: "Warfarin blocks synthesis of four vitamin K–dependent factors: VII, IX, X, and prothrombin.",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-058", topic: "coag", concept: "war-moa", drugs: ["warfarin"], type: "mcq",
@@ -717,7 +730,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "Warfarin antagonizes vitamin K. Foods high in vitamin K (dark green leafy vegetables, cabbage, broccoli, and others) can decrease its anticoagulant effect, so intake should stay consistent.",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-059", topic: "coag", concept: "war-moa", drugs: ["warfarin"], type: "tf",
@@ -725,7 +738,8 @@ export const coagQuestions: Question[] = [
     stem: "Because warfarin antagonizes vitamin K, eating more vitamin K–rich foods can decrease its anticoagulant effect.",
     answer: true,
     why: "Vitamin K and foods high in vitamin K decrease warfarin's anticoagulant effect.",
-    source: "Coag Notes · Slide 5 (interactions)",
+    clue: "Vitamin K is what warfarin opposes.",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (interactions)",
   },
 
   // ───────── war-ci ─────────
@@ -742,7 +756,7 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "Pregnancy is a contraindication to warfarin, along with allergy and acute or chronic bleeding conditions. A-fib, prosthetic heart valves, and recurrent TIAs are indications.",
     clue: "“Pregnant” is on warfarin's contraindication list.",
-    source: "Coag Slides · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-061", topic: "coag", concept: "war-ci", drugs: ["warfarin"], type: "sata",
@@ -757,7 +771,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Warfarin contraindications are allergy, acute bleeding conditions, chronic bleeding conditions, and pregnancy. A-fib and prosthetic heart valves are indications.",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-062", topic: "coag", concept: "war-ci", drugs: ["warfarin"], type: "tf",
@@ -765,7 +779,8 @@ export const coagQuestions: Question[] = [
     stem: "Besides hemorrhage, hepatitis is a side effect of warfarin.",
     answer: true,
     why: "Warfarin side effects are hemorrhage, toxicity, and hepatitis.",
-    source: "Coag Slides · Slide 5",
+    clue: "Warfarin S/E: hemorrhage, toxicity, and a liver problem.",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
 
   // ───────── war-lab ─────────
@@ -782,7 +797,7 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "The INR target for a mechanical heart valve (or recurrent systemic embolism) is 3–4.5, so 3.8 is therapeutic. Hold only if PT or INR is ABOVE the therapeutic range for that indication.",
     clue: "Mechanical valve → INR 3–4.5.",
-    source: "Coag Notes · Slides 5 & 6",
+    source: "M7L2 Coagulation Modifiers · Slides 5 & 6",
   },
   {
     id: "co-064", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "mcq",
@@ -796,7 +811,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 3,
     why: "Hold warfarin if PT or INR exceeds the therapeutic range, and monitor for signs of bleeding. Protamine reverses heparin, not warfarin.",
-    source: "Coag Notes · Slide 6 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 6 (implementation)",
   },
   {
     id: "co-065", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "mcq",
@@ -810,7 +825,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 2,
     why: "INR targets: 2–3 for most indications (a-fib, preventing venous thrombosis), 2.5–3.5 for PE treatment, and 3–4.5 for a mechanical heart valve or recurrent systemic embolism. Only the valve range includes 4.0.",
-    source: "Coag Notes · Slide 5 (therapeutic response)",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (therapeutic response)",
   },
   {
     id: "co-066", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "fill",
@@ -820,7 +835,7 @@ export const coagQuestions: Question[] = [
     numeric: { value: 24 },
     unit: "seconds",
     why: "Warfarin PT goal: 1.5–2 × control = 18–24 seconds.",
-    source: "Coag Slides · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-067", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "fill",
@@ -829,7 +844,7 @@ export const coagQuestions: Question[] = [
     accept: ["4.5"],
     numeric: { value: 4.5 },
     why: "INR 3–4.5 for a mechanical heart valve or recurrent systemic embolism; 2.5–3.5 for PE treatment; 2–3 for most indications.",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-068", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "tf",
@@ -837,7 +852,7 @@ export const coagQuestions: Question[] = [
     stem: "The target INR for treatment of a pulmonary embolism is 3 to 4.5.",
     answer: false,
     why: "PE treatment target is INR 2.5–3.5. The 3–4.5 range is for a mechanical heart valve or recurrent systemic embolism.",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-069", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "sata",
@@ -852,7 +867,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 3],
     why: "Hold when the INR is ABOVE the range for the indication. Most indications (a-fib, venous thrombosis prevention) = 2–3, so 3.6 and 3.3 are too high. Valve 3–4.5 (3.6 OK). PE treatment 2.5–3.5 (3.0 OK). A-fib 2.4 is in range.",
-    source: "Coag Notes · Slides 5 & 6",
+    source: "M7L2 Coagulation Modifiers · Slides 5 & 6",
   },
   {
     id: "co-070", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "mcq",
@@ -866,7 +881,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 2,
     why: "PT 21 seconds is within 18–24 and INR 2.5 is within 2–3, so both are therapeutic. Give the dose as prescribed.",
-    source: "Coag Notes · Slides 5 & 6",
+    source: "M7L2 Coagulation Modifiers · Slides 5 & 6",
   },
   {
     id: "co-071", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "match",
@@ -878,7 +893,7 @@ export const coagQuestions: Question[] = [
       ["Mechanical heart valve or recurrent systemic embolism", "INR 3–4.5"],
     ],
     why: "INR targets vary by indication: 2–3 for most, 2.5–3.5 for PE treatment, 3–4.5 for mechanical valve or recurrent systemic embolism.",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
 
   // ───────── war-antidote ─────────
@@ -889,7 +904,8 @@ export const coagQuestions: Question[] = [
     options: ["Protamine sulfate", "Andexanet alfa", "Vitamin K (phytonadione)", "Aminocaproic acid"],
     answer: 2,
     why: "Warfarin is reversed by vitamin K (phytonadione). Protamine reverses heparin and enoxaparin, andexanet alfa reverses Xa inhibitors, and aminocaproic acid reverses alteplase.",
-    source: "Coag Slides · Slide 5",
+    clue: "Warfarin works against vitamin K — the antidote is that vitamin.",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
   },
   {
     id: "co-073", topic: "coag", concept: "war-antidote", drugs: ["warfarin", "vitamin-k"], type: "fill",
@@ -897,7 +913,7 @@ export const coagQuestions: Question[] = [
     stem: "Warfarin toxicity is reversed with vitamin K, also called ____.",
     accept: ["phytonadione"],
     why: "If the INR becomes too high, the antidote is vitamin K (phytonadione).",
-    source: "Coag Notes · Slide 6 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 6 (implementation)",
   },
   {
     id: "co-074", topic: "coag", concept: "war-antidote", drugs: ["warfarin", "vitamin-k", "protamine"], type: "tf",
@@ -905,7 +921,7 @@ export const coagQuestions: Question[] = [
     stem: "A client on warfarin with an INR of 6.0 and bleeding gums should be expected to receive protamine sulfate.",
     answer: false,
     why: "The warfarin antidote is vitamin K (phytonadione). Protamine reverses heparin and enoxaparin.",
-    source: "Coag Notes · Slide 6; Memory Aid · One-member exceptions",
+    source: "M7L2 Coagulation Modifiers · Slide 6; Memory Aid · One-member exceptions",
   },
   {
     id: "co-075", topic: "coag", concept: "war-antidote", drugs: ["warfarin", "vitamin-k"], type: "mcq",
@@ -919,7 +935,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "Warfarin is the only one reversed by vitamin K. Protamine works for heparin AND enoxaparin. Idarucizumab is only for dabigatran, and Xa inhibitors are reversed by andexanet alfa.",
-    source: "Memory Aid · One-member exceptions (anticoagulants); Coag Slides · Slide 8",
+    source: "Memory Aid · One-member exceptions (anticoagulants); M7L2 Coagulation Modifiers · Slide 8",
   },
   {
     id: "co-076", topic: "coag", concept: "war-antidote", drugs: ["warfarin", "vitamin-k"], type: "mcq",
@@ -928,7 +944,7 @@ export const coagQuestions: Question[] = [
     options: ["Idarucizumab", "Protamine sulfate", "The next scheduled warfarin dose", "Vitamin K (phytonadione)"],
     answer: 3,
     why: "The INR is far above the 2–3 target and the client has signs of bleeding. Hold the warfarin and expect the antidote, vitamin K (phytonadione).",
-    source: "Coag Notes · Slide 6 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 6 (implementation)",
   },
 
   // ───────── war-intx ─────────
@@ -939,7 +955,7 @@ export const coagQuestions: Question[] = [
     options: ["NSAIDs", "Acetaminophen", "Sulfonamides", "Phenytoin", "Oral contraceptives", "Carbamazepine"],
     answers: [0, 1, 2],
     why: "These increase warfarin's effect: other anticoagulants, NSAIDs, acetaminophen, glucocorticoids, sulfonamides, and IV cephalosporins. These decrease it: phenobarbital, carbamazepine, phenytoin, oral contraceptives, and vitamin K.",
-    source: "Coag Notes · Slide 5 (interactions)",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (interactions)",
   },
   {
     id: "co-078", topic: "coag", concept: "war-intx", drugs: ["warfarin", "phenytoin"], type: "mcq",
@@ -953,7 +969,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "Phenytoin (like phenobarbital, carbamazepine, oral contraceptives, and vitamin K) DECREASES warfarin's anticoagulant effect.",
-    source: "Coag Notes · Slide 5; Memory Aid · Phenytoin (INTX)",
+    source: "M7L2 Coagulation Modifiers · Slide 5; Memory Aid · Phenytoin (INTX)",
   },
   {
     id: "co-079", topic: "coag", concept: "war-intx", drugs: ["warfarin"], type: "tf",
@@ -961,7 +977,7 @@ export const coagQuestions: Question[] = [
     stem: "Phenytoin, carbamazepine, and oral contraceptives decrease the anticoagulant effect of warfarin.",
     answer: true,
     why: "Phenobarbital, carbamazepine, phenytoin, oral contraceptives, and vitamin K all DECREASE warfarin's effect. NSAIDs, acetaminophen, glucocorticoids, sulfonamides, and IV cephalosporins increase it.",
-    source: "Coag Notes · Slide 5 (interactions)",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (interactions)",
   },
   {
     id: "co-080", topic: "coag", concept: "war-intx", drugs: ["warfarin"], type: "mcq",
@@ -975,7 +991,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "IV cephalosporins increase warfarin's effect and the risk of bleeding.",
-    source: "Coag Notes · Slide 5 (interactions)",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (interactions)",
   },
   {
     id: "co-081", topic: "coag", concept: "war-intx", drugs: ["warfarin"], type: "mcq",
@@ -989,7 +1005,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "CoQ10 has a structure similar to vitamin K, so it can decrease warfarin's anticoagulant effect.",
-    source: "Coag Notes · Slide 5 (interactions)",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (interactions)",
   },
 
   // ───────── war-teach ─────────
@@ -1006,7 +1022,7 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "The teaching is CONSISTENT vitamin K intake, not elimination. Cutting out vitamin K foods changes the warfarin effect. Tell the provider about any diet change so the dose can be adjusted.",
     hook: "Keep vitamin K Konsistent.",
-    source: "Coag Notes · Slide 6 (patient teaching)",
+    source: "M7L2 Coagulation Modifiers · Slide 6 (patient teaching)",
   },
   {
     id: "co-083", topic: "coag", concept: "war-teach", drugs: ["warfarin"], type: "mcq",
@@ -1020,7 +1036,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "If the client stops eating salad, the provider needs to know so the warfarin dose can be adjusted. The goal is consistent vitamin K intake.",
-    source: "Coag Notes · Slide 6 (patient teaching)",
+    source: "M7L2 Coagulation Modifiers · Slide 6 (patient teaching)",
   },
   {
     id: "co-084", topic: "coag", concept: "war-teach", drugs: ["warfarin"], type: "sata",
@@ -1035,7 +1051,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Warfarin teaching: consistent vitamin K intake (not elimination), soft toothbrush and electric razor, take as prescribed, and follow up for regular PT/INR monitoring. Ginkgo increases bleeding risk.",
-    source: "Coag Notes · Slides 5 & 6",
+    source: "M7L2 Coagulation Modifiers · Slides 5 & 6",
   },
   {
     id: "co-085", topic: "coag", concept: "war-teach", drugs: ["warfarin"], type: "tf",
@@ -1043,6 +1059,7 @@ export const coagQuestions: Question[] = [
     stem: "Clients taking warfarin should completely eliminate foods high in vitamin K from their diet.",
     answer: false,
     why: "Teach CONSISTENT vitamin K intake, not elimination. The client should tell the provider if their diet changes.",
+    clue: "Consistent — not zero.",
     source: "Memory Aid · Warfarin (DO/TEACH)",
   },
   {
@@ -1051,7 +1068,7 @@ export const coagQuestions: Question[] = [
     stem: "The key dietary teaching for warfarin is to keep vitamin K intake ____.",
     accept: ["consistent", "the same", "constant", "steady"],
     why: "Consistent intake, e.g., “if you eat salad 3 times a week, eat salad 3 times a week every week.”",
-    source: "Coag Notes · Slide 6 (patient teaching)",
+    source: "M7L2 Coagulation Modifiers · Slide 6 (patient teaching)",
   },
   {
     id: "co-087", topic: "coag", concept: "war-teach", drugs: ["warfarin"], type: "sata",
@@ -1060,7 +1077,7 @@ export const coagQuestions: Question[] = [
     options: ["Broccoli", "Brussels sprouts", "Mayonnaise", "Bananas", "Orange juice"],
     answers: [0, 1, 2],
     why: "The vitamin K foods on the course list are dark green leafy vegetables, cabbage, broccoli, Brussels sprouts, mayonnaise, and canola and soybean oil. Bananas and orange juice come from the high-POTASSIUM (K+) list for diuretics. Don't confuse vitamin K with K+.",
-    source: "Coag Notes · Slide 5 (interactions)",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (interactions)",
   },
 
   // ───────── dti ─────────
@@ -1073,16 +1090,17 @@ export const coagQuestions: Question[] = [
     why: "Argatroban is the drug used when heparin cannot be given because of HIT. HIT can also occur with enoxaparin. Protamine is a heparin antidote, and alteplase is a thrombolytic.",
     clue: "HIT → the client cannot take heparin → argatroban.",
     hook: "ARGatroban = the one used when heparin can't be (HIT).",
-    source: "Coag Notes · Slide 7; Memory Aid · One-member exceptions",
+    source: "M7L2 Coagulation Modifiers · Slide 7; Memory Aid · One-member exceptions",
   },
   {
     id: "co-089", topic: "coag", concept: "dti", drugs: ["dabigatran"], type: "mcq",
-    difficulty: 2, cognitive: "understand", format: "contrast",
+    difficulty: 1, cognitive: "understand", format: "contrast",
     stem: "Which direct thrombin inhibitor is used to prevent stroke and embolism in clients with atrial fibrillation?",
     options: ["Argatroban", "Rivaroxaban", "Dabigatran", "Clopidogrel"],
     answer: 2,
     why: "Dabigatran (a direct thrombin inhibitor) prevents stroke/embolism in a-fib and treats and prevents DVT/PE. Argatroban is the DTI used for HIT. Rivaroxaban is a factor Xa inhibitor, and clopidogrel is an antiplatelet.",
-    source: "Coag Notes · Slide 7",
+    clue: "Dabigatran is the DTI for a-fib; argatroban is the one for HIT.",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-090", topic: "coag", concept: "dti", drugs: ["argatroban"], type: "tf",
@@ -1090,7 +1108,8 @@ export const coagQuestions: Question[] = [
     stem: "Argatroban is used to prevent and treat thrombosis in clients who cannot take heparin because of HIT.",
     answer: true,
     why: "The two DTIs have different indications. Argatroban is for clients who cannot take heparin because of HIT. Dabigatran is for a-fib stroke/embolism prevention and DVT/PE.",
-    source: "Coag Notes · Slide 7",
+    clue: "ARGatroban steps in when HIT argues against heparin.",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-091", topic: "coag", concept: "dti", drugs: ["dabigatran"], type: "sata",
@@ -1098,8 +1117,8 @@ export const coagQuestions: Question[] = [
     stem: "Which side effects should the nurse monitor for in a client taking dabigatran? Select all that apply.",
     options: ["Bleeding", "Nausea and vomiting", "Reflux and ulcer formation", "Flushing", "Gingival hyperplasia"],
     answers: [0, 1, 2],
-    why: "Direct thrombin inhibitor side effects are bleeding and GI effects: nausea, vomiting, reflux, and ulcer formation. Flushing is niacin's side effect and gingival hyperplasia is phenytoin's.",
-    source: "Coag Notes · Slide 7",
+    why: "Direct thrombin inhibitor side effects are bleeding and GI effects: nausea, vomiting, reflux, and ulcer formation. Flushing is not listed for these drugs, and gingival hyperplasia is phenytoin's.",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-092", topic: "coag", concept: "dti", drugs: ["dabigatran"], type: "tf",
@@ -1107,7 +1126,7 @@ export const coagQuestions: Question[] = [
     stem: "Dabigatran should be used with caution in clients with kidney disease.",
     answer: true,
     why: "Both DTIs are used with caution in liver disease. Dabigatran is ALSO used with caution in kidney disease.",
-    source: "Coag Notes · Slide 7; Coag Slides · Slide 7",
+    source: "M7L2 Coagulation Modifiers · Slide 7; M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-093", topic: "coag", concept: "dti", drugs: ["argatroban"], type: "fill",
@@ -1115,7 +1134,7 @@ export const coagQuestions: Question[] = [
     stem: "The direct thrombin inhibitor used for clients who cannot take heparin because of HIT is ____.",
     accept: ["argatroban"],
     why: "Argatroban prevents and treats thrombosis in clients who cannot take heparin because of HIT.",
-    source: "Coag Notes · Slide 7",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-094", topic: "coag", concept: "dti", drugs: ["dabigatran"], type: "mcq",
@@ -1129,7 +1148,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "DTIs are contraindicated in clients who are actively bleeding or at risk for bleeding. A-fib and DVT/PE are dabigatran indications.",
-    source: "Coag Notes · Slide 7",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
   },
 
   // ───────── dti-antidote ─────────
@@ -1140,7 +1159,8 @@ export const coagQuestions: Question[] = [
     options: ["Andexanet alfa", "Protamine sulfate", "Vitamin K (phytonadione)", "Idarucizumab"],
     answer: 3,
     why: "Dabigatran is the only one with idarucizumab. Andexanet alfa reverses Xa inhibitors, protamine reverses heparin and enoxaparin, and vitamin K reverses warfarin.",
-    source: "Memory Aid · One-member exceptions; Coag Slides · Slide 7",
+    clue: "Each newer anticoagulant has its own antidote — dabigatran's is a DTI reversal agent (Slide 7).",
+    source: "Memory Aid · One-member exceptions; M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-096", topic: "coag", concept: "dti-antidote", drugs: ["dabigatran", "idarucizumab"], type: "fill",
@@ -1148,7 +1168,7 @@ export const coagQuestions: Question[] = [
     stem: "The reversal agent for dabigatran is ____.",
     accept: ["idarucizumab"],
     why: "Idarucizumab reverses dabigatran. It is indicated for emergency surgery or serious bleeding.",
-    source: "Coag Slides · Slide 7",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-097", topic: "coag", concept: "dti-antidote", drugs: ["dabigatran", "vitamin-k"], type: "tf",
@@ -1165,7 +1185,7 @@ export const coagQuestions: Question[] = [
     options: ["Idarucizumab", "Protamine sulfate", "Vitamin K (phytonadione)", "Aminocaproic acid"],
     answer: 0,
     why: "Idarucizumab reverses dabigatran and is indicated for emergency surgery or serious bleeding.",
-    source: "Coag Slides · Slide 7",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
   },
   {
     id: "co-099", topic: "coag", concept: "dti-antidote", drugs: ["heparin", "warfarin", "dabigatran", "rivaroxaban", "alteplase"], type: "match",
@@ -1179,7 +1199,7 @@ export const coagQuestions: Question[] = [
       ["Alteplase", "Aminocaproic acid"],
     ],
     why: "Protamine is for heparin (and enoxaparin), vitamin K for warfarin, idarucizumab for dabigatran, andexanet alfa for the Xa inhibitors, and aminocaproic acid for alteplase.",
-    source: "Coag Notes · Slides 2, 5, 7, 12; Coag Slides · Slide 8",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 5, 7, 12; M7L2 Coagulation Modifiers · Slide 8",
   },
   {
     id: "co-100", topic: "coag", concept: "dti-antidote", drugs: ["dabigatran", "idarucizumab"], type: "mcq",
@@ -1204,7 +1224,8 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "Xa inhibitors (rivaroxaban, apixaban) directly inhibit factor Xa, which prevents thrombin formation. Binding thrombin directly is how the DTIs (dabigatran, argatroban) work.",
-    source: "Coag Slides · Slide 8",
+    clue: "Read the class name: direct factor Xa inhibitor.",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
   },
   {
     id: "co-102", topic: "coag", concept: "xa", drugs: ["rivaroxaban"], type: "mcq",
@@ -1219,7 +1240,7 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "Xa inhibitors should not be used with active bleeding, severe kidney impairment, or moderate to severe liver impairment. A-fib stroke prevention and DVT/PE prevention are indications.",
     clue: "“Severe kidney impairment” is an Xa-inhibitor contraindication.",
-    source: "Coag Notes · Slide 8",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
   },
   {
     id: "co-103", topic: "coag", concept: "xa", drugs: ["rivaroxaban"], type: "sata",
@@ -1233,8 +1254,8 @@ export const coagQuestions: Question[] = [
       "Dry, hacking cough",
     ],
     answers: [0, 1, 2],
-    why: "Xa inhibitor side effects: GI, GU, cranial, retinal, or epidural bleeding, plus elevated liver enzymes and bilirubin. Flushing is niacin's side effect; a dry cough is an ACE inhibitor side effect.",
-    source: "Coag Slides · Slide 8",
+    why: "Xa inhibitor side effects: GI, GU, cranial, retinal, or epidural bleeding, plus elevated liver enzymes and bilirubin. Flushing is not listed for Xa inhibitors; a dry cough is an ACE inhibitor side effect.",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
   },
   {
     id: "co-104", topic: "coag", concept: "xa", drugs: ["rivaroxaban"], type: "tf",
@@ -1242,7 +1263,7 @@ export const coagQuestions: Question[] = [
     stem: "The nurse should question a rivaroxaban prescription for a client with moderate liver impairment.",
     answer: true,
     why: "Xa inhibitors should not be used in moderate to severe liver impairment, severe kidney impairment, or active bleeding.",
-    source: "Coag Notes · Slide 8",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
   },
 
   // ───────── xa-antidote ─────────
@@ -1253,7 +1274,8 @@ export const coagQuestions: Question[] = [
     options: ["Idarucizumab", "Andexanet alfa", "Protamine sulfate", "Aminocaproic acid"],
     answer: 1,
     why: "Andexanet alfa (FDA-approved 2018) reverses the Xa inhibitors. Idarucizumab is for dabigatran, protamine for heparin/enoxaparin, and aminocaproic acid for alteplase.",
-    source: "Coag Slides · Slide 8",
+    clue: "Xa inhibitor → andeXAnet.",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
   },
   {
     id: "co-106", topic: "coag", concept: "xa-antidote", drugs: ["rivaroxaban", "idarucizumab"], type: "tf",
@@ -1261,7 +1283,7 @@ export const coagQuestions: Question[] = [
     stem: "For a client taking rivaroxaban who has serious bleeding, the nurse should anticipate idarucizumab.",
     answer: false,
     why: "Idarucizumab reverses dabigatran only. Factor Xa inhibitors such as rivaroxaban are reversed by andexanet alfa.",
-    source: "Coag Slides · Slides 7 & 8",
+    source: "M7L2 Coagulation Modifiers · Slides 7 & 8",
   },
   {
     id: "co-107", topic: "coag", concept: "xa-antidote", drugs: ["dabigatran", "rivaroxaban", "idarucizumab", "andexanet"], type: "mcq",
@@ -1275,7 +1297,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "Dabigatran is a direct thrombin inhibitor, reversed by idarucizumab. Rivaroxaban is a factor Xa inhibitor, reversed by andexanet alfa.",
-    source: "Coag Slides · Slides 7 & 8",
+    source: "M7L2 Coagulation Modifiers · Slides 7 & 8",
   },
   {
     id: "co-108", topic: "coag", concept: "xa-antidote", drugs: ["rivaroxaban", "andexanet"], type: "fill",
@@ -1283,7 +1305,7 @@ export const coagQuestions: Question[] = [
     stem: "The antidote for factor Xa inhibitors such as rivaroxaban is ____.",
     accept: ["andexanet alfa", "andexanet", "andexanet alpha"],
     why: "Andexanet alfa was approved by the FDA in 2018 to reverse Xa inhibitors (rivaroxaban, apixaban).",
-    source: "Coag Slides · Slide 8",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
   },
 
   // ───────── ap-moa ─────────
@@ -1299,7 +1321,8 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "Clopidogrel binds the P2Y12 class of ADP receptors on platelets, which stops platelet activation and clumping. COX inhibition is how aspirin works.",
-    source: "Coag Slides · Slide 11",
+    clue: "Clopidogrel = P2Y12; aspirin = COX.",
+    source: "M7L2 Coagulation Modifiers · Slide 11",
   },
   {
     id: "co-110", topic: "coag", concept: "ap-moa", drugs: ["aspirin"], type: "fill",
@@ -1309,7 +1332,7 @@ export const coagQuestions: Question[] = [
     numeric: { value: 81 },
     unit: "mg",
     why: "81 mg PO daily is a common aspirin dose for preventing MI or stroke.",
-    source: "Coag Slides · Slide 10",
+    source: "M7L2 Coagulation Modifiers · Slide 10",
   },
   {
     id: "co-111", topic: "coag", concept: "ap-moa", drugs: ["aspirin"], type: "mcq",
@@ -1323,7 +1346,8 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "Aspirin inhibits COX in platelets, which inhibits platelet aggregation, so platelets do not clump at the injury site.",
-    source: "Coag Notes · Slide 10",
+    clue: "Aspirin = COX.",
+    source: "M7L2 Coagulation Modifiers · Slide 10",
   },
   {
     id: "co-112", topic: "coag", concept: "ap-moa", drugs: ["clopidogrel"], type: "mcq",
@@ -1337,7 +1361,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 3,
     why: "Clopidogrel blocks P2Y12 ADP receptors so platelets do not clump. It is used for ACS and to prevent MI and stroke. Only a thrombolytic dissolves clots.",
-    source: "Coag Notes · Slide 11",
+    source: "M7L2 Coagulation Modifiers · Slide 11",
   },
   {
     id: "co-113", topic: "coag", concept: "ap-moa", drugs: ["clopidogrel", "aspirin"], type: "tf",
@@ -1345,7 +1369,7 @@ export const coagQuestions: Question[] = [
     stem: "Clopidogrel works by inhibiting the COX enzyme in platelets, the same way aspirin does.",
     answer: false,
     why: "Aspirin inhibits COX. Clopidogrel binds the P2Y12 ADP receptor. Both are antiplatelets, but their mechanisms differ.",
-    source: "Coag Slides · Slides 10 & 11",
+    source: "M7L2 Coagulation Modifiers · Slides 10 & 11",
   },
 
   // ───────── ap-vs-ac ─────────
@@ -1357,7 +1381,8 @@ export const coagQuestions: Question[] = [
     answer: 2,
     why: "Antiplatelets act in HIGH-velocity ARTERIES (CAD, CVA, PAD). Anticoagulants act in LOW-velocity VEINS and the LEFT ATRIUM (DVT, PE, a-fib).",
     hook: "Antiplatelets → Arteries.",
-    source: "Memory Aid · Antiplatelets; Coag Notes · Slide 9",
+    clue: "Antiplatelet → Arteries (high velocity).",
+    source: "M7L2 Coagulation Modifiers · Slide 9; Study Guide · description of the Slide 9 image",
   },
   {
     id: "co-115", topic: "coag", concept: "ap-vs-ac", drugs: ["warfarin"], type: "mcq",
@@ -1367,7 +1392,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "Anticoagulants act in low-velocity veins and the left atrium (DVT, PE, a-fib). Antiplatelets act in high-velocity arteries.",
     clue: "Left atrium (a-fib) = anticoagulant territory.",
-    source: "Memory Aid · Antiplatelets",
+    source: "Study Guide · description of M7L2 Slide 9 image; Memory Aid · Antiplatelets",
   },
   {
     id: "co-116", topic: "coag", concept: "ap-vs-ac", drugs: ["clopidogrel", "warfarin"], type: "mcq",
@@ -1381,7 +1406,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 3,
     why: "Antiplatelets and anticoagulants work in different areas, so a client may legitimately need both. Doses are adjusted and the client is monitored more closely for bleeding.",
-    source: "Coag Notes · Slides 9 & 11",
+    source: "M7L2 Coagulation Modifiers · Slides 9 & 11",
   },
   {
     id: "co-117", topic: "coag", concept: "ap-vs-ac", drugs: ["warfarin", "aspirin"], type: "sata",
@@ -1396,7 +1421,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Anticoagulants are for low-velocity veins and the left atrium (DVT, PE, a-fib). Antiplatelets are for high-velocity arteries (CAD, CVA, PAD).",
-    source: "Memory Aid · Antiplatelets",
+    source: "Study Guide · description of M7L2 Slide 9 image; Memory Aid · Antiplatelets",
   },
   {
     id: "co-118", topic: "coag", concept: "ap-vs-ac", drugs: ["clopidogrel", "warfarin"], type: "tf",
@@ -1404,7 +1429,8 @@ export const coagQuestions: Question[] = [
     stem: "Because antiplatelets and anticoagulants work in different areas, a client may legitimately be prescribed both at the same time.",
     answer: true,
     why: "Taking both increases bleeding risk, but a client may need both. Doses are adjusted and bleeding is monitored closely.",
-    source: "Coag Notes · Slide 9",
+    clue: "They work in different areas — doses are adjusted and bleeding watched.",
+    source: "M7L2 Coagulation Modifiers · Slide 9",
   },
   {
     id: "co-119", topic: "coag", concept: "ap-vs-ac", drugs: ["heparin", "warfarin"], type: "fill",
@@ -1412,7 +1438,7 @@ export const coagQuestions: Question[] = [
     stem: "Anticoagulants work mainly in the low-velocity ____ and the left atrium.",
     accept: ["veins", "vein", "venous system", "venous circulation"],
     why: "Anticoagulants act in low-velocity veins and the left atrium (DVT, PE, a-fib). Antiplatelets act in high-velocity arteries.",
-    source: "Memory Aid · Antiplatelets",
+    source: "Study Guide · description of M7L2 Slide 9 image; Memory Aid · Antiplatelets",
   },
 
   // ───────── ap-se-ci ─────────
@@ -1429,7 +1455,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "Aspirin is contraindicated in children and adolescents with fever or chickenpox, as well as in bleeding disorders and thrombocytopenia. CAD, PAD, and stroke prevention are indications.",
     clue: "Adolescent + chickenpox/fever + aspirin.",
-    source: "Coag Slides · Slide 10",
+    source: "M7L2 Coagulation Modifiers · Slide 10",
   },
   {
     id: "co-121", topic: "coag", concept: "ap-se-ci", drugs: ["aspirin"], type: "sata",
@@ -1438,7 +1464,7 @@ export const coagQuestions: Question[] = [
     options: ["GI bleeding", "Tinnitus", "Prolonged bleeding time", "Gallstones", "Dry, hacking cough"],
     answers: [0, 1, 2],
     why: "Aspirin adverse effects: GI effects/ulcers/bleeding, bleeding, prolonged bleeding time, hemorrhagic stroke, thrombocytopenia, tinnitus, and hearing loss. Gallstones go with gemfibrozil; dry cough goes with ACE inhibitors.",
-    source: "Coag Slides · Slide 10",
+    source: "M7L2 Coagulation Modifiers · Slide 10",
   },
   {
     id: "co-122", topic: "coag", concept: "ap-se-ci", drugs: ["aspirin", "ibuprofen"], type: "mcq",
@@ -1452,7 +1478,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "Non-aspirin NSAIDs negatively affect aspirin's antiplatelet effect. Ibuprofen specifically negates aspirin's cardioprotection.",
-    source: "Coag Notes · Slide 10; Memory Aid · One-member exceptions (NSAIDs)",
+    source: "M7L2 Coagulation Modifiers · Slide 10; Memory Aid · One-member exceptions (NSAIDs)",
   },
   {
     id: "co-123", topic: "coag", concept: "ap-se-ci", drugs: ["clopidogrel"], type: "tf",
@@ -1460,7 +1486,7 @@ export const coagQuestions: Question[] = [
     stem: "The nurse should question a clopidogrel prescription for a client with a history of intracranial bleeding.",
     answer: true,
     why: "Clopidogrel contraindications include thrombocytopenia, a history of bleeding from peptic ulcer disease, and intracranial bleeds.",
-    source: "Coag Notes · Slide 11",
+    source: "M7L2 Coagulation Modifiers · Slide 11",
   },
 
   // ───────── tpa-moa ─────────
@@ -1476,7 +1502,8 @@ export const coagQuestions: Question[] = [
     ],
     answer: 1,
     why: "Alteplase is a thrombolytic. It DISSOLVES clots by converting plasminogen to plasmin, which destroys fibrinogen and other clotting factors.",
-    source: "Coag Slides · Slide 12",
+    clue: "Alteplase is the dissolver: plasminogen → plasmin.",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-125", topic: "coag", concept: "tpa-moa", drugs: ["alteplase"], type: "sata",
@@ -1492,7 +1519,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2, 3],
     why: "Alteplase indications: acute MI, massive PE, acute ischemic stroke, and restoring patency of central IV catheters. Any prior intracranial hemorrhage is a contraindication. HIT is treated with argatroban.",
-    source: "Coag Notes · Slide 12",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-126", topic: "coag", concept: "tpa-moa", drugs: ["alteplase", "heparin", "warfarin"], type: "tf",
@@ -1500,7 +1527,8 @@ export const coagQuestions: Question[] = [
     stem: "Unlike heparin and warfarin, alteplase dissolves existing clots.",
     answer: true,
     why: "Anticoagulants do NOT dissolve existing clots. Alteplase, a thrombolytic, dissolves clots by converting plasminogen to plasmin.",
-    source: "Coag Notes · Slides 1 & 12",
+    clue: "Only the thrombolytic dissolves.",
+    source: "M7L2 Coagulation Modifiers · Slides 1 & 12",
   },
   {
     id: "co-127", topic: "coag", concept: "tpa-moa", drugs: ["alteplase"], type: "mcq",
@@ -1509,7 +1537,7 @@ export const coagQuestions: Question[] = [
     options: ["Relief of chest pain", "An aPTT of 70 seconds", "An INR of 2.5", "A platelet count of 250,000"],
     answer: 0,
     why: "Effectiveness is shown by thrombus lysis and restored circulation, for example relief of chest pain. aPTT and INR are anticoagulant monitoring values.",
-    source: "Coag Notes · Slide 13 (evaluate)",
+    source: "M7L2 Coagulation Modifiers · Slide 13 (evaluate)",
   },
 
   // ───────── tpa-ci ─────────
@@ -1526,7 +1554,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Contraindications: any prior intracranial hemorrhage, a known structural cerebral lesion, active internal bleeding, or an ischemic stroke within 3 months (other than the current episode). Older age and major surgery within 3 weeks are CAUTIONS.",
-    source: "Coag Slides · Slide 12",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-129", topic: "coag", concept: "tpa-ci", drugs: ["alteplase"], type: "mcq",
@@ -1541,7 +1569,7 @@ export const coagQuestions: Question[] = [
     answer: 3,
     why: "An ischemic stroke in the past 3 months (other than the episode being treated) is a contraindication to alteplase. The other clients have alteplase indications.",
     clue: "A stroke 6 weeks ago is within 3 months.",
-    source: "Coag Notes · Slide 12",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-130", topic: "coag", concept: "tpa-ci", drugs: ["alteplase"], type: "mcq",
@@ -1555,7 +1583,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 2,
     why: "Major surgery or prolonged traumatic CPR within 3 weeks is a caution. Prior ICH, active internal bleeding, and a structural cerebral lesion are contraindications.",
-    source: "Coag Slides · Slide 12",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-131", topic: "coag", concept: "tpa-ci", drugs: ["alteplase"], type: "tf",
@@ -1563,7 +1591,7 @@ export const coagQuestions: Question[] = [
     stem: "An otherwise eligible 78-year-old client should not receive alteplase, because older age is a contraindication.",
     answer: false,
     why: "Older age is a CAUTION for alteplase, not a contraindication. The contraindications are prior ICH, a structural cerebral lesion, active internal bleeding, and an ischemic stroke within 3 months.",
-    source: "Coag Slides · Slide 12",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-132", topic: "coag", concept: "tpa-ci", drugs: ["alteplase"], type: "fill",
@@ -1573,7 +1601,7 @@ export const coagQuestions: Question[] = [
     numeric: { value: 3 },
     unit: "months",
     why: "An ischemic stroke in the past 3 months, other than the currently treated episode, is an alteplase contraindication.",
-    source: "Coag Slides · Slide 12",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
 
   // ───────── tpa-nursing ─────────
@@ -1590,7 +1618,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2, 3],
     why: "Alteplase nursing care: monitor VS (hypotension + tachycardia = blood loss), monitor the ECG, have emergency equipment and IV access ready, and minimize venipunctures and SubQ/IM injections.",
-    source: "Coag Notes · Slide 13 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 13 (implementation)",
   },
   {
     id: "co-134", topic: "coag", concept: "tpa-nursing", drugs: ["alteplase"], type: "sata",
@@ -1605,7 +1633,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Alteplase baseline labs: CBC (H&H, platelets), aPTT, PT, INR, and fibrinogen. CK and the lipid panel go with statin therapy.",
-    source: "Coag Notes · Slide 13 (assessment); Memory Aid · Alteplase (LAB)",
+    source: "M7L2 Coagulation Modifiers · Slide 13 (assessment); Memory Aid · Alteplase (LAB)",
   },
   {
     id: "co-135", topic: "coag", concept: "tpa-nursing", drugs: ["alteplase"], type: "fill",
@@ -1615,7 +1643,7 @@ export const coagQuestions: Question[] = [
     numeric: { value: 3 },
     unit: "hours",
     why: "Give alteplase as soon as possible after symptoms begin; within 3 hours is best.",
-    source: "Coag Notes · Slide 13; Memory Aid · Alteplase (HOLD)",
+    source: "M7L2 Coagulation Modifiers · Slide 13; Memory Aid · Alteplase (HOLD)",
   },
   {
     id: "co-136", topic: "coag", concept: "tpa-nursing", drugs: ["alteplase"], type: "mcq",
@@ -1630,7 +1658,7 @@ export const coagQuestions: Question[] = [
     answer: 1,
     why: "Hypotension with tachycardia is a sign of blood loss. Serious bleeding is the major risk of alteplase.",
     clue: "↓BP + ↑HR on a thrombolytic = think bleeding.",
-    source: "Coag Notes · Slide 13; Memory Aid · Alteplase (S/S)",
+    source: "M7L2 Coagulation Modifiers · Slide 13; Memory Aid · Alteplase (S/S)",
   },
   {
     id: "co-137", topic: "coag", concept: "tpa-nursing", drugs: ["alteplase"], type: "mcq",
@@ -1644,7 +1672,7 @@ export const coagQuestions: Question[] = [
     ],
     answer: 0,
     why: "Limit venipunctures and SubQ/IM injections to minimize bleeding. Give alteplase as soon as possible (within 3 hours is best). Vascular punctures that cannot be compressed are a caution. Vitamin K teaching is for warfarin.",
-    source: "Coag Notes · Slides 12 & 13",
+    source: "M7L2 Coagulation Modifiers · Slides 12 & 13",
   },
 
   // ───────── tpa-antidote ─────────
@@ -1655,7 +1683,8 @@ export const coagQuestions: Question[] = [
     options: ["Protamine sulfate", "Vitamin K (phytonadione)", "Idarucizumab", "Aminocaproic acid"],
     answer: 3,
     why: "Aminocaproic acid is the alteplase antidote. Protamine is for heparin/enoxaparin, vitamin K for warfarin, and idarucizumab for dabigatran.",
-    source: "Coag Slides · Slide 12",
+    clue: "The thrombolytic's antidote is an acid.",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-139", topic: "coag", concept: "tpa-antidote", drugs: ["alteplase", "aminocaproic-acid"], type: "order",
@@ -1667,7 +1696,7 @@ export const coagQuestions: Question[] = [
       "Give aminocaproic acid if needed",
     ],
     why: "For life-threatening bleeding: stop the alteplase, treat with blood products, and then give the antidote (aminocaproic acid) if needed.",
-    source: "Memory Aid · Alteplase (ANTIDOTE); Coag Notes · Slide 12",
+    source: "Memory Aid · Alteplase (ANTIDOTE); M7L2 Coagulation Modifiers · Slide 12",
   },
   {
     id: "co-140", topic: "coag", concept: "tpa-antidote", drugs: ["alteplase", "aminocaproic-acid"], type: "mcq",
@@ -1690,7 +1719,7 @@ export const coagQuestions: Question[] = [
     stem: "The antidote for alteplase is ____.",
     accept: ["aminocaproic acid", "aminocaproic"],
     why: "Aminocaproic acid reverses alteplase. Be prepared to give it as needed.",
-    source: "Coag Notes · Slide 13 (implementation)",
+    source: "M7L2 Coagulation Modifiers · Slide 13 (implementation)",
   },
   {
     id: "co-142", topic: "coag", concept: "tpa-antidote", drugs: ["alteplase", "protamine"], type: "tf",
@@ -1698,7 +1727,7 @@ export const coagQuestions: Question[] = [
     stem: "If a client receiving alteplase develops life-threatening bleeding, the nurse should prepare protamine sulfate as the antidote.",
     answer: false,
     why: "The alteplase antidote is aminocaproic acid (given after stopping alteplase and giving blood products). Protamine reverses heparin and enoxaparin.",
-    source: "Coag Slides · Slide 12",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
   },
 
   // ───────── coag-classes ─────────
@@ -1713,7 +1742,7 @@ export const coagQuestions: Question[] = [
       ["Protamine sulfate", "Antidote for heparin"],
     ],
     why: "Aspirin and clopidogrel are antiplatelets; heparin, enoxaparin, warfarin, the DTIs, and the Xa inhibitors are anticoagulants; alteplase is the thrombolytic; protamine reverses heparin.",
-    source: "Coag Slides · Slide 1; Memory Aid · Module 7",
+    source: "M7L2 Coagulation Modifiers · Slide 1; Memory Aid · Module 7",
   },
   {
     id: "co-144", topic: "coag", concept: "coag-classes", drugs: ["alteplase"], type: "mcq",
@@ -1722,7 +1751,8 @@ export const coagQuestions: Question[] = [
     options: ["Anticoagulants", "Antiplatelets", "Thrombolytics", "Low-molecular-weight heparins"],
     answer: 2,
     why: "Only thrombolytics (alteplase) dissolve clots. Anticoagulants prevent new clots and clot extension, and antiplatelets prevent platelet clumping.",
-    source: "Coag Notes · Slides 1 & 12",
+    clue: "Thrombo-LYTIC = lyses (dissolves).",
+    source: "M7L2 Coagulation Modifiers · Slides 1 & 12",
   },
   {
     id: "co-145", topic: "coag", concept: "coag-classes", drugs: ["heparin", "warfarin"], type: "tf",
@@ -1730,7 +1760,8 @@ export const coagQuestions: Question[] = [
     stem: "Anticoagulants such as heparin and warfarin dissolve existing clots.",
     answer: false,
     why: "Anticoagulants DO NOT DISSOLVE existing clots. They reduce the blood's tendency to clot. Alteplase (a thrombolytic) dissolves clots.",
-    source: "Coag Notes · Slide 1",
+    clue: "Anticoagulants prevent; only thrombolytics dissolve.",
+    source: "M7L2 Coagulation Modifiers · Slide 1",
   },
   {
     id: "co-146", topic: "coag", concept: "coag-classes", drugs: ["alteplase"], type: "mcq",
@@ -1739,7 +1770,7 @@ export const coagQuestions: Question[] = [
     options: ["Heparin", "Clopidogrel", "Warfarin", "Alteplase"],
     answer: 3,
     why: "Alteplase is the only listed drug that dissolves clots. It is indicated for acute ischemic stroke and works best within 3 hours of onset. Heparin and warfarin prevent clots; clopidogrel prevents platelet clumping.",
-    source: "Coag Notes · Slides 12 & 13",
+    source: "M7L2 Coagulation Modifiers · Slides 12 & 13",
   },
   {
     id: "co-147", topic: "coag", concept: "coag-classes", drugs: ["heparin", "alteplase", "aspirin"], type: "sata",
@@ -1754,7 +1785,7 @@ export const coagQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Anticoagulants prevent new or extending clots but do not dissolve them. Alteplase dissolves clots. Antiplatelets keep platelets from clumping. Aspirin inhibits COX; warfarin is the vitamin K antagonist.",
-    source: "Coag Notes · Slides 1, 4, 10, 12",
+    source: "M7L2 Coagulation Modifiers · Slides 1, 4, 10, 12",
   },
   {
     id: "co-148", topic: "coag", concept: "coag-classes", drugs: ["heparin", "warfarin", "dabigatran", "clopidogrel", "alteplase"], type: "match",
@@ -1768,6 +1799,294 @@ export const coagQuestions: Question[] = [
       ["Alteplase", "Converts plasminogen to plasmin"],
     ],
     why: "Each class works at a different point: heparin via antithrombin, warfarin via vitamin K, the DTIs on thrombin directly, clopidogrel on platelet P2Y12 receptors, and alteplase via plasmin (which dissolves clots).",
-    source: "Coag Slides · Slides 2, 5, 7, 11, 12",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 5, 7, 11, 12",
+  },
+
+  // ───────── added: recognition (guided practice) + lecture gap facts ─────────
+  {
+    id: "co-149", topic: "coag", concept: "hep-use-ci", drugs: ["heparin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "contraindication",
+    stem: "Which condition is a contraindication to heparin?",
+    options: ["Thrombocytopenia", "Deep vein thrombosis", "Pulmonary embolism", "Dialysis"],
+    answer: 0,
+    why: "Heparin CI: thrombocytopenia, uncontrolled bleeding, and eye or brain surgery. DVT, PE, and dialysis are indications.",
+    clue: "Three options are reasons TO give heparin.",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
+  },
+  {
+    id: "co-150", topic: "coag", concept: "hep-use-ci", drugs: ["heparin"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "definition",
+    stem: "Heparin is used for clients undergoing open heart surgery or dialysis.",
+    answer: true,
+    why: "Heparin is used when clot formation is highly likely: stroke, PE, DVT, open heart surgery, dialysis, post-op DVT prophylaxis, and DIC.",
+    clue: "Heparin's indication list includes procedures with a high likelihood of clot formation.",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
+  },
+  {
+    id: "co-151", topic: "coag", concept: "hep-bleeding", drugs: ["heparin"], type: "mcq",
+    difficulty: 1, cognitive: "understand", format: "side-effect",
+    stem: "Which finding in a client receiving heparin is a sign of bleeding?",
+    options: ["Coffee-ground emesis", "A warm, red, swollen calf", "Rising blood pressure", "Rising hemoglobin"],
+    answer: 0,
+    why: "Coffee-ground emesis is blood in the GI tract. A warm, red, swollen calf = DVT (a clot); bleeding lowers BP and hemoglobin.",
+    clue: "Look for blood showing up where it shouldn't.",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (teaching)",
+  },
+  {
+    id: "co-152", topic: "coag", concept: "hep-bleeding", drugs: ["heparin"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "side-effect",
+    stem: "Heat, redness, pain, and swelling in the calf are signs of bleeding in a client on heparin.",
+    answer: false,
+    why: "Heat, redness, pain, and swelling in the calf are signs of a DVT (a clot). Bleeding signs include ↓H&H, ↓BP, ↑HR, bruising, epistaxis, and blood in stool or urine.",
+    clue: "Calf heat + redness + swelling = a clot, not a bleed.",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
+  },
+  {
+    id: "co-153", topic: "coag", concept: "hep-hit", drugs: ["heparin"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "lab-interpretation",
+    stem: "A platelet drop of 50% or more is one criterion for suspecting heparin-induced thrombocytopenia (HIT).",
+    answer: true,
+    why: "One HIT criterion is a platelet drop of ≥ 50%. Hold the heparin and notify the provider if platelets drop 50% or fall below 100,000.",
+    clue: "HIT = platelets roughly halved.",
+    source: "M7L2 Coagulation Modifiers · Slides 2 & 4 (notes)",
+  },
+  {
+    id: "co-154", topic: "coag", concept: "hep-lab", drugs: ["heparin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "lab",
+    stem: "Which lab is used to monitor the therapeutic response to heparin?",
+    options: ["aPTT", "INR", "Creatinine clearance", "Fibrinogen"],
+    answer: 0,
+    why: "Heparin = aPTT (goal 1.5–2.5 × normal ≈ 60–80 sec). INR tracks warfarin; creatinine clearance guides enoxaparin dosing; fibrinogen is a baseline lab for alteplase.",
+    clue: "Heparin and warfarin each have their own lab — heparin's has 'PTT' in it.",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
+  },
+  {
+    id: "co-155", topic: "coag", concept: "hep-antidote", drugs: ["heparin", "protamine"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "antidote",
+    stem: "Protamine sulfate should be pushed rapidly to reverse heparin as fast as possible.",
+    answer: false,
+    why: "Protamine must be given slowly — no faster than 50 mg per 10 minutes — because it can cause hypotension.",
+    clue: "Fast protamine → hypotension.",
+    source: "M7L2 Coagulation Modifiers · Slide 2 (notes)",
+  },
+  {
+    id: "co-156", topic: "coag", concept: "hep-admin", drugs: ["heparin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "nursing-action",
+    stem: "Where should the nurse give subcutaneous heparin?",
+    options: ["In the abdomen, avoiding 2 inches around the umbilicus", "Within 1 inch of the umbilicus", "In the deltoid, after aspirating", "In the calf muscle"],
+    answer: 0,
+    why: "SubQ heparin goes in the abdomen, avoiding 2 inches around the umbilicus. Do not aspirate; rotate and record sites.",
+    clue: "Abdomen — but keep a 2-inch circle around the belly button clear.",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
+  },
+  {
+    id: "co-157", topic: "coag", concept: "lmwh-moa", drugs: ["dalteparin", "enoxaparin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "class-id",
+    stem: "Which drug is a low-molecular-weight heparin, like enoxaparin?",
+    options: ["Dalteparin", "Dabigatran", "Argatroban", "Rivaroxaban"],
+    answer: 0,
+    why: "Enoxaparin and dalteparin are the LMWHs on the slide. Dabigatran and argatroban are direct thrombin inhibitors; rivaroxaban is a factor Xa inhibitor.",
+    clue: "Look at the ending: -parin, like hePARIN.",
+    source: "M7L2 Coagulation Modifiers · Slide 3",
+  },
+  {
+    id: "co-158", topic: "coag", concept: "lmwh-admin", drugs: ["enoxaparin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "nursing-action",
+    stem: "After injecting enoxaparin, the nurse should:",
+    options: ["Not massage the site for 1–2 minutes", "Massage the site for 1–2 minutes", "Apply a heating pad to the site", "Aspirate to check placement"],
+    answer: 0,
+    why: "Enoxaparin: do not massage the injection site for 1–2 minutes; rotate and record sites; don't expel the air bubble unless the dose was adjusted.",
+    clue: "The teaching for every heparin-type injection: do NOT massage.",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (implementation)",
+  },
+  {
+    id: "co-159", topic: "coag", concept: "war-ci", drugs: ["warfarin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "contraindication",
+    stem: "Which condition is a contraindication to warfarin?",
+    options: ["Pregnancy", "Atrial fibrillation", "Prosthetic heart valve", "Recurrent transient ischemic attacks"],
+    answer: 0,
+    why: "Warfarin CI: allergy, acute or chronic bleeding conditions, and pregnancy. A-fib, prosthetic valves, and recurrent TIAs are indications.",
+    clue: "Three options are reasons TO give warfarin.",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
+  },
+  {
+    id: "co-160", topic: "coag", concept: "war-ci", drugs: ["warfarin"], type: "sata",
+    difficulty: 2, cognitive: "apply", format: "side-effect",
+    stem: "A client has taken warfarin for 6 months. Which adverse effects should the nurse monitor for? Select all that apply.",
+    options: ["Hemorrhage", "Hepatitis", "Toxicity", "Gallstones", "Dry, hacking cough"],
+    answers: [0, 1, 2],
+    why: "Warfarin side effects: hemorrhage, toxicity, and hepatitis. Gallstones = gemfibrozil; dry cough = ACE inhibitors.",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
+  },
+  {
+    id: "co-161", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "lab",
+    stem: "Which labs are used to monitor warfarin?",
+    options: ["PT and INR", "aPTT", "Creatinine clearance only", "Fibrinogen"],
+    answer: 0,
+    why: "Warfarin is monitored with PT (18–24 sec) and INR (2–3 for most indications). Heparin uses the aPTT.",
+    clue: "Heparin has the aPTT; warfarin has the other clotting lab pair.",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
+  },
+  {
+    id: "co-162", topic: "coag", concept: "war-lab", drugs: ["warfarin"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "lab",
+    stem: "For most indications, such as atrial fibrillation, the target INR for warfarin is 2–3.",
+    answer: true,
+    why: "INR 2–3 for most indications; 2.5–3.5 for PE treatment; 3–4.5 for a mechanical heart valve or recurrent systemic embolism.",
+    clue: "The 'most indications' range is the lowest of the three INR ranges.",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (notes)",
+  },
+  {
+    id: "co-163", topic: "coag", concept: "war-antidote", drugs: ["warfarin", "vitamin-k"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "antidote",
+    stem: "Vitamin K (phytonadione) is the antidote for warfarin.",
+    answer: true,
+    why: "Warfarin antagonizes vitamin K, so vitamin K (phytonadione) reverses it when the INR is too high.",
+    clue: "Warfarin works against vitamin K.",
+    source: "M7L2 Coagulation Modifiers · Slides 5–6",
+  },
+  {
+    id: "co-164", topic: "coag", concept: "war-intx", drugs: ["warfarin"], type: "mcq",
+    difficulty: 1, cognitive: "understand", format: "interaction",
+    stem: "Which item can DECREASE the anticoagulant effect of warfarin?",
+    options: ["Brussels sprouts", "Garlic supplements", "Ginkgo biloba", "Ibuprofen"],
+    answer: 0,
+    why: "Foods high in vitamin K (Brussels sprouts, broccoli, cabbage, dark leafy greens, mayonnaise, canola and soybean oil) decrease warfarin's effect. Garlic, ginkgo, and NSAIDs INCREASE bleeding.",
+    clue: "Foods high in vitamin K work against warfarin.",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (notes)",
+  },
+  {
+    id: "co-165", topic: "coag", concept: "war-intx", drugs: ["warfarin"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "interaction",
+    stem: "NSAIDs and acetaminophen increase the effect of warfarin and the risk of bleeding.",
+    answer: true,
+    why: "Other anticoagulants, NSAIDs, acetaminophen, glucocorticoids, sulfonamides, and IV cephalosporins all increase warfarin's effect and the bleeding risk.",
+    clue: "These are on the ↑ effect (bleeding) list.",
+    source: "M7L2 Coagulation Modifiers · Slide 5 (notes)",
+  },
+  {
+    id: "co-166", topic: "coag", concept: "war-teach", drugs: ["warfarin"], type: "mcq",
+    difficulty: 1, cognitive: "understand", format: "teaching",
+    stem: "What is the key dietary teaching for a client taking warfarin?",
+    options: ["Keep vitamin K intake consistent", "Eliminate all vitamin K foods", "Eat extra vitamin K on weekends only", "Avoid all fruit"],
+    answer: 0,
+    why: "Teach CONSISTENT vitamin K intake (e.g., salad 3 times a week, every week). If the diet changes, the provider adjusts the dose.",
+    clue: "Consistent — not zero.",
+    source: "M7L2 Coagulation Modifiers · Slide 6 (teaching)",
+  },
+  {
+    id: "co-167", topic: "coag", concept: "dti-antidote", drugs: ["dabigatran", "idarucizumab"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "antidote",
+    stem: "Idarucizumab is the antidote for dabigatran.",
+    answer: true,
+    why: "Dabigatran (direct thrombin inhibitor) is reversed by idarucizumab for serious bleeding or emergency surgery.",
+    clue: "Slide 7 names one antidote for the direct thrombin inhibitor dabigatran.",
+    source: "M7L2 Coagulation Modifiers · Slide 7",
+  },
+  {
+    id: "co-168", topic: "coag", concept: "xa", drugs: ["apixaban", "rivaroxaban"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "class-id",
+    stem: "Which drug is a direct factor Xa inhibitor, like rivaroxaban?",
+    options: ["Apixaban", "Dabigatran", "Argatroban", "Clopidogrel"],
+    answer: 0,
+    why: "Rivaroxaban and apixaban are the Xa inhibitors on the slide. Dabigatran and argatroban inhibit thrombin; clopidogrel is an antiplatelet.",
+    clue: "Look at the ending: -xaban.",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
+  },
+  {
+    id: "co-169", topic: "coag", concept: "xa", drugs: ["apixaban"], type: "mcq",
+    difficulty: 2, cognitive: "apply", format: "question-order",
+    stem: "Which client's apixaban prescription should the nurse question?",
+    options: ["A client with active bleeding", "A client with atrial fibrillation who needs stroke prevention", "A client who needs DVT prevention", "A client who needs PE prevention"],
+    answer: 0,
+    why: "Xa inhibitors (rivaroxaban, apixaban) should not be used with active bleeding, severe kidney impairment, or moderate–severe liver impairment. The other choices are indications.",
+    clue: "Three options are indications for an Xa inhibitor.",
+    source: "M7L2 Coagulation Modifiers · Slide 8 (notes)",
+  },
+  {
+    id: "co-170", topic: "coag", concept: "xa-antidote", drugs: ["rivaroxaban", "andexanet"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "antidote",
+    stem: "Andexanet alfa is the antidote for factor Xa inhibitors such as rivaroxaban.",
+    answer: true,
+    why: "Slide 8: the Xa-inhibitor antidote approved by the FDA in 2018 is andexanet alfa.",
+    clue: "Xa inhibitor → andeXAnet.",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
+  },
+  {
+    id: "co-171", topic: "coag", concept: "ap-se-ci", drugs: ["aspirin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "side-effect",
+    stem: "Which is a side effect of aspirin?",
+    options: ["Tinnitus", "Constipation", "Gallstones", "Dry, hacking cough"],
+    answer: 0,
+    why: "Aspirin side effects: bleeding, thrombocytopenia, GI ulcers/bleeding, prolonged bleeding time, hemorrhagic stroke, tinnitus, and hearing loss.",
+    clue: "Aspirin can affect hearing.",
+    source: "M7L2 Coagulation Modifiers · Slide 10",
+  },
+  {
+    id: "co-172", topic: "coag", concept: "ap-se-ci", drugs: ["aspirin"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "contraindication",
+    stem: "Aspirin is contraindicated in children and adolescents with fever or chickenpox.",
+    answer: true,
+    why: "Aspirin CI: bleeding disorders, thrombocytopenia, and children/adolescents with fever or chickenpox.",
+    clue: "Aspirin + a child or teen with a fever or chickenpox = do not give.",
+    source: "M7L2 Coagulation Modifiers · Slide 10",
+  },
+  {
+    id: "co-173", topic: "coag", concept: "tpa-ci", drugs: ["alteplase"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "contraindication",
+    stem: "Which finding is a CONTRAINDICATION to alteplase?",
+    options: ["Prior intracranial hemorrhage", "Older age", "Acute ischemic stroke", "An occluded central IV catheter"],
+    answer: 0,
+    why: "ANY prior intracranial hemorrhage is a contraindication. Older age is a caution; acute ischemic stroke and central line patency are indications.",
+    clue: "A history of bleeding INSIDE the skull rules it out.",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
+  },
+  {
+    id: "co-174", topic: "coag", concept: "tpa-ci", drugs: ["alteplase"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "contraindication",
+    stem: "Active internal bleeding is a contraindication to alteplase.",
+    answer: true,
+    why: "Alteplase CI: any prior intracranial hemorrhage, known structural cerebral lesion, active internal bleeding, or ischemic stroke within 3 months (other than the current episode).",
+    clue: "A clot dissolver plus an active bleed = more bleeding.",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
+  },
+  {
+    id: "co-175", topic: "coag", concept: "tpa-nursing", drugs: ["alteplase"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "nursing-action",
+    stem: "For the best effect, alteplase should be given within how long after symptom onset?",
+    options: ["3 hours", "12 hours", "24 hours", "72 hours"],
+    answer: 0,
+    why: "Alteplase should be given as soon as possible after the onset of manifestations — within 3 hours is best.",
+    clue: "As soon as possible — the window is short.",
+    source: "M7L2 Coagulation Modifiers · Slide 13 (implementation)",
+  },
+  {
+    id: "co-176", topic: "coag", concept: "tpa-nursing", drugs: ["alteplase"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "nursing-action",
+    stem: "During alteplase therapy, the nurse should limit venipunctures and subcutaneous or IM injections.",
+    answer: true,
+    why: "Minimize bruising and bleeding by limiting venipunctures, subcutaneous injections, and IM injections.",
+    clue: "Every new puncture is a new place to bleed.",
+    source: "M7L2 Coagulation Modifiers · Slide 13 (implementation)",
+  },
+  {
+    id: "co-177", topic: "coag", concept: "tpa-antidote", drugs: ["alteplase", "aminocaproic-acid"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "antidote",
+    stem: "Aminocaproic acid is the antidote for alteplase.",
+    answer: true,
+    why: "Life-threatening bleeding on alteplase: stop the infusion, give blood products, then aminocaproic acid if needed.",
+    clue: "The thrombolytic's antidote is an acid.",
+    source: "M7L2 Coagulation Modifiers · Slide 12",
+  },
+  {
+    id: "co-178", topic: "coag", concept: "ap-moa", drugs: ["aspirin"], type: "mcq",
+    difficulty: 2, cognitive: "apply", format: "nursing-action",
+    stem: "A client is prescribed aspirin to prevent another stroke. Which dose does the nurse recognize as the common prevention dose?",
+    options: ["81 mg PO daily", "325 mg PO chewed every 5 minutes", "650 mg PO every 4 hours", "81 mg IV push"],
+    answer: 0,
+    why: "81 mg PO daily is a common dose for MI or stroke prevention. 325 mg chewed is the single NAOMI dose for an acute MI.",
+    clue: "Prevention = the low daily dose.",
+    source: "M7L2 Coagulation Modifiers · Slide 10; M7L1 Antianginal Medications · Slide 5",
   },
 ];

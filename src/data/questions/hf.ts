@@ -2,26 +2,29 @@ import type { Question } from "@/lib/types";
 
 /*
  * Module 6 · Heart failure drugs: digoxin + "how the other HF drugs work to control signs and
- * symptoms" (blueprint). Facts come from docs/source/memory-aid.md (Digoxin block incl. HF
- * nonpharm/BNP/heart sounds, ACE/ARB, loop, thiazide, spironolactone, beta-blocker, mannitol).
- * Digoxin levels follow the AUTHORING quirk: values used are clearly inside 0.5–1.5 or clearly
- * above 2.0, or the range is printed in the stem. No value between 1.5 and 2.0 is used.
+ * symptoms" (blueprint). PRIMARY source: docs/source/M6L3 Heart Failure Drugs Notes.md (+ M6L1/M6L2
+ * for the other HF drugs). Memory Aid supplies the toxicity ORDER, "−dromotropic", BNP and heart sounds.
+ * Digoxin level (decided conflict): LECTURE SLIDE = 0.5–0.8 ng/mL, > 2 ng/mL = toxicity. Study guides
+ * say a wider range. Values used here are ≤ 0.8 (therapeutic) or ≥ 2.1 (toxic); none between 0.8 and 2.0.
+ * "ACE inhibitors and ARBs → hyperkalemia → ↓digoxin effect" is kept ONLY as the M6L3 digoxin interaction.
  */
 
-const DIG = "Memory Aid · Digoxin";
-const HFNP = "Memory Aid · Digoxin (HF nonpharm, BNP, heart sounds)";
-const ACE = "Memory Aid · ACE Inhibitors";
-const ARB = "Memory Aid · ARBs";
-const LOOP = "Memory Aid · Loop (furosemide)";
-const THZ = "Memory Aid · Thiazide (HCTZ)";
-const SPIRO = "Memory Aid · K-sparing (spironolactone)";
-const MANN = "Memory Aid · Osmotic (mannitol)";
+const DIG = "M6L3 Heart Failure Drugs · Slides 3–5";
+const DIG_MA = "Exam2 Memory Aid · Digoxin";
+const DIG_INTX = "M6L3 Heart Failure Drugs · Slide 4";
+const HFNP = "M6L3 Heart Failure Drugs · Slide 2";
+const HFMA = "Exam2 Memory Aid · Digoxin (BNP, heart sounds)";
+const ACE = "M6L1 Antihypertensives · Slide 4";
+const ARB = "M6L1 Antihypertensives · Slide 5";
+const LOOP = "M6L2 Diuretics · Slides 3 & 7";
+const THZ = "M6L2 Diuretics · Slide 4";
+const SPIRO = "M6L2 Diuretics · Slide 5";
+const MANN = "M6L2 Diuretics · Slide 6";
 const BB = "Memory Aid · Beta-blockers";
 
 const HSS = "Harder, stronger, slower: +inotropic (↑force), −chronotropic (↓rate), −dromotropic (↓conduction)";
 const TOX = "Toxicity marches from gut → eyes → heart: anorexia first, dysrhythmias last";
-const LEVEL_NOTE =
-  "Memory aid range 0.5–1.5 ng/mL (a quiz printed 0.5–2.0 — on an exam, use the range given in the question).";
+const LEVEL_NOTE = "Lecture slide (M6L3): therapeutic range 0.5–0.8 ng/mL; > 2 ng/mL = toxicity.";
 
 export const hfQuestions: Question[] = [
   // ───────────── dig-moa ─────────────
@@ -43,8 +46,9 @@ export const hfQuestions: Question[] = [
     ],
     answer: 0,
     why: "Digoxin: +INOTROPIC ↑force, −CHRONOTROPIC ↓rate, −DROMOTROPIC ↓conduction = harder, stronger, slower.",
+    clue: "Harder + stronger = ↑force; slower = ↓rate",
     hook: HSS,
-    source: DIG,
+    source: `${DIG}; ${DIG_MA}`,
   },
   {
     id: "hf-002",
@@ -63,7 +67,7 @@ export const hfQuestions: Question[] = [
     ],
     why: "Inotropic = force; chronotropic = rate; dromotropic = conduction. Digoxin is +inotropic, −chronotropic, −dromotropic.",
     hook: HSS,
-    source: DIG,
+    source: DIG_MA,
   },
   {
     id: "hf-003",
@@ -92,6 +96,7 @@ export const hfQuestions: Question[] = [
     stem: "Digoxin has a positive chronotropic effect, so it increases the heart rate.",
     answer: false,
     why: "Digoxin is NEGATIVE chronotropic (↓rate). It is POSITIVE inotropic (↑force).",
+    clue: "'Slower' in harder, stronger, slower",
     hook: HSS,
     source: DIG,
   },
@@ -128,6 +133,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 1,
     why: "−CHRONOTROPIC = ↓rate (with −dromotropic ↓conduction). +Inotropic increases force, not rate. Bradykinin relates to ACE inhibitors.",
+    clue: "Chronotropic = rate",
     hook: HSS,
     source: DIG,
   },
@@ -151,7 +157,7 @@ export const hfQuestions: Question[] = [
     ],
     why: "Digoxin TOXICITY IN ORDER: 1) anorexia = earliest; 2) N/V, abdominal pain; 3) fatigue, weakness, vision changes — blurred, yellow-green or white halos; 4) dysrhythmias/cardiotoxicity = late + worst.",
     hook: TOX,
-    source: DIG,
+    source: `${DIG_MA}; ${DIG}`,
   },
   {
     id: "hf-011",
@@ -166,6 +172,7 @@ export const hfQuestions: Question[] = [
     options: ["Seeing yellow-green halos around lights", "Irregular heartbeat", "Loss of appetite", "Fatigue and weakness"],
     answer: 2,
     why: "ANOREXIA = EARLIEST sign. Vision changes and fatigue come third; dysrhythmias are late + worst.",
+    clue: "The first sign shows up at mealtime",
     hook: TOX,
     source: DIG,
   },
@@ -203,6 +210,7 @@ export const hfQuestions: Question[] = [
     stem: "Dysrhythmias are the earliest sign of digoxin toxicity.",
     answer: false,
     why: "ANOREXIA is the earliest sign; dysrhythmias/cardiotoxicity are LATE + worst.",
+    clue: "The first sign is usually in the gut, not the heart",
     hook: TOX,
     source: DIG,
   },
@@ -262,8 +270,9 @@ export const hfQuestions: Question[] = [
     ],
     answer: 3,
     why: "Toxicity progresses: anorexia (earliest) → N/V → fatigue/vision changes → dysrhythmias/cardiotoxicity (late + worst). Both findings mean toxicity — hold the dose.",
+    clue: "Dysrhythmias are the late, worst stage",
     hook: TOX,
-    source: DIG,
+    source: `${DIG_MA}; ${DIG}`,
   },
   {
     id: "hf-017",
@@ -283,7 +292,7 @@ export const hfQuestions: Question[] = [
     ],
     why: "Anorexia (earliest) → N/V, abdominal pain → fatigue, weakness, vision changes (white or yellow-green halos) → dysrhythmias (late + worst).",
     hook: TOX,
-    source: DIG,
+    source: `${DIG_MA}; ${DIG}`,
   },
 
   // ───────────── dig-hold ─────────────
@@ -326,6 +335,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 1,
     why: "Digoxin HOLD rule: APICAL pulse < 60 counted for a FULL 60 SECONDS.",
+    clue: "Apical, full minute",
     source: DIG,
   },
   {
@@ -348,7 +358,7 @@ export const hfQuestions: Question[] = [
     why: "Hold digoxin for apical < 60 OR ANY sign of toxicity. Anorexia (earliest sign) + nausea = toxicity even with a normal pulse. Antacids ↓digoxin absorption.",
     clue: "Anorexia + nausea despite apical 72",
     hook: TOX,
-    source: DIG,
+    source: `${DIG}; ${DIG_MA}`,
   },
   {
     id: "hf-023",
@@ -362,6 +372,7 @@ export const hfQuestions: Question[] = [
     stem: "Digoxin is held if the apical pulse is below 60 when counted for a full 60 seconds.",
     answer: true,
     why: "HOLD: APICAL pulse < 60 counted for a FULL 60 SECONDS, or any sign of toxicity.",
+    clue: "Apical, full minute, and the number is 60",
     source: DIG,
   },
   {
@@ -399,7 +410,7 @@ export const hfQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Hold for apical < 60 or ANY sign of toxicity (anorexia, N/V, vision changes/halos, dysrhythmias). Apical 70 without complaints is safe; increased urination is furosemide's therapeutic effect.",
-    source: `${DIG}; ${LOOP}`,
+    source: `${DIG}; ${DIG_MA}; ${LOOP}`,
   },
 
   // ───────────── dig-lab ─────────────
@@ -421,6 +432,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 0,
     why: `2.6 ng/mL is above the therapeutic range. ${LEVEL_NOTE} Either way, 2.6 is too high.`,
+    clue: "> 2 ng/mL = toxicity",
     source: DIG,
   },
   {
@@ -432,9 +444,9 @@ export const hfQuestions: Question[] = [
     cognitive: "remember",
     format: "lab",
     type: "fill",
-    stem: "Per the course memory aid, the therapeutic digoxin level is 0.5 to ____ ng/mL.",
-    accept: ["1.5"],
-    numeric: { value: 1.5 },
+    stem: "Per the M6L3 lecture slide, the therapeutic digoxin level is 0.5 to ____ ng/mL.",
+    accept: ["0.8"],
+    numeric: { value: 0.8 },
     unit: "ng/mL",
     why: LEVEL_NOTE,
     source: DIG,
@@ -448,10 +460,11 @@ export const hfQuestions: Question[] = [
     cognitive: "apply",
     format: "lab-interpretation",
     type: "mcq",
-    stem: "A client's digoxin level is 1.1 ng/mL, the apical pulse is 74 for a full minute, and the client has no complaints. What should the nurse do?",
+    stem: "A client's digoxin level is 0.7 ng/mL, the apical pulse is 74 for a full minute, and the client has no complaints. What should the nurse do?",
     options: ["Withhold the dose", "Give the scheduled dose", "Prepare digoxin immune fab", "Question the prescription"],
     answer: 1,
-    why: `1.1 ng/mL is within the therapeutic range, apical ≥ 60, and no toxicity signs → give. ${LEVEL_NOTE}`,
+    why: `0.7 ng/mL is within the therapeutic range, apical ≥ 60, and no toxicity signs → give. ${LEVEL_NOTE}`,
+    clue: "0.5–0.8 ng/mL is therapeutic",
     source: DIG,
   },
   {
@@ -463,9 +476,10 @@ export const hfQuestions: Question[] = [
     cognitive: "apply",
     format: "lab-interpretation",
     type: "tf",
-    stem: "A digoxin level of 0.9 ng/mL is within the therapeutic range.",
+    stem: "A digoxin level of 0.6 ng/mL is within the therapeutic range.",
     answer: true,
-    why: `0.9 ng/mL is inside 0.5–1.5. ${LEVEL_NOTE}`,
+    why: `0.6 ng/mL is inside 0.5–0.8. ${LEVEL_NOTE}`,
+    clue: "Therapeutic range on the slide: 0.5–0.8 ng/mL",
     source: DIG,
   },
   {
@@ -480,7 +494,7 @@ export const hfQuestions: Question[] = [
     stem: "A client with heart failure is started on digoxin. Which laboratory values should the nurse plan to monitor because of the digoxin? Select all that apply.",
     options: ["Digoxin level", "Potassium", "aPTT", "INR"],
     answers: [0, 1],
-    why: "Digoxin LAB: digoxin level (0.5–1.5 ng/mL) and K+ (low K+ → toxicity). aPTT = heparin; INR = warfarin.",
+    why: "Digoxin LAB: digoxin level (0.5–0.8 ng/mL) and K+ (low K+ → toxicity). aPTT = heparin; INR = warfarin.",
     source: DIG,
   },
   {
@@ -492,7 +506,7 @@ export const hfQuestions: Question[] = [
     cognitive: "analyze",
     format: "lab-interpretation",
     type: "mcq",
-    stem: "The lab report for a client taking digoxin lists a therapeutic range of 0.5–2.0 ng/mL. The client's level is 2.4 ng/mL. What does the nurse conclude?",
+    stem: "The lab report for a client taking digoxin lists a therapeutic range of 0.5–0.8 ng/mL. The client's level is 2.4 ng/mL. What does the nurse conclude?",
     options: [
       "The level is therapeutic",
       "The level is subtherapeutic",
@@ -500,7 +514,8 @@ export const hfQuestions: Question[] = [
       "The range printed on the report should be ignored",
     ],
     answer: 2,
-    why: `Use the range given in the question: 2.4 is above 2.0 (and above the memory aid's 1.5). ${LEVEL_NOTE}`,
+    why: `2.4 is above the stated range and above 2 ng/mL, the toxicity cut-off. ${LEVEL_NOTE}`,
+    clue: "Compare the value with the stated range and the > 2 cut-off",
     source: DIG,
   },
 
@@ -517,8 +532,9 @@ export const hfQuestions: Question[] = [
     stem: "Which drug combination is the highest-risk pairing for digoxin toxicity?",
     options: ["Digoxin + lisinopril", "Digoxin + losartan", "Digoxin + an antacid", "Digoxin + furosemide"],
     answer: 3,
-    why: "Loop/thiazide → hypoK → TOXICITY = the highest-risk pairing. ACE/ARB → hyperK → ↓digoxin effect; antacids ↓absorption.",
-    source: DIG,
+    why: "Loop/thiazide → hypoK → dysrhythmias/TOXICITY (the highest-risk pairing). Per the digoxin slide, ACE inhibitors/ARBs → hyperK → ↓digoxin effect; antacids ↓absorption.",
+    clue: "Which drug lowers potassium?",
+    source: DIG_INTX,
   },
   {
     id: "hf-041",
@@ -538,7 +554,8 @@ export const hfQuestions: Question[] = [
     ],
     answer: 0,
     why: "Digoxin INTX: antacids ↓absorption. Verapamil ↑levels; loop/thiazide → hypoK → toxicity.",
-    source: DIG,
+    clue: "Antacids interfere with absorption",
+    source: DIG_INTX,
   },
   {
     id: "hf-042",
@@ -552,7 +569,8 @@ export const hfQuestions: Question[] = [
     stem: "Verapamil decreases digoxin levels.",
     answer: false,
     why: "Verapamil ↑DIGOXIN levels (CCBs interfere with digoxin elimination).",
-    source: `${DIG}; Memory Aid · One-member exceptions (CCBs)`,
+    clue: "Verapamil INCREASES plasma digoxin levels",
+    source: DIG_INTX,
   },
   {
     id: "hf-043",
@@ -566,8 +584,8 @@ export const hfQuestions: Question[] = [
     stem: "A client takes digoxin. Which additional drugs could increase the risk of digoxin toxicity? Select all that apply.",
     options: ["Furosemide", "Hydrochlorothiazide", "Verapamil", "An antacid", "Lisinopril"],
     answers: [0, 1, 2],
-    why: "Loop/thiazide → hypoK → toxicity (highest-risk pairing); verapamil ↑digoxin levels. Antacids ↓absorption; ACE/ARB → hyperK → ↓digoxin effect.",
-    source: DIG,
+    why: "Loop/thiazide → hypoK → toxicity (highest-risk pairing); verapamil ↑digoxin levels. Antacids ↓absorption; per the digoxin slide, ACE inhibitors/ARBs → hyperK → ↓digoxin effect.",
+    source: DIG_INTX,
   },
   {
     id: "hf-044",
@@ -578,10 +596,10 @@ export const hfQuestions: Question[] = [
     cognitive: "understand",
     format: "interaction",
     type: "fill",
-    stem: "ACE inhibitors and ARBs can cause hyperkalemia, which ____ the effect of digoxin.",
+    stem: "The M6L3 digoxin slide says ACE inhibitors and ARBs raise the risk of hyperkalemia, which ____ the effect of digoxin.",
     accept: ["decreases", "reduces", "lowers", "diminishes"],
-    why: "Digoxin INTX: ACE/ARB → hyperK → ↓effect. (LOW K+ is the dangerous direction → toxicity.)",
-    source: DIG,
+    why: "Digoxin interaction (M6L3 Slide 4 notes): ACE inhibitors and ARBs → hyperkalemia → ↓therapeutic effect of digoxin. LOW K+ is the dangerous direction → toxicity.",
+    source: DIG_INTX,
   },
   {
     id: "hf-045",
@@ -600,8 +618,9 @@ export const hfQuestions: Question[] = [
       "Low K+ means the thiazide dose should be doubled",
     ],
     answer: 1,
-    why: "LOW K+ → DIGOXIN TOXICITY; thiazide/loop + digoxin is the highest-risk pairing. HIGH K+ (from ACE/ARB) is what ↓digoxin's effect.",
-    source: `${DIG}; Memory Aid · K+ UP/DOWN summary line`,
+    why: "LOW K+ → DIGOXIN TOXICITY; thiazide/loop + digoxin is the highest-risk pairing. HIGH K+ is what ↓digoxin's effect (digoxin slide).",
+    clue: "Low K+ potentiates digoxin",
+    source: DIG_INTX,
   },
 
   // ───────────── dig-antidote ─────────────
@@ -618,6 +637,7 @@ export const hfQuestions: Question[] = [
     options: ["Protamine sulfate", "Naloxone", "Digoxin immune fab", "Vitamin K"],
     answer: 2,
     why: "Digoxin → DIGOXIN IMMUNE FAB. Protamine = heparin/enoxaparin; naloxone = opioids; vitamin K = warfarin.",
+    clue: "The antidote carries the drug's own name",
     source: DIG,
   },
   {
@@ -651,7 +671,7 @@ export const hfQuestions: Question[] = [
       ["Opioids", "Naloxone"],
     ],
     why: "Digoxin → digoxin immune fab; heparin (and enoxaparin) → protamine; warfarin → vitamin K; opioids → naloxone.",
-    source: `${DIG}; Memory Aid · Heparin; Warfarin; Opioids`,
+    source: `${DIG}; Exam2 Memory Aid · Heparin; Warfarin; Opioids`,
   },
   {
     id: "hf-053",
@@ -665,7 +685,8 @@ export const hfQuestions: Question[] = [
     stem: "Protamine sulfate reverses digoxin toxicity.",
     answer: false,
     why: "Digoxin's antidote is DIGOXIN IMMUNE FAB. Protamine reverses heparin and enoxaparin.",
-    source: `${DIG}; Memory Aid · Heparin`,
+    clue: "Protamine belongs to heparin",
+    source: `${DIG}; Exam2 Memory Aid · Heparin`,
   },
   {
     id: "hf-054",
@@ -680,6 +701,7 @@ export const hfQuestions: Question[] = [
     options: ["Idarucizumab", "Acetylcysteine", "Aminocaproic acid", "Digoxin immune fab"],
     answer: 3,
     why: "Digoxin → DIGOXIN IMMUNE FAB. Idarucizumab = dabigatran; acetylcysteine = acetaminophen; aminocaproic acid = alteplase.",
+    clue: "The antidote carries the drug's name",
     source: DIG,
   },
 
@@ -702,6 +724,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 1,
     why: "Digoxin CI: V-fib, V-tach, 2nd/3rd° heart block. HF and a-fib are the indications.",
+    clue: "Digoxin treats atrial problems, not ventricular ones",
     source: DIG,
   },
   {
@@ -737,6 +760,7 @@ export const hfQuestions: Question[] = [
     stem: "Hypokalemia and impaired kidney function are cautions for digoxin therapy.",
     answer: true,
     why: "Digoxin CAUTION: HYPOKALEMIA, partial AV block, advanced HF, impaired kidney function (give, but assess more often).",
+    clue: "Caution = give, but watch more closely",
     source: DIG,
   },
   {
@@ -757,6 +781,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 0,
     why: "Digoxin CAUT: hypokalemia, partial AV block, advanced HF, impaired kidney function. CI: V-fib, V-tach, 2nd/3rd° heart block.",
+    clue: "Contraindications are the ventricular rhythms + heart block",
     source: DIG,
   },
 
@@ -779,6 +804,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 2,
     why: "Anorexia is the EARLIEST sign of toxicity and must be reported. Teaching: take own pulse + report < 60; report anorexia, N/V, visual halos.",
+    clue: "Anorexia is the first sign of toxicity — it must be reported",
     hook: TOX,
     source: DIG,
   },
@@ -809,6 +835,7 @@ export const hfQuestions: Question[] = [
     stem: "Clients taking digoxin are taught to take their own pulse and report a rate below 60.",
     answer: true,
     why: "DO/TEACH: take own pulse + report < 60; report anorexia, N/V, visual halos.",
+    clue: "Digoxin slows the heart — so the client watches the pulse",
     source: DIG,
   },
 
@@ -847,7 +874,7 @@ export const hfQuestions: Question[] = [
     answer: 3,
     why: "Loop (furosemide) = FIRST CHOICE in HF (edema of HF). BNP > 100 = fluid overload. HCTZ is for edema of mild/moderate HF; mannitol can CAUSE HF/pulmonary edema.",
     clue: "Worsening HF + edema + BNP > 100",
-    source: `${LOOP}; ${HFNP}`,
+    source: `${LOOP}; ${HFMA}`,
   },
   {
     id: "hf-082",
@@ -867,6 +894,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 1,
     why: "ACE inhibitors (HF is a listed use) block AngI→AngII → vasodilation, ↓Na/H2O. Force = digoxin; beta-1 = beta-blockers; osmolality = mannitol.",
+    clue: "ACE inhibitors block angiotensin II formation",
     source: ACE,
   },
   {
@@ -882,7 +910,7 @@ export const hfQuestions: Question[] = [
     options: ["Lisinopril", "Losartan", "Spironolactone", "Mannitol", "Digoxin", "Potassium chloride"],
     answers: [0, 1, 2, 4],
     why: "HF is a listed use for ACE inhibitors, ARBs, spironolactone, and digoxin (plus loop, thiazide, beta-blockers). Mannitol CAUSES HF/pulmonary edema; potassium chloride replaces K+ lost to K+-wasting diuretics.",
-    source: `${ACE}; ${ARB}; ${SPIRO}; ${DIG}; ${MANN}; Memory Aid · Potassium replacement`,
+    source: `${ACE}; ${ARB}; ${SPIRO}; ${DIG}; ${MANN}; M6L2 Diuretics · Slide 8`,
   },
   {
     id: "hf-084",
@@ -896,6 +924,7 @@ export const hfQuestions: Question[] = [
     stem: "Mannitol is used to treat heart failure.",
     answer: false,
     why: "HF and pulmonary edema are ADVERSE effects of mannitol (severe pulmonary edema is a contraindication). Mannitol is for AKI, ↑ICP, cerebral edema, ↑IOP.",
+    clue: "Mannitol can CAUSE heart failure",
     source: MANN,
   },
   {
@@ -911,6 +940,7 @@ export const hfQuestions: Question[] = [
     options: ["Furosemide", "Spironolactone", "Digoxin", "Hydrochlorothiazide"],
     answer: 1,
     why: "Spironolactone (HTN, edema, HF) blocks ALDOSTERONE → retains K+, excretes Na + H2O.",
+    clue: "Spironolactone is the K+-SPARING diuretic",
     source: SPIRO,
   },
   {
@@ -925,6 +955,7 @@ export const hfQuestions: Question[] = [
     stem: "Beta-blockers are listed as a heart failure treatment, yet they are contraindicated in acute heart failure.",
     answer: true,
     why: "Beta-blocker USE includes HF; beta-blocker CI includes acute HF, cardiogenic shock, heart block, bradycardia, sick sinus syndrome, severe PAD.",
+    clue: "HF is a use, but ACUTE HF is a contraindication",
     source: BB,
   },
   {
@@ -945,6 +976,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 3,
     why: "Furosemide → hypoK → digoxin toxicity (highest-risk pairing), and anorexia is the earliest toxicity sign. Increased urination is furosemide's therapeutic effect; the ACE inhibitor cough should be reported but is not the most dangerous finding.",
+    clue: "Low K+ + digoxin = toxicity risk",
     source: `${DIG}; ${LOOP}; ${ACE}`,
   },
   {
@@ -979,6 +1011,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 2,
     why: "ARBs (HF is a listed use) block AngII AT THE RECEPTOR → vasodilation + ↓Na/H2O; bradykinin is untouched.",
+    clue: "ARBs block angiotensin II at the receptor",
     source: ARB,
   },
   {
@@ -999,6 +1032,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 3,
     why: "Loop = FIRST CHOICE in HF; thiazide = edema of mild/moderate HF; spironolactone lists HF as a use; mannitol can CAUSE HF and pulmonary edema.",
+    clue: "Loop = usually the first choice in HF",
     source: `${LOOP}; ${THZ}; ${SPIRO}; ${MANN}`,
   },
 
@@ -1020,6 +1054,7 @@ export const hfQuestions: Question[] = [
     ],
     answer: 3,
     why: "Beta-blockers (HF is a listed use) block the SNS at beta-adrenergic receptors, competing with NE + epi; B1 = heart → ↓HR. They are contraindicated in ACUTE HF. Force = digoxin; aldosterone = spironolactone; AngII receptor = ARBs.",
+    clue: "-olol = beta-blocker → beta-1 = heart rate",
     source: BB,
   },
   {
@@ -1054,7 +1089,7 @@ export const hfQuestions: Question[] = [
     answer: 0,
     why: "BNP > 100 = fluid overload.",
     clue: "BNP > 100",
-    source: HFNP,
+    source: HFMA,
   },
   {
     id: "hf-101",
@@ -1068,7 +1103,8 @@ export const hfQuestions: Question[] = [
     stem: "An S4 heart sound is always abnormal and indicates a stiff ventricle rather than fluid overload.",
     answer: true,
     why: "S4 = ALWAYS abnormal = STIFF ventricle (not fluid). S3 may be normal; abnormal S3 = volume overload.",
-    source: HFNP,
+    clue: "S4 = stiff; S3 = fluid",
+    source: HFMA,
   },
   {
     id: "hf-102",
@@ -1082,7 +1118,7 @@ export const hfQuestions: Question[] = [
     stem: "The heart sound that may be normal but, when abnormal, indicates volume overload is ____.",
     accept: ["S3", "S 3", "third heart sound", "S three"],
     why: "S3 may be normal; abnormal S3 = volume overload. S4 = always abnormal = stiff ventricle.",
-    source: HFNP,
+    source: HFMA,
   },
   {
     id: "hf-103",
@@ -1103,7 +1139,7 @@ export const hfQuestions: Question[] = [
     ],
     answers: [0, 1],
     why: "BNP > 100 = fluid overload; abnormal S3 = volume overload. S4 = stiff ventricle (NOT fluid); a BNP of 70 is not above 100; increased urination is furosemide's therapeutic effect.",
-    source: `${HFNP}; ${LOOP}`,
+    source: `${HFMA}; ${LOOP}`,
   },
   {
     id: "hf-104",
@@ -1123,7 +1159,8 @@ export const hfQuestions: Question[] = [
     ],
     answer: 0,
     why: "S4 = ALWAYS abnormal = STIFF ventricle (not fluid). It is the S3 that may be normal or, when abnormal, signals volume overload.",
-    source: HFNP,
+    clue: "S4 = stiff; S3 = fluid",
+    source: HFMA,
   },
   {
     id: "hf-105",
@@ -1144,7 +1181,7 @@ export const hfQuestions: Question[] = [
     answer: 2,
     why: "Daily weights: report a gain > 5 lb in 2 days. Do NOT ↑fluids on a loop diuretic, and weigh at the same time/clothes/scale after voiding.",
     clue: "6 lb in 2 days (> 5 lb)",
-    source: LOOP,
+    source: `${LOOP}; Memory Aid · Loop (furosemide)`,
   },
 
   // ───────────── hf-nonpharm ─────────────
@@ -1161,6 +1198,7 @@ export const hfQuestions: Question[] = [
     options: ["Less than 4,000 mg/day", "Less than 2,000 mg/day", "Less than 6,000 mg/day", "No limit while taking a diuretic"],
     answer: 1,
     why: "HF nonpharm: Na < 2,000 mg/day, exercise as able, stop tobacco + ETOH.",
+    clue: "The HF sodium limit is 2,000 mg/day",
     source: HFNP,
   },
   {
@@ -1218,6 +1256,257 @@ export const hfQuestions: Question[] = [
     ],
     answer: 2,
     why: "HF nonpharm: stop tobacco AND ETOH. Na < 2,000 mg/day and exercising as able are correct.",
+    clue: "HF teaching: stop tobacco AND alcohol",
     source: HFNP,
+  },
+
+  // ───────────── recognition items (guided practice) + gap facts ─────────────
+  {
+    id: "hf-120",
+    topic: "hf",
+    concept: "dig-tox",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "understand",
+    format: "side-effect",
+    type: "tf",
+    stem: "The first sign of digoxin toxicity is usually anorexia (loss of appetite).",
+    answer: true,
+    why: "Per the M6L3 notes, the first sign of toxicity is usually anorexia; toxicity can also present as N/V, abdominal pain, fatigue, weakness, vision changes, and dysrhythmias.",
+    clue: "The earliest sign shows up at the dinner table",
+    hook: TOX,
+    source: DIG,
+  },
+  {
+    id: "hf-121",
+    topic: "hf",
+    concept: "dig-hold",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "remember",
+    format: "nursing-action",
+    type: "mcq",
+    stem: "Before giving digoxin, which pulse does the nurse count?",
+    options: [
+      "Apical pulse for a full 60 seconds",
+      "Radial pulse for 15 seconds",
+      "Carotid pulse for 30 seconds",
+      "Pedal pulse for 10 seconds",
+    ],
+    answer: 0,
+    why: "Count the APICAL pulse for 60 seconds; if it is less than 60, do not give the digoxin dose.",
+    clue: "Listen right over the heart — for the whole minute",
+    source: DIG,
+  },
+  {
+    id: "hf-122",
+    topic: "hf",
+    concept: "dig-lab",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "remember",
+    format: "lab",
+    type: "mcq",
+    stem: "According to the M6L3 lecture slide, the therapeutic digoxin level is:",
+    options: ["0.5–0.8 ng/mL", "10–20 mcg/mL", "2–3 (INR)", "60–80 seconds"],
+    answer: 0,
+    why: "Digoxin therapeutic range (lecture slide) = 0.5–0.8 ng/mL; > 2 ng/mL = toxicity. 10–20 mcg/mL = phenytoin; INR 2–3 = warfarin; 60–80 sec = aPTT for heparin.",
+    clue: "A narrow range that stays below 1",
+    source: DIG,
+  },
+  {
+    id: "hf-123",
+    topic: "hf",
+    concept: "dig-lab",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "understand",
+    format: "lab-interpretation",
+    type: "tf",
+    stem: "A digoxin level greater than 2 ng/mL indicates toxicity.",
+    answer: true,
+    why: LEVEL_NOTE,
+    clue: "The slide gives one toxicity cut-off",
+    source: DIG,
+  },
+  {
+    id: "hf-124",
+    topic: "hf",
+    concept: "dig-intx",
+    drugs: ["digoxin", "verapamil", "acei", "spironolactone"],
+    difficulty: 1,
+    cognitive: "understand",
+    format: "interaction",
+    type: "mcq",
+    stem: "Which drug increases plasma digoxin levels?",
+    options: ["Verapamil", "An antacid", "Lisinopril", "Spironolactone"],
+    answer: 0,
+    why: "Verapamil increases plasma digoxin levels. Antacids DECREASE absorption; per the digoxin slide, ACE inhibitors → hyperK → ↓digoxin effect.",
+    clue: "A calcium channel blocker ending in -mil",
+    source: DIG_INTX,
+  },
+  {
+    id: "hf-125",
+    topic: "hf",
+    concept: "dig-ci",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "remember",
+    format: "contraindication",
+    type: "mcq",
+    stem: "Which condition is a contraindication for digoxin?",
+    options: ["Ventricular fibrillation", "Atrial fibrillation", "Heart failure", "Hypokalemia"],
+    answer: 0,
+    why: "Digoxin contraindications: V-fib, V-tach, 2nd/3rd-degree heart block. A-fib and HF are indications; hypokalemia is a caution.",
+    clue: "One option is a caution and two are indications",
+    source: DIG,
+  },
+  {
+    id: "hf-126",
+    topic: "hf",
+    concept: "dig-ci",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "understand",
+    format: "contraindication",
+    type: "tf",
+    stem: "Atrial fibrillation is a contraindication for digoxin.",
+    answer: false,
+    why: "Digoxin TREATS heart failure and a-fib. Its contraindications are V-fib, V-tach, and 2nd/3rd-degree heart block.",
+    clue: "Atrial vs ventricular",
+    source: DIG,
+  },
+  {
+    id: "hf-127",
+    topic: "hf",
+    concept: "dig-teach",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "understand",
+    format: "teaching",
+    type: "mcq",
+    stem: "Which instruction belongs in teaching for a client taking digoxin?",
+    options: [
+      "\"Take your pulse and report a rate below 60.\"",
+      "\"Take it with an antacid to protect your stomach.\"",
+      "\"Yellow-green halos are a normal effect of this drug.\"",
+      "\"Skip your potassium checks once you feel better.\"",
+    ],
+    answer: 0,
+    why: "Teach the client to take their pulse and report < 60, and to report signs of toxicity (anorexia, N/V, halos). Antacids decrease digoxin absorption; K+ is monitored because low K+ → toxicity.",
+    clue: "Digoxin slows the heart",
+    source: DIG,
+  },
+  {
+    id: "hf-128",
+    topic: "hf",
+    concept: "hf-roles",
+    drugs: ["digoxin", "furosemide", "acei", "spironolactone"],
+    difficulty: 1,
+    cognitive: "understand",
+    format: "definition",
+    type: "mcq",
+    stem: "Which heart failure drug works by increasing the force of myocardial contraction?",
+    options: ["Digoxin", "Furosemide", "Lisinopril", "Spironolactone"],
+    answer: 0,
+    why: "Digoxin is positive inotropic (↑force) and negative chronotropic (↓rate) → ↑stroke volume and cardiac output. Furosemide and spironolactone remove fluid; lisinopril blocks angiotensin II formation.",
+    clue: "Harder, stronger, slower",
+    hook: HSS,
+    source: DIG,
+  },
+  {
+    id: "hf-129",
+    topic: "hf",
+    concept: "hf-assess",
+    drugs: ["furosemide"],
+    difficulty: 1,
+    cognitive: "remember",
+    format: "lab-interpretation",
+    type: "mcq",
+    stem: "In the course memory aid, a BNP above which value indicates fluid overload?",
+    options: ["100", "10", "1,000", "2"],
+    answer: 0,
+    why: "Memory Aid: BNP > 100 = fluid overload.",
+    clue: "A round number in the hundreds",
+    source: HFMA,
+  },
+  {
+    id: "hf-130",
+    topic: "hf",
+    concept: "hf-nonpharm",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "remember",
+    format: "teaching",
+    type: "mcq",
+    stem: "Which nonpharmacologic measure is part of heart failure management?",
+    options: [
+      "A 2,000 mg/day sodium-restricted diet",
+      "Strict bed rest",
+      "A high-sodium diet to hold fluid",
+      "One alcoholic drink with each meal",
+    ],
+    answer: 0,
+    why: "HF nonpharmacologic management: 2,000 mg/day sodium-restricted diet, exercise as much as physically able, stop tobacco and alcohol.",
+    clue: "Salt holds water — limit it",
+    source: HFNP,
+  },
+  {
+    id: "hf-131",
+    topic: "hf",
+    concept: "hf-nonpharm",
+    drugs: ["digoxin"],
+    difficulty: 1,
+    cognitive: "understand",
+    format: "teaching",
+    type: "tf",
+    stem: "Medications alone are often not enough to prevent heart failure from progressing, so they are combined with nonpharmacologic treatment.",
+    answer: true,
+    why: "Per M6L3 Slide 2: medications must be combined with nonpharmacologic treatment (sodium restriction, exercise, no tobacco/alcohol) to control symptoms and progression.",
+    clue: "Pills + lifestyle",
+    source: HFNP,
+  },
+  {
+    id: "hf-132",
+    topic: "hf",
+    concept: "dig-moa",
+    drugs: ["digoxin"],
+    difficulty: 2,
+    cognitive: "understand",
+    format: "why",
+    type: "mcq",
+    stem: "Why does slowing the heart rate with digoxin improve cardiac output?",
+    options: [
+      "The ventricles have more time to fill, increasing stroke volume and cardiac output",
+      "A slower rate raises potassium, which strengthens the heart",
+      "A slower rate dilates the coronary arteries",
+      "A slower rate removes excess fluid through the kidneys",
+    ],
+    answer: 0,
+    why: "Negative chronotropic: ↓heart rate gives the ventricles more time to fill with blood, increasing stroke volume and cardiac output.",
+    clue: "Think about filling time",
+    hook: HSS,
+    source: DIG,
+  },
+  {
+    id: "hf-133",
+    topic: "hf",
+    concept: "dig-intx",
+    drugs: ["digoxin", "furosemide", "potassium"],
+    difficulty: 2,
+    cognitive: "apply",
+    format: "nursing-action",
+    type: "mcq",
+    stem: "A client with heart failure who takes furosemide is newly prescribed digoxin. What is the nurse's best action?",
+    options: [
+      "Give both and monitor the potassium level closely",
+      "Refuse the digoxin because it can never be given with furosemide",
+      "Hold the furosemide while the client takes digoxin",
+      "Give the digoxin with an antacid to prevent stomach upset",
+    ],
+    answer: 0,
+    why: "Per the M6L3 notes, being on furosemide does not mean the client cannot take digoxin — monitor potassium more closely (often a potassium supplement is also ordered), because low K+ → digoxin toxicity.",
+    clue: "Interaction = monitor, not automatically refuse",
+    source: DIG,
   },
 ];

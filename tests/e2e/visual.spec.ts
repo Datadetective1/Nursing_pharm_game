@@ -1,5 +1,5 @@
 import { test, expect, type Locator, type Page } from "@playwright/test";
-import { answerCurrent, noHorizontalScroll, onboard, toQuestion } from "./helpers";
+import { answerCurrent, noHorizontalScroll, onboard, toQuestion, finishTeach } from "./helpers";
 
 const SUFFIX_FAMILY: [RegExp, string][] = [
   [/pril$/i, "acei"],
@@ -179,7 +179,9 @@ test("a normal session interleaves visual activities with questions", async ({ p
   await page.goto("/play?mode=quick5");
   await answerCurrent(page);
   await page.getByTestId("next").click();
-  // slot 2 of a learning session is a visual activity
+  // slot 2 of a learning session is a visual activity (taught first if it's a new concept)
+  await page.locator('[data-testid="session-activity"], [data-testid="session-teach"], [data-testid="question"]').first().waitFor();
+  await finishTeach(page);
   const act = page.getByTestId("session-activity");
   await expect(act).toBeVisible();
   expect(await act.getAttribute("data-kind")).toBeTruthy();
@@ -201,7 +203,7 @@ test("wrong-answer feedback is calm, visual and offers an immediate retry", asyn
     const kits = page.getByTestId("x-antidote-kit");
     for (let i = 0; i < (await kits.count()) && (await kits.count()); i++) await page.getByTestId("x-antidote-kit").first().click();
     await page.getByTestId("follow-up").click();
-    await expect(page.locator('[data-testid="question"], [data-testid="session-activity"]').first()).toBeVisible();
+    await expect(page.locator('[data-testid="question"], [data-testid="session-activity"], [data-testid="session-teach"]').first()).toBeVisible();
   }
 });
 
@@ -228,7 +230,7 @@ test("Progress heatmap: tapping a weak area starts focused practice", async ({ p
   await expect(page.getByTestId("accuracy-trend")).toBeVisible();
   await page.getByTestId("heat-cell").first().click();
   await page.waitForURL(/mode=focus/);
-  await expect(page.locator('[data-testid="question"], [data-testid="session-activity"]').first()).toBeVisible();
+  await expect(page.locator('[data-testid="question"], [data-testid="session-activity"], [data-testid="session-teach"]').first()).toBeVisible();
 });
 
 test("Exam Simulator stays a clean test: no format chips, no activities, no explainers", async ({ page }) => {

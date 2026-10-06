@@ -2,7 +2,7 @@ import type { TopicId } from "@/lib/types";
 
 /**
  * "DON'T MIX THESE UP" — side-by-side contrast cards followed by discrimination questions.
- * Every cell comes from the Memory Aid or Coag Notes.
+ * Every cell comes from the Memory Aid or M7L2 Coagulation Modifiers.
  */
 export interface ContrastSet {
   id: string;
@@ -41,7 +41,7 @@ export const CONTRASTS: ContrastSet[] = [
       { q: "Which one carries the higher risk of HIT?", answer: 0, why: "HIT can occur with LMWH but is much less likely than with heparin." },
     ],
     takeaway: "Heparin = thrombin + Xa, watch the aPTT. Enoxaparin = Xa only, no lab, home. BOTH → protamine.",
-    source: "Coag Notes · Slides 2–4",
+    source: "M7L2 Coagulation Modifiers · Slides 2–4",
   },
   {
     id: "ace-vs-arb",
@@ -52,19 +52,20 @@ export const CONTRASTS: ContrastSet[] = [
     rows: [
       { label: "Mechanism", cells: ["Blocks Ang I → Ang II AND ↑bradykinin", "Blocks Ang II AT THE RECEPTOR; bradykinin untouched"] },
       { label: "Cough", cells: ["DRY HACKING COUGH (bradykinin)", "MUCH LESS cough"] },
-      { label: "Potassium", cells: ["Retains K+ → hyperkalemia", "Same — hyperkalemia"] },
+      { label: "Potassium", cells: ["Retains K+ → hyperkalemia", "NO hyperkalemia — K+ not influenced"] },
       { label: "Angioedema", cells: ["Yes — airway emergency", "Yes — caution if prior angioedema on an ACE"] },
       { label: "CI", cells: ["PARK: Pregnancy, Allergy/prior angioedema, Renal failure, hyperKalemia", "Pregnancy, allergy, renal failure"] },
-      { label: "Hold / teach", cells: ["SBP < 100; no salt substitutes; never stop abruptly", "SBP < 100; no salt substitutes; never stop abruptly"] },
+      { label: "Hold / teach", cells: ["SBP < 100; no salt substitutes; never stop abruptly", "SBP < 100; rise slowly; never stop abruptly"] },
     ],
     quiz: [
       { q: "A client stopped their antihypertensive because of a nagging dry cough. Which class most likely caused it?", answer: 0, why: "ACE inhibitors ↑bradykinin → dry hacking cough; ARBs leave bradykinin alone." },
       { q: "Which class blocks angiotensin II at the receptor?", answer: 1, why: "ARBs block Ang II at the receptor." },
       { q: "Which suffix belongs to the class that also raises bradykinin?", answer: 0, why: "-pril = ACE inhibitor (↑bradykinin)." },
       { q: "Which class is used with CAUTION in a client who had angioedema on the other class?", answer: 1, why: "ARB caution: prior angioedema on an ACE inhibitor." },
+      { q: "Which class requires the client to avoid salt substitutes because it raises potassium?", answer: 0, why: "ACE inhibitors retain K+; ARBs do not cause hyperkalemia (ARB lecture)." },
     ],
-    takeaway: "Both: hyperkalemia, angioedema, pregnancy CI, avoid salt substitutes. Only ACE: the bradykinin cough.",
-    source: "Memory Aid · ACE inhibitors / ARBs",
+    takeaway: "Both: angioedema, pregnancy CI, hold SBP < 100. Only ACE: the bradykinin cough AND hyperkalemia (ARBs don't raise K+).",
+    source: "M6L1 Antihypertensives · Slides 4–6",
   },
   {
     id: "diuretics",
@@ -111,7 +112,7 @@ export const CONTRASTS: ContrastSet[] = [
       { q: "Aminocaproic acid reverses which class?", answer: 2, why: "Aminocaproic acid is the antidote for alteplase." },
     ],
     takeaway: "Anticoagulants PREVENT (veins). Antiplatelets STOP CLUMPING (arteries). Thrombolytics DISSOLVE. A client may legitimately be on an antiplatelet AND an anticoagulant.",
-    source: "Coag Notes · Slides 1, 9, 12 + Memory Aid",
+    source: "M7L2 Coagulation Modifiers · Slides 1, 9, 12 + Memory Aid",
   },
   {
     id: "heparin-vs-warfarin",
@@ -134,7 +135,7 @@ export const CONTRASTS: ContrastSet[] = [
       { q: "Which one is contraindicated in pregnancy per the course notes?", answer: 1, why: "Warfarin CI: allergy, acute/chronic bleeding, pregnancy." },
     ],
     takeaway: "Heparin → aPTT → protamine. Warfarin → PT/INR → vitamin K.",
-    source: "Coag Notes · Slides 2, 5–6",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 5–6",
   },
   {
     id: "dti-xa",
@@ -155,7 +156,7 @@ export const CONTRASTS: ContrastSet[] = [
       { q: "Which drug is reversed by andexanet alfa per the slides?", answer: 2, why: "Slide 8: Xa-inhibitor antidote andexanet alfa." },
     ],
     takeaway: "ARGatroban = when HIT ARGues against heparin. Dabigatran → idarucizumab. Rivaroxaban (Xa) → andexanet alfa.",
-    source: "Coag Notes · Slides 7–8",
+    source: "M7L2 Coagulation Modifiers · Slides 7–8",
   },
   {
     id: "anticonvulsants",

@@ -83,7 +83,7 @@ export const ROOMS: Activity[] = [
     title: "Heparin to Warfarin Room",
     topic: "coag",
     concepts: ["hep-admin", "hep-hit", "war-teach", "hep-intx"],
-    source: "Coag Notes · Slides 4, 6",
+    source: "M7L2 Coagulation Modifiers · Slides 4, 6",
     difficulty: 3,
     data: {
       client: "Client, 61, DVT: SubQ heparin, starting warfarin",

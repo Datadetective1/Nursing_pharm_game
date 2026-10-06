@@ -1,0 +1,702 @@
+{
+ "state": {
+  "profile": {
+   "onboarded": true,
+   "examDate": "2026-10-15",
+   "dailyMinutes": 10,
+   "startConfidence": "somewhat",
+   "createdAt": 1790521200000
+  },
+  "settings": {
+   "theme": "system",
+   "haptics": true,
+   "confidencePrompts": true,
+   "sound": false
+  },
+  "xp": 1840,
+  "streak": {
+   "count": 6,
+   "best": 6,
+   "lastDay": "2026-10-06",
+   "restUsed": null
+  },
+  "concepts": {
+   "op-hold": {
+    "m": 68,
+    "box": 4,
+    "due": 1791128400000,
+    "last": 1791042000000,
+    "seen": 4,
+    "correct": 4,
+    "wrong": 0,
+    "streak": 4,
+    "applied": 3,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 4,
+    "recent": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "lastSessionId": "s-3"
+   },
+   "op-antidote": {
+    "m": 46,
+    "box": 3,
+    "due": 1791065400000,
+    "last": 1791043800000,
+    "seen": 3,
+    "correct": 3,
+    "wrong": 0,
+    "streak": 3,
+    "applied": 1,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 3,
+    "recent": [
+     true,
+     true,
+     true
+    ],
+    "lastSessionId": "s-2"
+   },
+   "ace-angioedema": {
+    "m": 36,
+    "box": 1,
+    "due": 1791046800000,
+    "last": 1791046200000,
+    "seen": 4,
+    "correct": 3,
+    "wrong": 1,
+    "streak": 1,
+    "applied": 2,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 3,
+    "recent": [
+     true,
+     true,
+     false,
+     true
+    ],
+    "lastSessionId": "s-3"
+   },
+   "ace-ci": {
+    "m": 32,
+    "box": 2,
+    "due": 1791051000000,
+    "last": 1791047400000,
+    "seen": 2,
+    "correct": 2,
+    "wrong": 0,
+    "streak": 2,
+    "applied": 1,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 2,
+    "recent": [
+     true,
+     true
+    ],
+    "lastSessionId": "s-1"
+   },
+   "war-teach": {
+    "m": 0,
+    "box": 0,
+    "due": 1791049800000,
+    "last": 1791049800000,
+    "seen": 4,
+    "correct": 1,
+    "wrong": 3,
+    "streak": 0,
+    "applied": 1,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 1,
+    "recent": [
+     false,
+     false,
+     true,
+     false
+    ],
+    "lastSessionId": "s-2"
+   },
+   "war-antidote": {
+    "m": 0,
+    "box": 0,
+    "due": 1791051000000,
+    "last": 1791051000000,
+    "seen": 2,
+    "correct": 0,
+    "wrong": 2,
+    "streak": 0,
+    "applied": 0,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 0,
+    "recent": [
+     false,
+     false
+    ]
+   },
+   "dig-tox": {
+    "m": 18,
+    "box": 1,
+    "due": 1791052800000,
+    "last": 1791052200000,
+    "seen": 2,
+    "correct": 1,
+    "wrong": 1,
+    "streak": 1,
+    "applied": 1,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 1,
+    "recent": [
+     false,
+     true
+    ],
+    "lastSessionId": "s-1"
+   },
+   "hep-lab": {
+    "m": 4,
+    "box": 0,
+    "due": 1791053400000,
+    "last": 1791053400000,
+    "seen": 2,
+    "correct": 1,
+    "wrong": 1,
+    "streak": 0,
+    "applied": 1,
+    "confWrong": 0,
+    "guessRight": 0,
+    "sessions": 1,
+    "recent": [
+     true,
+     false
+    ],
+    "lastSessionId": "s-0"
+   }
+  },
+  "qstats": {
+   "an-024": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791040200000,
+    "lastCorrect": true
+   },
+   "an-025": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791040800000,
+    "lastCorrect": true
+   },
+   "an-026": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791041400000,
+    "lastCorrect": true
+   },
+   "an-027": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791042000000,
+    "lastCorrect": true
+   },
+   "an-030": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791042600000,
+    "lastCorrect": true
+   },
+   "an-031": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791043200000,
+    "lastCorrect": true
+   },
+   "an-032": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791043800000,
+    "lastCorrect": true
+   },
+   "ht-040": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791044400000,
+    "lastCorrect": true
+   },
+   "ht-041": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791045000000,
+    "lastCorrect": true
+   },
+   "ht-042": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791045600000,
+    "lastCorrect": false
+   },
+   "ht-043": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791046200000,
+    "lastCorrect": true
+   },
+   "ht-070": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791046800000,
+    "lastCorrect": true
+   },
+   "ht-071": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791047400000,
+    "lastCorrect": true
+   },
+   "co-082": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791048000000,
+    "lastCorrect": false
+   },
+   "co-083": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791048600000,
+    "lastCorrect": false
+   },
+   "co-084": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791049200000,
+    "lastCorrect": true
+   },
+   "co-085": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791049800000,
+    "lastCorrect": false
+   },
+   "co-072": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791050400000,
+    "lastCorrect": false
+   },
+   "co-073": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791051000000,
+    "lastCorrect": false
+   },
+   "hf-010": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791051600000,
+    "lastCorrect": false
+   },
+   "hf-011": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791052200000,
+    "lastCorrect": true
+   },
+   "co-021": {
+    "seen": 1,
+    "correct": 1,
+    "last": 1791052800000,
+    "lastCorrect": true
+   },
+   "co-022": {
+    "seen": 1,
+    "correct": 0,
+    "last": 1791053400000,
+    "lastCorrect": false
+   }
+  },
+  "mistakes": {
+   "ht-042": {
+    "qid": "ht-042",
+    "concept": "ace-angioedema",
+    "topic": "antihtn",
+    "chosen": "a wrong pick",
+    "at": 1791045600000,
+    "misses": 1,
+    "resolved": false
+   },
+   "co-082": {
+    "qid": "co-082",
+    "concept": "war-teach",
+    "topic": "coag",
+    "chosen": "a wrong pick",
+    "at": 1791048000000,
+    "misses": 1,
+    "resolved": false
+   },
+   "co-083": {
+    "qid": "co-083",
+    "concept": "war-teach",
+    "topic": "coag",
+    "chosen": "a wrong pick",
+    "at": 1791048600000,
+    "misses": 1,
+    "resolved": false
+   },
+   "co-085": {
+    "qid": "co-085",
+    "concept": "war-teach",
+    "topic": "coag",
+    "chosen": "a wrong pick",
+    "at": 1791049800000,
+    "misses": 1,
+    "resolved": false
+   },
+   "co-072": {
+    "qid": "co-072",
+    "concept": "war-antidote",
+    "topic": "coag",
+    "chosen": "a wrong pick",
+    "at": 1791050400000,
+    "misses": 1,
+    "resolved": false
+   },
+   "co-073": {
+    "qid": "co-073",
+    "concept": "war-antidote",
+    "topic": "coag",
+    "chosen": "a wrong pick",
+    "at": 1791051000000,
+    "misses": 1,
+    "resolved": false
+   },
+   "hf-010": {
+    "qid": "hf-010",
+    "concept": "dig-tox",
+    "topic": "hf",
+    "chosen": "a wrong pick",
+    "at": 1791051600000,
+    "misses": 1,
+    "resolved": false
+   },
+   "co-022": {
+    "qid": "co-022",
+    "concept": "hep-lab",
+    "topic": "coag",
+    "chosen": "a wrong pick",
+    "at": 1791053400000,
+    "misses": 1,
+    "resolved": false
+   }
+  },
+  "log": [
+   {
+    "q": "an-024",
+    "c": "op-hold",
+    "t": "analgesics",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791040200000,
+    "mode": "mission"
+   },
+   {
+    "q": "an-025",
+    "c": "op-hold",
+    "t": "analgesics",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791040800000,
+    "mode": "mission"
+   },
+   {
+    "q": "an-026",
+    "c": "op-hold",
+    "t": "analgesics",
+    "ty": "sata",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791041400000,
+    "mode": "mission"
+   },
+   {
+    "q": "an-027",
+    "c": "op-hold",
+    "t": "analgesics",
+    "ty": "fill",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791042000000,
+    "mode": "mission"
+   },
+   {
+    "q": "an-030",
+    "c": "op-antidote",
+    "t": "analgesics",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791042600000,
+    "mode": "mission"
+   },
+   {
+    "q": "an-031",
+    "c": "op-antidote",
+    "t": "analgesics",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791043200000,
+    "mode": "mission"
+   },
+   {
+    "q": "an-032",
+    "c": "op-antidote",
+    "t": "analgesics",
+    "ty": "tf",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791043800000,
+    "mode": "mission"
+   },
+   {
+    "q": "ht-040",
+    "c": "ace-angioedema",
+    "t": "antihtn",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791044400000,
+    "mode": "mission"
+   },
+   {
+    "q": "ht-041",
+    "c": "ace-angioedema",
+    "t": "antihtn",
+    "ty": "fill",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791045000000,
+    "mode": "mission"
+   },
+   {
+    "q": "ht-042",
+    "c": "ace-angioedema",
+    "t": "antihtn",
+    "ty": "tf",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791045600000,
+    "mode": "mission"
+   },
+   {
+    "q": "ht-043",
+    "c": "ace-angioedema",
+    "t": "antihtn",
+    "ty": "sata",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791046200000,
+    "mode": "mission"
+   },
+   {
+    "q": "ht-070",
+    "c": "ace-ci",
+    "t": "antihtn",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791046800000,
+    "mode": "mission"
+   },
+   {
+    "q": "ht-071",
+    "c": "ace-ci",
+    "t": "antihtn",
+    "ty": "fill",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791047400000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-082",
+    "c": "war-teach",
+    "t": "coag",
+    "ty": "mcq",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791048000000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-083",
+    "c": "war-teach",
+    "t": "coag",
+    "ty": "mcq",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791048600000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-084",
+    "c": "war-teach",
+    "t": "coag",
+    "ty": "sata",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791049200000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-085",
+    "c": "war-teach",
+    "t": "coag",
+    "ty": "tf",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791049800000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-072",
+    "c": "war-antidote",
+    "t": "coag",
+    "ty": "mcq",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791050400000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-073",
+    "c": "war-antidote",
+    "t": "coag",
+    "ty": "fill",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791051000000,
+    "mode": "mission"
+   },
+   {
+    "q": "hf-010",
+    "c": "dig-tox",
+    "t": "hf",
+    "ty": "order",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791051600000,
+    "mode": "mission"
+   },
+   {
+    "q": "hf-011",
+    "c": "dig-tox",
+    "t": "hf",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791052200000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-021",
+    "c": "hep-lab",
+    "t": "coag",
+    "ty": "mcq",
+    "ok": true,
+    "ms": 9000,
+    "at": 1791052800000,
+    "mode": "mission"
+   },
+   {
+    "q": "co-022",
+    "c": "hep-lab",
+    "t": "coag",
+    "ty": "mcq",
+    "ok": false,
+    "ms": 9000,
+    "at": 1791053400000,
+    "mode": "mission"
+   }
+  ],
+  "days": {
+   "2026-10-04": {
+    "answered": 14,
+    "correct": 9,
+    "ms": 400000,
+    "xp": 160
+   },
+   "2026-10-05": {
+    "answered": 10,
+    "correct": 7,
+    "ms": 300000,
+    "xp": 120
+   },
+   "2026-10-06": {
+    "answered": 3,
+    "correct": 2,
+    "ms": 60000,
+    "xp": 30
+   }
+  },
+  "achievements": {
+   "first-dose": 1790607600000,
+   "on-a-roll": 1791039600000
+  },
+  "bosses": {
+   "boss-w5": {
+    "attempts": 2,
+    "wins": 1,
+    "best": 9,
+    "lastWin": 1791212400000
+   }
+  },
+  "exams": [
+   {
+    "id": "ex-1",
+    "at": 1791212400000,
+    "ms": 3600000,
+    "total": 50,
+    "correct": 34,
+    "items": []
+   }
+  ],
+  "calib": {
+   "guess": {
+    "n": 4,
+    "ok": 1
+   },
+   "unsure": {
+    "n": 9,
+    "ok": 6
+   },
+   "confident": {
+    "n": 12,
+    "ok": 10
+   }
+  },
+  "counters": {
+   "totalAnswered": 27,
+   "sessions": 5,
+   "vaultFixed": 2,
+   "calcRun": 0,
+   "labPerfectLocks": 1,
+   "arenaBest": 8,
+   "arenaRounds": 2,
+   "contrastsCleared": [
+    "ace-vs-arb"
+   ],
+   "missionDay": "2026-10-05",
+   "missionsDone": 4,
+   "bestRun": 6
+  }
+ },
+ "version": 1
+}

@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { VISUAL_LABS, LAB_BY_SLUG } from "@/data/visualLabs";
 import { useRouter } from "next/navigation";
-import { Flame, Settings, Zap, Target, ChevronRight, CheckCircle2, Swords, Trophy, Brain, AlertTriangle } from "lucide-react";
+import { Flame, Settings, Zap, Target, ChevronRight, CheckCircle2, Swords, Trophy, Brain, AlertTriangle, BookOpen } from "lucide-react";
 import { Onboarding } from "@/components/Onboarding";
 import { Button, Ring, Screen, cx, SectionTitle, Bar, useNow } from "@/components/ui";
 import { useStore } from "@/lib/store";
 import { daysUntil, dayKey, displayStreak, levelFromXp, readiness } from "@/lib/engine/progress";
-import { currentNode, missionPlan, rankWeakConcepts } from "@/lib/engine/session";
+import { continuePlan, currentNode, missionPlan, rankWeakConcepts } from "@/lib/engine/session";
+import { isTaught } from "@/lib/engine/learning";
 import { effectiveMastery } from "@/lib/engine/mastery";
 import { TOPICS, WORLD_BY_ID, CONCEPTS } from "@/data/curriculum";
 
@@ -43,6 +44,8 @@ export default function HomePage() {
   const weakConcept = rankWeakConcepts(s.concepts, s.mistakes, now).find((r) => r.seen > 0);
   const openMistakes = Object.values(s.mistakes).filter((m) => !m.resolved).length;
   const answeredToday = s.days[today]?.answered ?? 0;
+  const smart = node.world !== "w1" ? continuePlan(node.id, node.world, s.concepts, s.learn, s.mistakes, now) : undefined;
+  const taughtCount = CONCEPTS.filter((c) => isTaught(s.learn[c.id])).length;
 
   return (
     <Screen>
@@ -102,8 +105,9 @@ export default function HomePage() {
         <Button onClick={() => router.push("/play?mode=continue")} className="min-h-16 w-full justify-between text-lg" data-testid="continue-quest">
           <span className="flex flex-col items-start leading-tight">
             <span>CONTINUE QUEST</span>
-            <span className="text-xs font-semibold opacity-80">
+            <span className="text-xs font-semibold opacity-80" data-testid="continue-plan">
               W{world.num} · {node.title}
+              {smart ? (smart.plan.startsWith("Relearn") ? " · Relearn first" : " · New lesson") : ""}
             </span>
           </span>
           <ChevronRight size={26} />
@@ -129,6 +133,19 @@ export default function HomePage() {
         </div>
         <ChevronRight className="text-muted" />
       </button>
+
+      {/* Study by drug type */}
+      <Link href="/library" className="card mt-3 flex w-full items-center gap-4 p-4 text-left transition-transform active:scale-[0.99]" data-testid="home-library">
+        <div className="grid size-14 shrink-0 place-items-center rounded-2xl bg-brand-soft">
+          <BookOpen className="text-brand" size={28} />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-extrabold uppercase tracking-wider text-muted">Drug Library</p>
+          <p className="font-extrabold">Study by drug type</p>
+          <p className="truncate text-sm text-muted">Learn → Practice → Test · {taughtCount}/{CONCEPTS.length} concepts taught</p>
+        </div>
+        <ChevronRight className="text-muted" />
+      </Link>
 
       {/* Visual Labs strip */}
       <div className="mt-5 flex items-baseline justify-between">

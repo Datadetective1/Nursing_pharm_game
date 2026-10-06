@@ -30,7 +30,7 @@ export type HoldRule =
   | { label: string; type: "below"; cut: number; unit: string; min: number; max: number; rescue?: { cut: number; label: string }; value: number | null }
   | { label: string; type: "rule"; text: string };
 
-const HOLD: Record<string, HoldRule[]> = {
+export const HOLD: Record<string, HoldRule[]> = {
   "op-hold": [
     { label: "RR", type: "below", cut: 12, unit: "/min", min: 4, max: 24, rescue: { cut: 10, label: "Naloxone" }, value: null },
     { label: "SBP", type: "below", cut: 100, unit: "mmHg", min: 60, max: 160, value: null },
@@ -93,7 +93,6 @@ const K_TABLE: { label: string; dir: "up" | "down"; why: string; aliases: string
   { label: "HCTZ", dir: "down", why: "Thiazide: K-wasting", aliases: ["hydrochlorothiazide", "hctz", "thiazide"] },
   { label: "Spironolactone", dir: "up", why: "K-sparing: blocks aldosterone", aliases: ["spironolactone", "k-sparing", "potassium-sparing"] },
   { label: "ACE inhibitor (-pril)", dir: "up", why: "Retains K+ → hyperkalemia", aliases: ["ace inhibitor", "lisinopril", "captopril", "enalapril", "-pril"] },
-  { label: "ARB (-sartan)", dir: "up", why: "Hyperkalemia, same as ACE inhibitors", aliases: ["arb", "arbs", "losartan", "valsartan", "-sartan"] },
   { label: "Salt substitutes", dir: "up", why: "Salt substitutes = KCl", aliases: ["salt substitute"] },
 ];
 const K_CONCEPTS = new Set(["k-updown", "ace-hyperk", "k-hyperk", "spiro-se", "spiro-teach", "spiro-ci", "loop-se", "thz-se", "diur-teach", "k-po"]);
@@ -132,8 +131,8 @@ export function gaugeFor(q: Question): Explainer | null {
   const re = s.key === "aptt" ? /aptt[^0-9]{0,24}(\d{2,3}(?:\.\d+)?)/g : s.key.startsWith("inr") ? /inr[^0-9]{0,16}(\d+(?:\.\d+)?)/g : s.key === "digoxin" ? /(\d+(?:\.\d+)?)\s*ng\/ml/g : /(\d+(?:\.\d+)?)\s*mcg\/ml/g;
   const vals = [...valueText.matchAll(re)].map((m) => Number(m[1])).filter((v) => Number.isFinite(v) && v >= s.min && v <= s.max);
   const value = vals.length === 1 ? vals[0] : null;
-  // digoxin: the course range is 0.5–1.5 and content never places a value between 1.5 and 2.0
-  if (value !== null && s.key === "digoxin" && value > 1.5 && value < 2) return null;
+  // digoxin: lecture range 0.5–0.8, > 2 toxic; study guides say 0.5–1.5 → never draw a needle in the 0.8–2.0 gray zone
+  if (value !== null && s.key === "digoxin" && value > 0.8 && value <= 2) return null;
   if (value !== null && s.key === "digoxin" && value < s.low) return null;
   return {
     kind: "gauge",

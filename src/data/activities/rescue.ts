@@ -82,7 +82,7 @@ export const RESCUES: Activity[] = [
     title: "Rescue: bleeding on heparin drip",
     topic: "coag",
     concepts: ["hep-antidote", "hep-bleeding", "hep-lab"],
-    source: "Coag Notes · Slides 2, 4",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 4",
     difficulty: 2,
     data: {
       drug: "Heparin infusion",
@@ -104,7 +104,7 @@ export const RESCUES: Activity[] = [
     title: "Rescue: enoxaparin overdose",
     topic: "coag",
     concepts: ["hep-antidote", "lmwh-moa", "hep-bleeding"],
-    source: "Coag Notes · Slides 3–4",
+    source: "M7L2 Coagulation Modifiers · Slides 3–4",
     difficulty: 2,
     data: {
       drug: "Enoxaparin",
@@ -126,7 +126,7 @@ export const RESCUES: Activity[] = [
     title: "Rescue: warfarin and a high INR",
     topic: "coag",
     concepts: ["war-antidote", "war-lab", "hep-bleeding"],
-    source: "Coag Notes · Slides 5–6",
+    source: "M7L2 Coagulation Modifiers · Slides 5–6",
     difficulty: 2,
     data: {
       drug: "Warfarin",
@@ -149,7 +149,7 @@ export const RESCUES: Activity[] = [
     title: "Rescue: dabigatran bleed",
     topic: "coag",
     concepts: ["dti-antidote", "dti"],
-    source: "Coag Notes · Slide 7; Coag Slides · Slide 7",
+    source: "M7L2 Coagulation Modifiers · Slide 7; M7L2 Coagulation Modifiers · Slide 7",
     difficulty: 2,
     data: {
       drug: "Dabigatran",
@@ -170,7 +170,7 @@ export const RESCUES: Activity[] = [
     title: "Rescue: rivaroxaban bleed",
     topic: "coag",
     concepts: ["xa-antidote", "xa"],
-    source: "Coag Slides · Slide 8; Coag Notes · Slide 8",
+    source: "M7L2 Coagulation Modifiers · Slide 8; M7L2 Coagulation Modifiers · Slide 8",
     difficulty: 3,
     data: {
       drug: "Rivaroxaban",
@@ -191,7 +191,7 @@ export const RESCUES: Activity[] = [
     title: "Rescue: alteplase hemorrhage",
     topic: "coag",
     concepts: ["tpa-antidote", "tpa-nursing"],
-    source: "Coag Notes · Slides 12–13; Memory Aid · Alteplase",
+    source: "M7L2 Coagulation Modifiers · Slides 12–13; Memory Aid · Alteplase",
     difficulty: 3,
     data: {
       drug: "Alteplase",

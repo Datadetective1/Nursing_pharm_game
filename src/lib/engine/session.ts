@@ -9,8 +9,41 @@ import type { DailyMinutes, ExamResult, Mistake } from "@/lib/store";
 import { EXAM_TYPES } from "./exam";
 import type { Activity } from "@/lib/activities/types";
 import { activitiesForConcepts, getActivity, isActivityId } from "@/data/activities";
+import { bandFor, isGuidedLevel, isTaught, needsRelearn, questionLevel, type LearnStat, type Level } from "./learning";
+import { microLesson } from "@/data/lessons";
+import type { LessonStep } from "@/lib/lessons/types";
+import { resolveSelection, type Selection } from "@/data/library";
 
-export type Mode = "mission" | "continue" | "quick5" | "weak" | "node" | "world" | "boss" | "vault" | "similar" | "misses" | "highyield" | "focus";
+export type Mode =
+  | "mission"
+  | "continue"
+  | "quick5"
+  | "weak"
+  | "node"
+  | "world"
+  | "boss"
+  | "vault"
+  | "similar"
+  | "misses"
+  | "highyield"
+  | "focus"
+  /** Drug Library: scaffolded practice on a chosen module / drug type / drug */
+  | "practice"
+  /** Drug Library: independent exam-style assessment (no hints, no teaching first) */
+  | "test"
+  /** Drug Library: "Already know this? Test out." short diagnostic */
+  | "pretest";
+
+/** Modes that measure knowledge on purpose — they never teach before asking. */
+export const ASSESSMENT_MODES: Mode[] = ["boss", "test", "pretest"];
+
+/** Session length choices in the Drug Library ("Master it" runs until the selection is practiced to level 5). */
+export type Minutes = 5 | 10 | 20 | "master";
+export const PRACTICE_ITEMS: Record<string, number> = { 5: 6, 10: 12, 20: 24, master: 40 };
+export const TEST_ITEMS: Record<string, number> = { 5: 6, 10: 10, 20: 20, master: 30 };
+
+/** A scripted slot (Continue Quest's smart path). */
+export type ScriptSlot = { t: "teach"; c: string; how?: "exposed" | "relearn" } | { t: "q"; c: string; band?: Level[] } | { t: "a"; concepts: string[] };
 
 export interface SessionConfig {
   mode: Mode;
@@ -21,7 +54,7 @@ export interface SessionConfig {
   pool: Concept[];
   /** optional focus pool used ~70% of the time (interleaving with the wider pool) */
   focus?: Concept[];
-  /** fixed question ids served first (vault, similar) */
+  /** fixed question ids served first (vault, similar, test, pretest) */
   fixed?: string[];
   types?: QuestionType[];
   minDifficulty?: number;
@@ -36,10 +69,33 @@ export interface SessionConfig {
   prefer?: QuestionType[];
   /** learning modes interleave visual/interactive activities with questions (never the exam or bosses) */
   visual?: boolean;
+  /** first-exposure detection: teach a concept before its first question (off in assessment modes) */
+  teachFirst?: boolean;
+  /** pick question difficulty from the learner's scaffold level (1–6) */
+  scaffold?: boolean;
+  /** guided items (levels 1–2) get hints + a safe retry */
+  hints?: boolean;
+  /** drug-level study: prefer questions about these drugs */
+  drugIds?: string[];
+  /** activities must be ABOUT the pool (primary concept in pool), not merely touch it */
+  strictPool?: boolean;
+  /** Drug Library selection this session belongs to (for stage tracking) */
+  sel?: Selection;
+  /** "Master it": finish early once every pool concept is at scaffold level ≥ 5 */
+  masterIt?: boolean;
+  /** Continue Quest's scripted path (teach → guided → visual → retrieval → application) */
+  script?: ScriptSlot[];
+  /** teach these concepts before anything else (Weak Spots relearn) */
+  preTeach?: { c: string; how: "exposed" | "relearn" }[];
+  /** short label for what this session is doing (Continue Quest) */
+  plan?: string;
 }
 
-/** A session item: a question or an interactive activity. */
-export type Item = { kind: "q"; q: Question } | { kind: "a"; a: Activity };
+/** A session item: a question, an interactive activity, or a micro-lesson (teach before test). */
+export type Item =
+  | { kind: "q"; q: Question; guided?: boolean }
+  | { kind: "a"; a: Activity }
+  | { kind: "teach"; concept: string; steps: LessonStep[]; lessonTitle: string; unit: string; how: "exposed" | "relearn" };
 
 /**
  * Session composer: varies the interaction type so learning sessions never become a run of plain MCQs.
@@ -87,6 +143,13 @@ export interface BuildArgs {
   concepts?: string[];
   /** onboarding self-rating: "almost" ready learners get harder, application-heavy missions from the start */
   startConfidence?: "not" | "somewhat" | "almost";
+  /** knowledge state (v2). Absent → nothing counts as taught. */
+  learn?: Record<string, LearnStat>;
+  /** Drug Library selection for practice / test / pretest */
+  sel?: Selection;
+  minutes?: Minutes;
+  /** deterministic seed for fixed test lists (tests) */
+  seed?: number;
 }
 
 /** A node is "cleared" on the quest path once every concept has been met and the node averages Learning (≥30). */
@@ -115,8 +178,83 @@ export function rankWeakConcepts(stats: Record<string, ConceptStat>, mistakes: R
     .sort((a, b) => b.score - a.score);
 }
 
+const openByConcept = (mistakes: Record<string, Mistake>) => {
+  const open: Record<string, number> = {};
+  const misses: Record<string, number> = {};
+  for (const m of Object.values(mistakes)) {
+    if (m.resolved) continue;
+    open[m.concept] = (open[m.concept] ?? 0) + 1;
+    misses[m.concept] = Math.max(misses[m.concept] ?? 0, m.misses);
+  }
+  return { open, misses };
+};
+
+/** Concepts that repeated misses say should be RELEARNED before more questions. */
+export function relearnConcepts(stats: Record<string, ConceptStat>, mistakes: Record<string, Mistake>, pool: Concept[] = CONCEPTS): string[] {
+  const { open, misses } = openByConcept(mistakes);
+  return pool.filter((c) => needsRelearn(c.id, open, misses[c.id] ?? 0, stats[c.id])).map((c) => c.id);
+}
+
+/**
+ * Continue Quest's smart path. Decides what the learner needs next:
+ *   weak-spot remediation (relearn) → new teaching → guided practice → visual reinforcement →
+ *   retrieval → application, with a spaced review mixed in. Returns undefined when the current node
+ *   has nothing new to teach (the adaptive engine then handles practice / review / testing).
+ */
+export function continuePlan(nodeId: string, world: WorldId, stats: Record<string, ConceptStat>, learn: Record<string, LearnStat>, mistakes: Record<string, Mistake>, now: number): { script: ScriptSlot[]; plan: string } | undefined {
+  const nodeConcepts = conceptsForNode(nodeId);
+  const fresh = nodeConcepts.filter((c) => !isTaught(learn[c.id])).slice(0, 2);
+  const worldPool = conceptsForWorld(world);
+  const relearn = relearnConcepts(stats, mistakes, worldPool).filter((c) => isTaught(learn[c]))[0];
+  if (!fresh.length && !relearn) return undefined;
+  const script: ScriptSlot[] = [];
+  if (relearn) script.push({ t: "teach", c: relearn, how: "relearn" }, { t: "q", c: relearn, band: [2, 3] });
+  for (const c of fresh) script.push({ t: "teach", c: c.id }, { t: "q", c: c.id, band: [2] }, { t: "q", c: c.id, band: [2, 3] });
+  if (fresh.length) script.push({ t: "a", concepts: [...fresh.map((c) => c.id), ...nodeConcepts.filter((c) => isTaught(learn[c.id])).map((c) => c.id)] });
+  // one spaced review of something taught and due
+  const due = worldPool.find((c) => isTaught(learn[c.id]) && stats[c.id] && stats[c.id].box > 0 && now >= stats[c.id].due && !fresh.includes(c));
+  if (due) script.push({ t: "q", c: due.id });
+  for (const c of fresh) script.push({ t: "q", c: c.id, band: [3, 2] });
+  const applyTarget = fresh[0]?.id ?? relearn;
+  if (applyTarget) script.push({ t: "q", c: applyTarget, band: [4, 5, 3] });
+  const plan = relearn && !fresh.length ? `Relearn · ${CONCEPT_BY_ID[relearn]?.label ?? ""}` : `New lesson · ${fresh.map((c) => CONCEPT_BY_ID[c.id].label.split(/[:(;]/)[0].trim()).join(" + ")}`;
+  return { script, plan };
+}
+
+/** Deterministic exam-format question list across a set of concepts (Test / Test-out). */
+function fixedAssessment(concepts: string[], n: number, drugIds: string[] | undefined, rng: Rng, prefer: Level[]): string[] {
+  const ids: string[] = [];
+  const order = shuffle(concepts, rng);
+  const used = new Set<string>();
+  for (let round = 0; ids.length < n && round < 6; round++) {
+    let added = false;
+    for (const c of order) {
+      if (ids.length >= n) break;
+      let qs = questionsForConcept(c).filter((q) => EXAM_TYPES.includes(q.type) && !used.has(q.id));
+      if (drugIds?.length) {
+        const about = qs.filter((q) => q.drugs.some((d) => drugIds.includes(d)));
+        if (about.length) qs = about;
+      }
+      if (!qs.length) continue;
+      const pref = qs.filter((q) => prefer.includes(questionLevel(q)));
+      let pool = pref.length ? pref : qs;
+      // rotate formats like the real exam (MCQ, SATA, fill-in, true/false): prefer the least-used format so far
+      const typeUsed = (t: QuestionType) => ids.filter((id) => getQuestion(id)?.type === t).length;
+      const least = Math.min(...pool.map((q) => typeUsed(q.type)));
+      pool = pool.filter((q) => typeUsed(q.type) === least);
+      const q = pool[Math.floor(rng() * pool.length)];
+      ids.push(q.id);
+      used.add(q.id);
+      added = true;
+    }
+    if (!added) break;
+  }
+  return shuffle(ids, rng);
+}
+
 export function buildSession(a: BuildArgs): SessionConfig {
-  const base = { confidenceRate: 0.4, visual: true };
+  const learn = a.learn ?? {};
+  const base = { confidenceRate: 0.4, visual: true, teachFirst: true, scaffold: true, hints: true };
   switch (a.mode) {
     case "mission": {
       const plan = missionPlan(a.dailyMinutes);
@@ -132,20 +270,27 @@ export function buildSession(a: BuildArgs): SessionConfig {
         minDifficulty: almost ? 2 : undefined,
       };
     }
-    case "quick5":
-      return { ...base, mode: "quick5", title: "Quick 5", subtitle: "Five fast retrievals", total: 5, pool: CONCEPTS };
+    case "quick5": {
+      // Quick 5 = fast RETRIEVAL → draw from what has been taught once there's enough of it
+      const taught = CONCEPTS.filter((c) => isTaught(learn[c.id]));
+      return { ...base, mode: "quick5", title: "Quick 5", subtitle: "Five fast retrievals", total: 5, pool: taught.length >= 5 ? taught : CONCEPTS };
+    }
     case "continue": {
       const node = currentNode(a.stats, a.now);
       const world = WORLDS.find((w) => w.id === node.world)!;
+      const smart = node.world !== "w1" ? continuePlan(node.id, node.world, a.stats, learn, a.mistakes, a.now) : undefined;
+      const items = smart ? smart.script.filter((s) => s.t !== "teach").length : 10;
       return {
         ...base,
         mode: "continue",
         title: node.title,
         subtitle: `World ${world.num} · ${world.title}`,
-        total: 10,
+        total: items,
         focus: conceptsForNode(node.id),
         pool: conceptsForWorld(node.world),
         worldId: node.world,
+        script: smart?.script,
+        plan: smart?.plan,
       };
     }
     case "node": {
@@ -188,13 +333,15 @@ export function buildSession(a: BuildArgs): SessionConfig {
       const ranked = rankWeakConcepts(a.stats, a.mistakes, a.now);
       const attempted = ranked.filter((r) => r.seen > 0);
       const top = (attempted.length >= 4 ? attempted : ranked).slice(0, 8).map((r) => r.concept);
-      return { ...base, mode: "weak", title: "Fix My Weak Spots", subtitle: "Your 8 weakest concepts", total: 10, pool: top, confidenceRate: 0.5, mix: [0.6, 0.25, 0.15, 0] };
+      // repeated misses → teach it again FIRST instead of throwing more questions at it
+      const relearn = relearnConcepts(a.stats, a.mistakes, top).slice(0, 1);
+      return { ...base, mode: "weak", title: "Fix My Weak Spots", subtitle: "Your 8 weakest concepts", total: 10, pool: top, confidenceRate: 0.5, mix: [0.6, 0.25, 0.15, 0], preTeach: relearn.map((c) => ({ c, how: "relearn" as const })) };
     }
     case "vault": {
       if (a.qid && (getQuestion(a.qid) || getActivity(a.qid))) {
         const m = a.mistakes[a.qid];
         const c = m ? CONCEPT_BY_ID[m.concept] : undefined;
-        return { ...base, visual: false, mode: "vault", title: "Mistake Vault", subtitle: "Retry", total: 1, fixed: [a.qid], pool: c ? [c] : [] };
+        return { ...base, visual: false, mode: "vault", title: "Mistake Vault", subtitle: "Try again", total: 1, fixed: [a.qid], pool: c ? [c] : [], teachFirst: false, scaffold: false, hints: false };
       }
       const open = Object.values(a.mistakes)
         .filter((m) => !m.resolved && (getQuestion(m.qid) || getActivity(m.qid)))
@@ -204,6 +351,9 @@ export function buildSession(a: BuildArgs): SessionConfig {
         ...base,
         mode: "vault",
         visual: false,
+        teachFirst: false,
+        scaffold: false,
+        hints: false,
         title: "Mistake Vault",
         subtitle: "Retry what you missed",
         total: open.length,
@@ -216,7 +366,7 @@ export function buildSession(a: BuildArgs): SessionConfig {
       const c = CONCEPT_BY_ID[a.concept ?? ""];
       const others = c ? questionsForConcept(c.id).filter((q) => q.id !== a.qid) : [];
       const fixed = shuffle(others).slice(0, 3).map((q) => q.id);
-      return { ...base, visual: false, mode: "similar", title: "Practice Similar", subtitle: c?.label, total: fixed.length, fixed, pool: c ? [c] : [], emptyMessage: "No similar questions available for this concept yet." };
+      return { ...base, visual: false, scaffold: false, mode: "similar", title: "Similar Question", subtitle: c?.label, total: fixed.length, fixed, pool: c ? [c] : [], emptyMessage: "No similar questions available for this concept yet." };
     }
     case "misses": {
       const last = a.exams[0];
@@ -242,6 +392,69 @@ export function buildSession(a: BuildArgs): SessionConfig {
       const pool = (a.concepts ?? []).map((id) => CONCEPT_BY_ID[id]).filter(Boolean);
       return { ...base, mode: "focus", title: "Focused practice", subtitle: `${pool.length} concept${pool.length === 1 ? "" : "s"} from your map`, total: pool.length ? 8 : 0, pool, confidenceRate: 0.5, mix: [0.6, 0.3, 0.1, 0], emptyMessage: "Nothing selected to practice." };
     }
+    case "practice": {
+      const r = a.sel ? resolveSelection(a.sel) : undefined;
+      const pool = (r?.concepts ?? []).map((id) => CONCEPT_BY_ID[id]).filter(Boolean);
+      const isCalc = pool.length > 0 && pool.every((c) => c.topic === "calc");
+      const minutes = a.minutes ?? 10;
+      return {
+        ...base,
+        mode: "practice",
+        title: r?.title ?? "Practice",
+        subtitle: minutes === "master" ? "Practice · Master it" : `Practice · ${minutes} min`,
+        total: pool.length ? PRACTICE_ITEMS[String(minutes)] : 0,
+        pool,
+        drugIds: r?.drugIds,
+        strictPool: true,
+        visual: !isCalc,
+        sel: a.sel,
+        masterIt: minutes === "master",
+        // practice leans on what's weak + what's due, never pulls in unrelated topics
+        mix: [0.55, 0.3, 0.15, 0],
+        emptyMessage: "Nothing to practice for this selection yet.",
+      };
+    }
+    case "test": {
+      const r = a.sel ? resolveSelection(a.sel) : undefined;
+      const concepts = r?.concepts ?? [];
+      const minutes = a.minutes ?? 10;
+      const want = Math.min(TEST_ITEMS[String(minutes)], Math.max(concepts.length * 3, 4));
+      const isCalc = concepts.length > 0 && concepts.every((c) => CONCEPT_BY_ID[c]?.topic === "calc");
+      const fixed = isCalc ? [] : fixedAssessment(concepts, want, r?.drugIds, mulberry32(a.seed ?? Math.floor(a.now % 2 ** 31)), [4, 5, 6, 3]);
+      return {
+        mode: "test",
+        title: r?.title ?? "Test",
+        subtitle: "Test · no hints",
+        total: isCalc ? want : fixed.length,
+        fixed: isCalc ? undefined : fixed,
+        pool: concepts.map((id) => CONCEPT_BY_ID[id]).filter(Boolean),
+        types: EXAM_TYPES,
+        drugIds: r?.drugIds,
+        confidenceRate: 0,
+        visual: false,
+        sel: a.sel,
+        emptyMessage: "No test questions for this selection yet.",
+      };
+    }
+    case "pretest": {
+      const r = a.sel ? resolveSelection(a.sel) : undefined;
+      const concepts = r?.concepts ?? [];
+      const fixed = fixedAssessment(concepts, Math.min(8, Math.max(4, concepts.length)), r?.drugIds, mulberry32(a.seed ?? Math.floor(a.now % 2 ** 31)), [3, 4, 5]);
+      return {
+        mode: "pretest",
+        title: r?.title ?? "Test out",
+        subtitle: "Already know this? Show it.",
+        total: fixed.length,
+        fixed,
+        pool: concepts.map((id) => CONCEPT_BY_ID[id]).filter(Boolean),
+        types: EXAM_TYPES,
+        drugIds: r?.drugIds,
+        confidenceRate: 0,
+        visual: false,
+        sel: a.sel,
+        emptyMessage: "No diagnostic questions for this selection yet.",
+      };
+    }
   }
 }
 
@@ -255,9 +468,15 @@ export interface RuntimeState {
   /** activity template keys / kinds already used this session */
   actKeys: string[];
   actKinds: string[];
+  /** item held back while its concept is taught first */
+  pending?: Item;
+  scriptIdx: number;
+  preIdx: number;
+  /** concepts taught (micro-lesson shown) during this session */
+  taught: string[];
 }
 
-export const newRuntime = (): RuntimeState => ({ served: [], servedConcepts: [], requeue: [], fixedIdx: 0, actKeys: [], actKinds: [] });
+export const newRuntime = (): RuntimeState => ({ served: [], servedConcepts: [], requeue: [], fixedIdx: 0, actKeys: [], actKinds: [], scriptIdx: 0, preIdx: 0, taught: [] });
 
 const actKey = (id: string) => id.replace(/:\d+$/, "");
 
@@ -266,7 +485,8 @@ export function pickActivity(cfg: SessionConfig, rt: RuntimeState, stats: Record
   const pools = cfg.focus && cfg.focus.length && rng() < 0.7 ? [cfg.focus, cfg.pool] : [cfg.pool];
   const recent = new Set(recentGlobal.slice(-30).map(actKey));
   for (const pool of pools) {
-    const cands = activitiesForConcepts(pool, rng).filter((a) => !rt.actKeys.includes(actKey(a.id)) && !recent.has(actKey(a.id)));
+    const ids = new Set(pool.map((c) => c.id));
+    const cands = activitiesForConcepts(pool, rng).filter((a) => !rt.actKeys.includes(actKey(a.id)) && !recent.has(actKey(a.id)) && (!cfg.strictPool || ids.has(a.concepts[0])));
     if (!cands.length) continue;
     const weights = cands.map((a) => {
       const m = effectiveMastery(stats[a.concepts[0]], now);
@@ -285,7 +505,16 @@ export function pickActivity(cfg: SessionConfig, rt: RuntimeState, stats: Record
   return undefined;
 }
 
-/** Next item (question or interactive activity) for a live session; records it in the runtime. */
+/** The micro-lesson item that teaches a concept (undefined if the concept has no lesson step). */
+export function teachItem(conceptId: string, how: "exposed" | "relearn" = "exposed"): Item | undefined {
+  const m = microLesson(conceptId);
+  if (!m) return undefined;
+  return { kind: "teach", concept: conceptId, steps: m.steps, lessonTitle: m.lesson.title, unit: m.lesson.unit, how };
+}
+
+const itemConcept = (it: Item) => (it.kind === "q" ? it.q.concept : it.kind === "a" ? it.a.concepts[0] : it.concept);
+
+/** Next item (question, interactive activity, or micro-lesson) for a live session; records it in the runtime. */
 export function nextItem(
   cfg: SessionConfig,
   rt: RuntimeState,
@@ -295,13 +524,15 @@ export function nextItem(
   now: number,
   rng: Rng = mulberry32(Math.floor(Math.random() * 2 ** 31)),
   mistakeCount?: Record<string, number>,
+  learn: Record<string, LearnStat> = {},
 ): Item | undefined {
+  const levels = cfg.scaffold ? levelMap(cfg, learn) : undefined;
   const mark = (it: Item): Item => {
     if (it.kind === "q") {
       rt.served.push(it.q.id);
       rt.servedConcepts.push(it.q.concept);
       rt.lastType = it.q.type;
-    } else {
+    } else if (it.kind === "a") {
       rt.served.push(it.a.id);
       rt.servedConcepts.push(it.a.concepts[0]);
       rt.actKeys.push(actKey(it.a.id));
@@ -309,43 +540,107 @@ export function nextItem(
     }
     return it;
   };
-  // the fixed queue (Mistake Vault) may contain activities
+  const withGuided = (it: Item): Item => {
+    if (it.kind !== "q" || !cfg.hints || ASSESSMENT_MODES.includes(cfg.mode)) return it;
+    const lv = (learn[it.q.concept]?.level ?? 1) as Level;
+    // hints are for recognition items while the concept is new (levels 1–2) — and always right after a lesson
+    const fresh = rt.taught.includes(it.q.concept);
+    return { ...it, guided: (isGuidedLevel(lv) || fresh) && questionLevel(it.q) <= 3 };
+  };
+  /** First-exposure detection: an untaught concept gets its micro-lesson BEFORE the item. */
+  const gate = (it: Item | undefined): Item | undefined => {
+    if (!it) return undefined;
+    if (!cfg.teachFirst || ASSESSMENT_MODES.includes(cfg.mode) || it.kind === "teach") return mark(withGuided(it));
+    const c = itemConcept(it);
+    if (!isTaught(learn[c]) && !rt.taught.includes(c)) {
+      const t = teachItem(c);
+      if (t) {
+        rt.taught.push(c);
+        rt.pending = withGuided(it);
+        return t;
+      }
+    }
+    return mark(withGuided(it));
+  };
+
+  // 0) an item held back while its concept was being taught
+  if (rt.pending) {
+    const p = rt.pending;
+    rt.pending = undefined;
+    // after a lesson the first question is a guided recognition item when one exists
+    if (p.kind === "q" && rt.taught.includes(p.q.concept)) {
+      const c = CONCEPT_BY_ID[p.q.concept];
+      const easy = c ? pickQuestionForConcept(c, { ...ctxFor(cfg, rt, stats, qstats, recentGlobal, now, rng, mistakeCount, levels), band: [2] }, new Set(rt.served)) : undefined;
+      if (easy && questionLevel(easy) <= 3) return mark(withGuided({ kind: "q", q: easy }));
+    }
+    return mark(p);
+  }
+
+  // 1) teach-first queue (Weak Spots relearn)
+  if (cfg.preTeach && rt.preIdx < cfg.preTeach.length) {
+    const p = cfg.preTeach[rt.preIdx++];
+    const t = teachItem(p.c, p.how);
+    if (t) {
+      rt.taught.push(p.c);
+      return t;
+    }
+  }
+
+  // 2) Continue Quest script
+  if (cfg.script && rt.scriptIdx < cfg.script.length) {
+    while (rt.scriptIdx < cfg.script.length) {
+      const slot = cfg.script[rt.scriptIdx++];
+      if (slot.t === "teach") {
+        if (rt.taught.includes(slot.c)) continue;
+        const t = teachItem(slot.c, slot.how);
+        if (t) {
+          rt.taught.push(slot.c);
+          return t;
+        }
+        continue;
+      }
+      if (slot.t === "a") {
+        const pool = slot.concepts.map((id) => CONCEPT_BY_ID[id]).filter(Boolean);
+        const act = pickActivity({ ...cfg, pool, focus: undefined, strictPool: true }, rt, stats, recentGlobal, now, rng);
+        if (act) return gate({ kind: "a", a: act });
+        continue;
+      }
+      const c = CONCEPT_BY_ID[slot.c];
+      if (!c) continue;
+      const q = pickQuestionForConcept(c, { ...ctxFor(cfg, rt, stats, qstats, recentGlobal, now, rng, mistakeCount, levels), band: slot.band }, new Set(rt.served));
+      if (q && !rt.served.includes(q.id)) return gate({ kind: "q", q });
+    }
+    // script finished — fall through to the adaptive engine for any remaining slots
+  }
+
+  // 3) the fixed queue (Mistake Vault, Test, Test-out) may contain activities
   if (cfg.fixed && rt.fixedIdx < cfg.fixed.length && isActivityId(cfg.fixed[rt.fixedIdx])) {
     const a = getActivity(cfg.fixed[rt.fixedIdx]);
     rt.fixedIdx += 1;
-    if (a) return mark({ kind: "a", a });
+    if (a) return gate({ kind: "a", a });
   }
   const slot = slotPlan(rt.served.length);
   const dueRequeue = rt.requeue.some((r) => rt.served.length >= r.at);
   const fixedLeft = !!cfg.fixed && rt.fixedIdx < cfg.fixed.length;
   if (cfg.visual && slot.kind === "a" && !dueRequeue && !fixedLeft) {
     const a = pickActivity(cfg, rt, stats, recentGlobal, now, rng);
-    if (a) return mark({ kind: "a", a });
+    if (a) return gate({ kind: "a", a });
   }
   const qcfg = cfg.visual && slot.kind === "q" ? { ...cfg, minDifficulty: cfg.minDifficulty ?? slot.minDifficulty, prefer: slot.prefer } : cfg;
-  const q = nextForSession(qcfg, rt, stats, qstats, recentGlobal, now, rng, mistakeCount);
-  return q ? mark({ kind: "q", q }) : undefined;
+  const q = nextForSession(qcfg, rt, stats, qstats, recentGlobal, now, rng, mistakeCount, levels);
+  return gate(q ? { kind: "q", q } : undefined);
 }
 
-export function nextForSession(
-  cfg: SessionConfig,
-  rt: RuntimeState,
-  stats: Record<string, ConceptStat>,
-  qstats: Record<string, QStat>,
-  recentGlobal: string[],
-  now: number,
-  rng: Rng = mulberry32(Math.floor(Math.random() * 2 ** 31)),
-  mistakeCount?: Record<string, number>,
-): Question | undefined {
-  // 1) fixed queue
-  if (cfg.fixed && rt.fixedIdx < cfg.fixed.length) {
-    const q = getQuestion(cfg.fixed[rt.fixedIdx]);
-    rt.fixedIdx += 1;
-    if (q) return q;
-  }
-  if (cfg.fixed && cfg.pool.length === 0) return undefined;
+function levelMap(cfg: SessionConfig, learn: Record<string, LearnStat>): Record<string, Level> {
+  const out: Record<string, Level> = {};
+  for (const c of cfg.pool) out[c.id] = (learn[c.id]?.level ?? 1) as Level;
+  for (const c of cfg.focus ?? []) out[c.id] = (learn[c.id]?.level ?? 1) as Level;
+  for (const s of cfg.script ?? []) if (s.t !== "a") out[s.c] = (learn[s.c]?.level ?? 1) as Level;
+  return out;
+}
 
-  const ctxBase: SelectCtx = {
+function ctxFor(cfg: SessionConfig, rt: RuntimeState, stats: Record<string, ConceptStat>, qstats: Record<string, QStat>, recentGlobal: string[], now: number, rng: Rng, mistakeCount: Record<string, number> | undefined, levels: Record<string, Level> | undefined): SelectCtx {
+  return {
     pool: cfg.pool,
     stats,
     qstats,
@@ -359,7 +654,31 @@ export function nextForSession(
     lastType: rt.lastType,
     mix: cfg.mix,
     preferTypes: cfg.prefer,
+    levels,
+    drugIds: cfg.drugIds,
   };
+}
+
+export function nextForSession(
+  cfg: SessionConfig,
+  rt: RuntimeState,
+  stats: Record<string, ConceptStat>,
+  qstats: Record<string, QStat>,
+  recentGlobal: string[],
+  now: number,
+  rng: Rng = mulberry32(Math.floor(Math.random() * 2 ** 31)),
+  mistakeCount?: Record<string, number>,
+  levels?: Record<string, Level>,
+): Question | undefined {
+  // 1) fixed queue
+  if (cfg.fixed && rt.fixedIdx < cfg.fixed.length) {
+    const q = getQuestion(cfg.fixed[rt.fixedIdx]);
+    rt.fixedIdx += 1;
+    if (q) return q;
+  }
+  if (cfg.fixed && (cfg.pool.length === 0 || cfg.mode === "test" || cfg.mode === "pretest")) return undefined;
+
+  const ctxBase = ctxFor(cfg, rt, stats, qstats, recentGlobal, now, rng, mistakeCount, levels);
   const servedSet = new Set(rt.served);
 
   // 2) re-queued concept (missed earlier in this session) — test it again in a different form
@@ -382,3 +701,8 @@ export function nextForSession(
   }
   return nextQuestion({ ...ctxBase, pool: cfg.pool });
 }
+
+/** "Master it" is done when every concept in the pool has reached scaffold level 5 (clinical scenarios). */
+export const masteredSelection = (cfg: SessionConfig, learn: Record<string, LearnStat>) => cfg.pool.length > 0 && cfg.pool.every((c) => (learn[c.id]?.level ?? 1) >= 5);
+
+export { bandFor };

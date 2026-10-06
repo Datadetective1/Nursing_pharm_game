@@ -7,7 +7,7 @@ export const w5Cards: DrugCard[] = [
     classLabel: "Opioid analgesics (controlled substances)",
     node: "opioids",
     topic: "analgesics",
-    examples: "morphine · hydromorphone · fentanyl · meperidine",
+    examples: "morphine · hydromorphone · fentanyl · meperidine (also codeine, oxycodone, methadone)",
     chunks: {
       moa: [
         "Bind opioid receptors in the CNS → block pain perception",
@@ -15,8 +15,8 @@ export const w5Cards: DrugCard[] = [
         "Controlled substance",
       ],
       use: [
-        "Moderate–severe pain",
-        "Sedation, cough, ↓bowel motility",
+        "Moderate–severe pain: post-op, MI, childbirth, cancer",
+        "Sedation; cough suppression; ↓bowel motility → relieves diarrhea",
         "Morphine = the M in NAOMI (acute MI): ↓anxiety, HR, O2 demand",
       ],
       se: [
@@ -34,10 +34,15 @@ export const w5Cards: DrugCard[] = [
         "Infants, older adults, pregnancy — CAN still give, assess more often",
         "Meperidine: toxic metabolite → avoid in renal impairment + older adults (seizures)*",
       ],
-      intx: ["Any CNS depressant or alcohol → loss of resp drive — can be FATAL"],
+      intx: [
+        "Additive: alcohol, antihistamines, barbiturates, benzodiazepines → can be FATAL",
+        "Additive: phenothiazines, cyclobenzaprine, other CNS depressants",
+        "Paradoxical: MAOIs",
+      ],
       hold: [
-        "RR <12, SBP <100, HR <60 → hold + notify",
+        "Count RR before every dose: RR <12 → hold + notify",
         "RR <10 → give NALOXONE",
+        "Study Guide adds: SBP <100 or HR <60 → hold + notify",
         "Never stop abruptly if dependent",
       ],
       antidote: [
@@ -46,7 +51,10 @@ export const w5Cards: DrugCard[] = [
         "Naloxone causes abrupt pain, HTN, tachycardia, N/V",
       ],
       action: [
-        "2-nurse dose check; witness every waste",
+        "Schedule II: codeine, morphine, hydrocodone, meperidine, methadone",
+        "Schedule III: codeine/hydrocodone mixed (e.g., hydrocodone + acetaminophen)",
+        "Locked; counted each shift by 2 RNs; partial dose wasted with a WATCHING witness",
+        "2-nurse dose check; give before pain becomes severe",
         "Count RR before EVERY dose; IV push slowly over 4–5 min",
         "2 side rails + bed alarm (4 rails = restraint)",
         "I&O (retention); bowel sounds; naloxone available",
@@ -54,10 +62,12 @@ export const w5Cards: DrugCard[] = [
       teach: [
         "Constipation: ↑fluid/fiber/ambulation FIRST, then get a softener order",
         "No alcohol or other CNS depressants",
+        "Don't increase the dose without the provider; don't stop abruptly if dependent",
+        "Opioids are addictive; use nonpharmacologic pain relief too",
       ],
     },
     hook: "NARCS (+ Urinary retention) = opioid adverse effects. Triad ↓LOC + ↓RR + pinpoint pupils = emergency → naloxone if RR <10.",
-    source: "Memory Aid · Opioids; One-member exceptions (Opioids; *meperidine flagged: not in instructor notes); NAOMI; Never stop abruptly",
+    source: "M5L2 Opioid Pain Notes · Slides 3–7; Study Guide (SBP/HR hold); Memory Aid · Opioids (*meperidine: not in instructor notes); NAOMI",
   },
   {
     id: "w5-fentanyl-pca",
@@ -74,19 +84,22 @@ export const w5Cards: DrugCard[] = [
         "Patch: never cut",
       ],
       action: [
-        "Patch: wear gloves; rotate sites; change every 72 hr",
-        "Patch disposal: fold + flush",
-        "PCA: lockout prevents overdose",
+        "Patch: wear gloves; remove old patch + wash site; rotate sites; 72 hr",
+        "Patch: first patch takes several hours → give other pain meds meanwhile",
+        "Patch disposal: fold in half + flush; keep away from children + pets",
+        "PCA: lockout prevents overdose (e.g., 1 mL every 6 min)",
         "PCA: ONLY the client presses the button",
         "PCA: continuous pulse oximetry",
+        "PCA → oral switch: keep PCA dosing until the oral opioid takes effect",
       ],
       teach: [
         "No heat sources over the patch",
         "Family/visitors never press the PCA button",
+        "Use the PCA before activities that worsen pain; you can't give too much",
       ],
     },
     hook: "Patch = tolerant only · 72 hr · rotate · no heat · never cut · fold + flush. PCA = lockout + client-only button + pulse ox.",
-    source: "Memory Aid · Opioids (PCA + patch); One-member exceptions (Opioids)",
+    source: "M5L2 Opioid Pain Notes · Slides 5–6; Memory Aid · Opioids (never cut; fentanyl ≈ 100×)",
   },
   {
     id: "w5-acetaminophen",
@@ -96,7 +109,7 @@ export const w5Cards: DrugCard[] = [
     topic: "analgesics",
     examples: "acetaminophen",
     chunks: {
-      moa: ["↓Prostaglandins in the CNS", "NO anti-inflammatory effect"],
+      moa: ["Slows prostaglandin production in the CNS", "NO anti-inflammatory effect (Study Guide)"],
       use: ["Mild–moderate pain", "Fever"],
       se: [
         "Rare at therapeutic doses",
@@ -112,7 +125,7 @@ export const w5Cards: DrugCard[] = [
       ],
       intx: ["Alcohol (worst)", "Warfarin (APAP ↑warfarin effect)"],
       lab: [
-        "AST/ALT",
+        "AST/ALT (↑ with chronic use); renal function (↓clearance)",
         "Level 10–20 mcg/mL; toxic >200",
         "Draw level <4 hr; after 4 hr assume toxic + treat",
       ],
@@ -127,9 +140,14 @@ export const w5Cards: DrugCard[] = [
         "No alcohol",
         "Overdose → call poison control",
       ],
+      action: [
+        "Pain is whatever the client says it is; add nonpharmacologic relief",
+        "Nonpharm: acupressure, distraction, hot/cold packs, massage, music, pets",
+        "Fever outcome: temp 96–99°F 1 hr after the dose",
+      ],
     },
     hook: "4-3-2: max 4 g/day · 3 g if undernourished · 2 g if >3 alcoholic drinks/day. Antidote = acetylcysteine.",
-    source: "Memory Aid · Acetaminophen; Warfarin (INTX)",
+    source: "M5L1 Non-Opioid Pain Notes · Slides 2–7; Memory Aid · Acetaminophen; Warfarin (INTX)",
   },
   {
     id: "w5-tramadol",
@@ -140,12 +158,13 @@ export const w5Cards: DrugCard[] = [
     examples: "tramadol",
     chunks: {
       moa: ["Partial opioid agonist", "+ inhibits norepinephrine and serotonin reuptake"],
+      use: ["Moderate to moderately severe pain"],
       se: ["CNS/respiratory depression", "SEIZURES"],
       caution: ["Seizure disorder — LOWERS the seizure threshold"],
-      intx: ["CNS depressants → respiratory depression", "SSRIs → serotonin syndrome"],
+      intx: ["CNS depressants/alcohol → CNS + respiratory depression", "SSRIs → serotonin syndrome (Memory Aid only)"],
     },
     hook: "Tramadol = part opioid + part serotonin/NE → resp depression, ↓seizure threshold, serotonin syndrome with SSRIs.",
-    source: "Memory Aid · Tramadol",
+    source: "M5L1 Non-Opioid Pain Notes · Slide 8; Memory Aid · Tramadol (SSRI)",
   },
   {
     id: "w5-nsaids",
@@ -153,17 +172,17 @@ export const w5Cards: DrugCard[] = [
     classLabel: "Nonsteroidal anti-inflammatory drugs",
     node: "nsaids",
     topic: "antiinflam",
-    examples: "ibuprofen · ketorolac · aspirin (celecoxib = contrast only)",
+    examples: "1st gen: aspirin · ibuprofen · naproxen · ketorolac (2nd gen: celecoxib)",
     chunks: {
       moa: [
-        "↓COX-1 → ↓platelet aggregation + stomach UNPROTECTED",
+        "↓COX-1 → ↓platelet aggregation + kidney damage (stomach unprotected)",
         "↓COX-2 → ↓inflammation, fever, pain",
       ],
       use: ["Analgesic + antipyretic + anti-inflammatory"],
       se: [
         "#1 = GI ULCER/BLEED: dark tarry stools, coffee-ground emesis",
         "Epigastric pain esp. after eating; dyspepsia, heartburn",
-        "↓Kidney function",
+        "↓Kidney function; ↑heart attack + stroke risk (non-aspirin NSAIDs)",
       ],
       ci: [
         "Pregnancy; PUD/active ulcer or recent GI bleed",
@@ -171,12 +190,12 @@ export const w5Cards: DrugCard[] = [
         "Ketorolac in CKD",
         "Aspirin in a child/adolescent with viral illness",
       ],
-      caution: ["Older adults", "Severe renal/hepatic disorders"],
+      caution: ["Older adults; clients who smoke; H. pylori", "Hypovolemia; asthma; other bleeding disorders"],
       intx: [
         "ACE inhibitor/ARB → acute renal failure",
         "Warfarin → bleeding; glucocorticoids → gastric bleed",
         "Feverfew/garlic/ginger → bleeding; ginkgo suppresses coagulation",
-        "Ibuprofen negates aspirin's cardioprotection",
+        "Other NSAIDs → bleeding; ibuprofen negates aspirin's cardioprotection",
         "Loop diuretic: NSAIDs ↓renal flow + ↓diuretic effect",
       ],
       hold: [
@@ -188,11 +207,12 @@ export const w5Cards: DrugCard[] = [
         "Take WITH food, milk, or 8 oz water",
         "No alcohol; no 2nd NSAID",
         "Don't crush EC/SR tablets",
-        "Celecoxib = COX-2 only, last choice; CI with sulfa allergy",
+        "No alcohol or other highly protein-bound drugs",
+        "Report epigastric pain, dark tarry stools, coffee-ground emesis",
       ],
     },
     hook: "COX-1 guards the stomach + platelets (block it → ulcers/bleeding); COX-2 = inflammation, fever, pain.",
-    source: "Memory Aid · NSAIDs; One-member exceptions (NSAIDs); Loop diuretic (INTX)",
+    source: "M5L3 Anti-Inflammatory Notes · Slides 2–3; Study Guide · NSAIDs; Memory Aid · Loop diuretic (INTX)",
   },
   {
     id: "w5-aspirin",
@@ -229,6 +249,26 @@ export const w5Cards: DrugCard[] = [
     source: "Memory Aid · NSAIDs; One-member exceptions (NSAIDs); Antiplatelets; NAOMI",
   },
   {
+    id: "w5-celecoxib",
+    name: "Celecoxib",
+    classLabel: "Second-generation NSAID (COX-2 only)",
+    node: "nsaids",
+    topic: "antiinflam",
+    examples: "celecoxib",
+    chunks: {
+      moa: ["Selectively inhibits COX-2 without inhibiting COX-1"],
+      use: ["LAST-choice drug for chronic pain (↑MI + stroke risk)"],
+      se: [
+        "Same as 1st-gen NSAIDs: dyspepsia, abdominal pain, heartburn, nausea",
+        "Impaired kidney function; ↑heart attack + stroke; peripheral edema",
+      ],
+      ci: ["Same as 1st-gen NSAIDs + sulfonamide allergy"],
+      intx: ["Furosemide", "ACE inhibitors"],
+    },
+    hook: "Celecoxib = COX-2 only, last choice (MI/stroke), no sulfa allergy.",
+    source: "M5L3 Anti-Inflammatory Notes · Slide 4",
+  },
+  {
     id: "w5-allopurinol",
     name: "Allopurinol",
     classLabel: "Antigout — blocks uric acid production",
@@ -248,7 +288,7 @@ export const w5Cards: DrugCard[] = [
       ],
     },
     hook: "ALLOpurinol works ALL the time — prophylaxis AND during an attack (it stops production).",
-    source: "Memory Aid · Antigout",
+    source: "M5L3 Anti-Inflammatory Notes · Slide 5; Memory Aid · Antigout",
   },
   {
     id: "w5-probenecid",
@@ -268,7 +308,7 @@ export const w5Cards: DrugCard[] = [
       ],
     },
     hook: "PRObenecid is for the PROlonged (chronic) phase — wait 2–3 weeks after an attack or it triggers a flare.",
-    source: "Memory Aid · Antigout",
+    source: "M5L3 Anti-Inflammatory Notes · Slide 5; Memory Aid · Antigout",
   },
   {
     id: "w5-colchicine",
@@ -289,6 +329,6 @@ export const w5Cards: DrugCard[] = [
       ],
     },
     hook: "Colchicine = Crystal Calmer for the acute attack — short-term only.",
-    source: "Memory Aid · Antigout",
+    source: "M5L3 Anti-Inflammatory Notes · Slide 5; Memory Aid · Antigout",
   },
 ];

@@ -28,7 +28,7 @@ export const RAPID_CATS: Record<RapidCat, { label: string; icon: string }> = {
 };
 
 const MA = "Memory Aid";
-const CN = "Coag Notes";
+const CN = "M7L2 Coagulation Modifiers";
 
 let n = 0;
 const r = (cat: RapidCat, topic: TopicId, concept: string, front: string, back: string, source: string): RapidCard => ({
@@ -48,7 +48,7 @@ export const RAPID: RapidCard[] = [
   r("antidote", "coag", "hep-antidote", "Heparin AND enoxaparin antidote — how fast?", "PROTAMINE SULFATE — slowly, no faster than 50 mg per 10 min (causes hypotension).", `${CN} · Slides 2–3`),
   r("antidote", "coag", "war-antidote", "Warfarin antidote?", "VITAMIN K (phytonadione).", `${CN} · Slides 5–6`),
   r("antidote", "coag", "dti-antidote", "Dabigatran antidote?", "IDARUCIZUMAB (severe bleeding / emergency surgery).", `${CN} · Slide 7`),
-  r("antidote", "coag", "xa-antidote", "Rivaroxaban (Xa inhibitor) antidote?", "ANDEXANET ALFA (FDA-approved 2018, per slide).", "Coag Slides · Slide 8"),
+  r("antidote", "coag", "xa-antidote", "Rivaroxaban (Xa inhibitor) antidote?", "ANDEXANET ALFA (FDA-approved 2018, per slide).", "M7L2 Coagulation Modifiers · Slide 8"),
   r("antidote", "coag", "tpa-antidote", "Alteplase antidote + sequence?", "Stop alteplase → blood products → AMINOCAPROIC ACID if life-threatening.", `${CN} · Slide 12`),
   r("antidote", "hf", "dig-antidote", "Digoxin antidote?", "DIGOXIN IMMUNE FAB.", `${MA} · Digoxin`),
   r("antidote", "cnsdep", "bz-antidote", "Benzodiazepine antidote (IV toxicity)? Oral ingestion?", "FLUMAZENIL for IV toxicity; oral → gastric lavage or activated charcoal. Maintain airway.", `${MA} · Benzodiazepines`),
@@ -98,7 +98,7 @@ export const RAPID: RapidCard[] = [
   r("lab", "coag", "lmwh-lab", "Enoxaparin labs?", "No lab measures its effect. Monitor CREATININE CLEARANCE, platelets, H&H.", `${CN} · Slides 3–4`),
   r("lab", "coag", "war-lab", "Warfarin PT and INR targets?", "PT 1.5–2× control = 18–24 sec. INR 2–3 most · 2.5–3.5 PE · 3–4.5 mechanical valve/recurrent embolism.", `${CN} · Slide 5`),
   r("lab", "coag", "tpa-nursing", "Alteplase baseline labs?", "CBC (H&H, platelets), aPTT, PT, INR, FIBRINOGEN.", `${CN} · Slide 13`),
-  r("lab", "hf", "dig-lab", "Digoxin therapeutic level?", "0.5–1.5 ng/mL (a quiz printed 0.5–2.0 — use the range given in the question). Watch K+.", `${MA} · Digoxin`),
+  r("lab", "hf", "dig-lab", "Digoxin therapeutic level?", "0.5–0.8 ng/mL per the lecture slide; > 2 ng/mL = toxicity (study guides list 0.5–1.5 — use the range given in the question). Watch K+.", `${MA} · Digoxin`),
   r("lab", "analgesics", "apap-lab", "Acetaminophen level?", "10–20 mcg/mL; toxic > 200. Draw < 4 hr; after 4 hr assume toxic + treat. AST/ALT.", `${MA} · Acetaminophen`),
   r("lab", "anticonv", "ac-levels", "Anticonvulsant levels (mcg/mL)?", "Phenytoin 10–20 · Phenobarbital 10–40 · Carbamazepine 4–12 (narrowest) · Valproic 50–100 · Topiramate 5–20. Below = seizures; above = toxicity.", `${MA} · Anticonvulsants`),
   r("lab", "lipids", "lip-goals", "Lipid goals?", "Total < 200 · LDL < 100 · HDL > 60.", `${MA} · Lipids`),
@@ -136,7 +136,7 @@ export const RAPID: RapidCard[] = [
   r("confuse", "coag", "coag-classes", "Which coag class DISSOLVES clots?", "Only thrombolytics (alteplase). Anticoagulants DO NOT dissolve existing clots.", `${CN} · Slides 1, 12`),
   r("confuse", "coag", "ap-vs-ac", "Antiplatelet vs anticoagulant territory?", "Antiplatelet = high-velocity ARTERIES (CAD, CVA, PAD). Anticoagulant = low-velocity VEINS + LEFT ATRIUM (DVT, PE, a-fib).", `${MA} · Antiplatelets`),
   r("confuse", "coag", "dti", "Argatroban is for…?", "Clients who CANNOT take heparin due to HIT.", `${CN} · Slide 7`),
-  r("confuse", "diuretics", "k-updown", "K+ UP vs K+ DOWN drugs?", "UP: ACE, ARB, spironolactone, K+ supplements, salt substitutes. DOWN: loop, thiazide.", `${MA} · Summary`),
+  r("confuse", "diuretics", "k-updown", "K+ UP vs K+ DOWN drugs?", "UP: ACE inhibitors, spironolactone, K+ supplements, salt substitutes. DOWN: loop, thiazide. ARBs: potassium is not influenced (ARB lecture).", `${MA} · Summary`),
   r("confuse", "antihtn", "ccb-moa", "Which CCBs also slow the heart?", "dilTIAZem + verapaMIL. '-pine' drugs act on vessels only (more edema + reflex tachycardia).", `${MA} · One-member exceptions`),
   r("confuse", "antiinflam", "nsaid-intx", "Which NSAID cancels aspirin's heart protection?", "IBUPROFEN.", `${MA} · One-member exceptions`),
   r("confuse", "cnsdep", "cyclo", "Cyclobenzaprine vs dantrolene?", "Cyclobenzaprine = C = CENTRALLY acting. Dantrolene = D = DIRECT acting (malignant hyperthermia).", `${MA} · Muscle relaxants`),

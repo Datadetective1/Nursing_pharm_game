@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Lightbulb, Search, Sparkles, RefreshCw, ArrowRight, BookOpen, ChevronDown, RotateCcw } from "lucide-react";
+import { Lightbulb, Search, Sparkles, RefreshCw, ArrowRight, BookOpen, ChevronDown, RotateCcw, GraduationCap } from "lucide-react";
 import type { Question } from "@/lib/types";
 import { correctAnswerText } from "@/lib/engine/grade";
 import { VisualExplainer } from "./explain/VisualExplainer";
@@ -18,6 +18,10 @@ interface Props {
   /** hide the explanation behind a self-explanation prompt (elaborative interrogation) */
   elaborate?: boolean;
   scheduledNote?: boolean;
+  /** "Teach me this": open a short micro-lesson on the concept instead of more questions */
+  onTeach?: () => void;
+  /** repeated misses → make Teach me this the primary action */
+  teachFirst?: boolean;
 }
 
 /** Long text collapses to ~3 lines; the visual explainer carries the idea. */
@@ -36,7 +40,7 @@ function Clamp({ text, testId }: { text: string; testId?: string }) {
   );
 }
 
-export function Feedback({ q, correct, chosenText, xp, onNext, onFollowUp, nextLabel = "Continue", elaborate, scheduledNote = true }: Props) {
+export function Feedback({ q, correct, chosenText, xp, onNext, onFollowUp, nextLabel = "Continue", elaborate, scheduledNote = true, onTeach, teachFirst }: Props) {
   const [showWhy, setShowWhy] = useState(!elaborate);
   const answerText = correctAnswerText(q);
   const stacked = q.type === "match" || q.type === "order" || q.type === "sata" || chosenText.length + answerText.length > 70;
@@ -139,6 +143,11 @@ export function Feedback({ q, correct, chosenText, xp, onNext, onFollowUp, nextL
       )}
 
       <div className="mt-4 grid grid-cols-1 gap-2">
+        {!correct && onTeach && (
+          <Button variant={teachFirst ? "primary" : "secondary"} onClick={onTeach} data-testid="teach-me">
+            <GraduationCap size={18} /> Teach me this
+          </Button>
+        )}
         {!correct && onFollowUp && (
           <Button onClick={onFollowUp} data-testid="follow-up">
             <RefreshCw size={18} /> Retry a similar question

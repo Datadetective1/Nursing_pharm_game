@@ -79,7 +79,7 @@ export function TimelineX({ steps }: { steps: string[] }) {
 // ───────────────────────── antidote ─────────────────────────
 const ARGUABLE: Record<string, string[]> = { Digoxin: ["Atropine"], "Enoxaparin (LMWH)": ["Andexanet alfa"], Heparin: ["Andexanet alfa"] };
 
-function AntidoteX({ pairs, interactive, seed }: { pairs: AntidotePair[]; interactive: boolean; seed: string }) {
+export function AntidoteX({ pairs, interactive, seed }: { pairs: AntidotePair[]; interactive: boolean; seed: string }) {
   const p = pairs[0];
   const kits = useMemo(() => {
     // never offer a kit that could be argued right for this drug (per content audit)
@@ -142,7 +142,7 @@ function AntidoteX({ pairs, interactive, seed }: { pairs: AntidotePair[]; intera
 }
 
 // ───────────────────────── gauge ─────────────────────────
-function GaugeX({ g, interactive }: { g: Omit<GaugeData, "value"> & { value: number | null }; interactive: boolean }) {
+export function GaugeX({ g, interactive }: { g: Omit<GaugeData, "value"> & { value: number | null }; interactive: boolean }) {
   const hasValue = g.value !== null;
   const gv = { ...g, value: g.value ?? g.low };
   const band = bandOf(gv);
@@ -172,7 +172,7 @@ function GaugeX({ g, interactive }: { g: Omit<GaugeData, "value"> & { value: num
 // ───────────────────────── suffix ─────────────────────────
 const FAM = Object.fromEntries(FAMILIES.map((f) => [f.id, f]));
 
-function SuffixX({ drugs, seed, chosenText }: { drugs: { name: string; family: string; suffix: string; correct: boolean }[]; seed: string; chosenText?: string }) {
+export function SuffixX({ drugs, seed, chosenText }: { drugs: { name: string; family: string; suffix: string; correct: boolean }[]; seed: string; chosenText?: string }) {
   const chosen = chosenText?.toLowerCase() ?? "";
   return (
     <div data-testid="x-suffix">
@@ -250,7 +250,7 @@ function NowYouTry({ exclude, seed }: { exclude: string[]; seed: string }) {
 }
 
 // ───────────────────────── RAAS ─────────────────────────
-function RaasX({ target }: { target: "ace" | "receptor" | "aldosterone" }) {
+export function RaasX({ target }: { target: "ace" | "receptor" | "aldosterone" }) {
   const block = (t: typeof target) =>
     target === t ? (
       <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute -right-2 -top-2 grid size-6 place-items-center rounded-full bg-bad text-white shadow" aria-label="blocked">
@@ -290,7 +290,7 @@ function RaasX({ target }: { target: "ace" | "receptor" | "aldosterone" }) {
 }
 
 // ───────────────────────── nephron ─────────────────────────
-function NephronX({ drug }: { drug: DrugId }) {
+export function NephronX({ drug }: { drug: DrugId }) {
   const e = NEPHRON_EFFECT[drug];
   const segs: { id: DrugId; label: string }[] = [
     { id: "mannitol", label: "Bloodstream" },
@@ -327,7 +327,7 @@ function NephronX({ drug }: { drug: DrugId }) {
 
 // ───────────────────────── clot classes ─────────────────────────
 const CLOT_ICON: Record<ClotClass, React.ReactNode> = { anticoagulant: <ShieldCheck size={18} />, antiplatelet: <Hand size={18} />, thrombolytic: <Sparkles size={18} /> };
-function ClotX({ highlight }: { highlight: ClotClass[] }) {
+export function ClotX({ highlight }: { highlight: ClotClass[] }) {
   return (
     <div className="grid grid-cols-3 gap-1.5" data-testid="x-clot">
       {(Object.keys(CLASS_STYLE) as ClotClass[]).map((c) => {
@@ -350,7 +350,7 @@ function ClotX({ highlight }: { highlight: ClotClass[] }) {
 }
 
 // ───────────────────────── potassium ─────────────────────────
-function PotassiumX({ items }: { items: { label: string; dir: "up" | "down"; why: string }[] }) {
+export function PotassiumX({ items }: { items: { label: string; dir: "up" | "down"; why: string }[] }) {
   const col = (dir: "up" | "down") => (
     <div className={cx("rounded-xl p-2", dir === "down" ? "bg-sky-500/10" : "bg-amber-500/10")}>
       <p className={cx("text-center text-[13px] font-black", dir === "down" ? "text-sky-600 dark:text-sky-300" : "text-amber-600 dark:text-amber-300")}>K⁺ {dir === "down" ? "↓ DOWN" : "↑ UP"}</p>
@@ -378,7 +378,7 @@ function PotassiumX({ items }: { items: { label: string; dir: "up" | "down"; why
 
 // ───────────────────────── body ─────────────────────────
 const REGION_LABEL: Record<BodyRegion, string> = { brain: "Brain", eyes: "Eyes", ears: "Ears", mouth: "Mouth", lungs: "Lungs", heart: "Heart", vessels: "Vessels", liver: "Liver", gi: "GI tract", kidneys: "Kidneys", blood: "Blood", skin: "Skin", muscle: "Muscle" };
-function BodyX({ acts, effects, drug }: { acts: { region: BodyRegion; text: string }[]; effects: { region: BodyRegion; text: string }[]; drug: string }) {
+export function BodyX({ acts, effects, drug }: { acts: { region: BodyRegion; text: string }[]; effects: { region: BodyRegion; text: string }[]; drug: string }) {
   const [sel, setSel] = useState<BodyRegion | null>(null);
   const actSet = useMemo(() => new Set(acts.map((a) => a.region)), [acts]);
   const effSet = useMemo(() => new Set(effects.map((a) => a.region)), [effects]);
@@ -404,7 +404,7 @@ function BodyX({ acts, effects, drug }: { acts: { region: BodyRegion; text: stri
 }
 
 // ───────────────────────── compare ─────────────────────────
-function CompareX({ columns, rows, interactive }: { columns: string[]; rows: { label: string; cells: string[] }[]; interactive: boolean }) {
+export function CompareX({ columns, rows, interactive }: { columns: string[]; rows: { label: string; cells: string[] }[]; interactive: boolean }) {
   const shown = rows.slice(0, 3);
   const [open, setOpen] = useState<Record<string, boolean>>({});
   return (
@@ -444,7 +444,7 @@ function FragmentRow({ label, children }: { label: string; children: React.React
 }
 
 // ───────────────────────── hold line ─────────────────────────
-function HoldX({ rules }: { rules: HoldRule[] }) {
+export function HoldX({ rules }: { rules: HoldRule[] }) {
   return (
     <div className="space-y-2.5" data-testid="x-hold">
       {rules.map((r) =>

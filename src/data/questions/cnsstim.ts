@@ -1,6 +1,6 @@
 import type { Question } from "@/lib/types";
 
-const ST = "Memory Aid · CNS Stimulants";
+const ST = "M8L1 CNS Stimulants · Slides 3–4";
 const THINK_CAFFEINE =
   "THINK CAFFEINE — stimulants (↑NE + dopamine) act like too much coffee: insomnia, restlessness, tremors, ↓appetite, ↑HR, ↑BP.";
 
@@ -25,6 +25,7 @@ export const cnsstimQuestions: Question[] = [
     answer: 1,
     why: "CNS stimulants ↑norepinephrine + dopamine in the CNS. ↑GABA = benzodiazepines/zolpidem; ↓sodium influx = phenytoin; ↓sympathetic outflow = clonidine.",
     hook: THINK_CAFFEINE,
+    clue: "↑NE + dopamine = stimulant; think caffeine.",
     source: ST,
   },
   {
@@ -40,6 +41,7 @@ export const cnsstimQuestions: Question[] = [
     options: ["ADHD", "Insomnia", "Narcolepsy", "Alcohol withdrawal", "Obesity"],
     answers: [0, 2, 4],
     why: "Stimulant uses: ADHD, narcolepsy, obesity. Insomnia and alcohol withdrawal are CNS-depressant uses (benzodiazepines; zolpidem for short-term insomnia) — stimulants CAUSE insomnia.",
+    clue: "Stimulants wake the brain up and curb appetite — pick the conditions that need that.",
     source: ST,
   },
   {
@@ -54,6 +56,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "Methylphenidate is a CNS depressant used to treat ADHD.",
     answer: false,
     why: "False. Methylphenidate (like amphetamine) is a CNS STIMULANT — it ↑norepinephrine + dopamine; used for ADHD and narcolepsy.",
+    clue: "Methylphenidate speeds the brain up — think caffeine, not alcohol.",
     source: ST,
   },
   {
@@ -68,6 +71,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "CNS stimulants increase norepinephrine and ____ in the CNS.",
     accept: ["dopamine", "DA"],
     why: "Stimulants ↑norepinephrine + dopamine in the CNS.",
+    clue: "Norepinephrine and its partner catecholamine.",
     source: ST,
   },
   {
@@ -88,6 +92,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 0,
     why: "Amphetamine ↑NE + dopamine in the CNS; uses are ADHD, narcolepsy, obesity.",
+    clue: "Same class as the child's ADHD drug — stimulants raise NE + dopamine.",
     source: ST,
   },
 
@@ -111,6 +116,7 @@ export const cnsstimQuestions: Question[] = [
     answer: 1,
     why: "Stimulant S/E: insomnia, restlessness, tremors, nervousness, irritability, ↓appetite, tachycardia, ↑BP. Drowsiness/respiratory depression = benzodiazepines; gingival hyperplasia = phenytoin; hyperK/cough/angioedema = ACE inhibitors.",
     hook: THINK_CAFFEINE,
+    clue: "Think caffeine: what does too much coffee do?",
     source: ST,
   },
   {
@@ -133,6 +139,7 @@ export const cnsstimQuestions: Question[] = [
     answers: [0, 2, 3],
     why: "Stimulant S/E: insomnia, restlessness, tremors; ↓appetite, weight loss, growth suppression; tachycardia, dysrhythmias, chest pain, ↑BP; psychosis; tolerance + withdrawal. Respiratory depression = CNS depressants; gingival hyperplasia = phenytoin.",
     hook: THINK_CAFFEINE,
+    clue: "Caffeine-like effects only; rule out the depressant and phenytoin effects.",
     source: ST,
   },
   {
@@ -189,6 +196,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "CNS stimulants commonly cause increased appetite and weight gain.",
     answer: false,
     why: "False. Stimulants cause ↓APPETITE and WEIGHT LOSS (and growth suppression in children).",
+    clue: "Stimulants suppress appetite.",
     source: ST,
   },
   {
@@ -204,6 +212,7 @@ export const cnsstimQuestions: Question[] = [
     options: ["Headache", "Gingival hyperplasia", "Muscle weakness", "Depression", "Jaundice"],
     answers: [0, 2, 3],
     why: "Stimulant tolerance + withdrawal: headache, N/V, muscle weakness, depression — so never stop abruptly; taper. Gingival hyperplasia = phenytoin; jaundice = valproic acid hepatotoxicity.",
+    clue: "Withdrawal looks like a crash: headache, weakness, low mood.",
     source: ST,
   },
   {
@@ -218,6 +227,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "In children, CNS stimulants can cause ____ suppression, so height and weight are tracked.",
     accept: ["growth"],
     why: "Growth suppression in children → baseline AND follow-up height + weight.",
+    clue: "Child + stimulant → track height and weight.",
     source: ST,
   },
   {
@@ -239,7 +249,8 @@ export const cnsstimQuestions: Question[] = [
     answer: 0,
     why: "Stimulants: tachycardia, dysrhythmias, chest pain, ↑BP. Drowsiness, incoordination, and respiratory depression are benzodiazepine CNS-depression effects.",
     hook: THINK_CAFFEINE,
-    source: "Memory Aid · CNS Stimulants; Benzodiazepines",
+    clue: "Only one option is a 'speeding up' effect.",
+    source: "M8L1 CNS Stimulants · Slide 3; M8L2 CNS Depressants Notes · Slide 3",
   },
   {
     id: "cs-017",
@@ -253,6 +264,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "Tolerance can develop with CNS stimulants, and withdrawal may cause headache, nausea/vomiting, muscle weakness, and depression.",
     answer: true,
     why: "True. Stimulant S/E include tolerance + withdrawal (HA, N/V, muscle weakness, depression).",
+    clue: "Stimulants can cause tolerance, so stopping causes withdrawal.",
     source: ST,
   },
 
@@ -275,6 +287,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 2,
     why: "Stimulant CI: substance use disorder, hypertension, hyperthyroidism, cardiovascular disorders, glaucoma, severe anxiety, psychosis. ADHD and narcolepsy are indications; family therapy is recommended with medication.",
+    clue: "Which condition is already 'overstimulated'?",
     source: ST,
   },
   {
@@ -290,6 +303,7 @@ export const cnsstimQuestions: Question[] = [
     options: ["Glaucoma", "Narcolepsy", "Substance use disorder", "Obesity", "Severe anxiety"],
     answers: [0, 2, 4],
     why: "Stimulant CI: substance use disorder, hypertension, hyperthyroidism, cardiovascular disorders, glaucoma, severe anxiety, psychosis. Narcolepsy and obesity are indications.",
+    clue: "ADHD, narcolepsy, and obesity are uses — the rest are contraindications.",
     source: ST,
   },
   {
@@ -325,6 +339,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "Combining a CNS stimulant with an MAOI can cause hypertensive crisis.",
     answer: true,
     why: "True. MAOI + stimulant → hypertensive crisis.",
+    clue: "MAOI + stimulant.",
     source: ST,
   },
   {
@@ -346,6 +361,7 @@ export const cnsstimQuestions: Question[] = [
     answer: 1,
     why: "OTC cold/decongestant products with sympathomimetics + caffeine → ↑stimulation. Teach to avoid caffeine with stimulants.",
     hook: THINK_CAFFEINE,
+    clue: "Decongestant + cola (caffeine) on top of a stimulant.",
     source: ST,
   },
   {
@@ -367,7 +383,8 @@ export const cnsstimQuestions: Question[] = [
     ],
     answers: [0, 1, 3],
     why: "Avoid caffeine + ETOH; OTC decongestants with sympathomimetics + caffeine → ↑stimulation. Vitamin K–rich greens matter with warfarin; potassium-rich foods are loop/thiazide teaching.",
-    source: ST,
+    clue: "Avoid whatever adds stimulation, plus alcohol.",
+    source: "M8L1 CNS Stimulants · Slides 3–4",
   },
   {
     id: "cs-026",
@@ -381,6 +398,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "A client taking an MAOI who receives a CNS stimulant is at risk for hypertensive ____.",
     accept: ["crisis"],
     why: "MAOI + stimulant → hypertensive crisis.",
+    clue: "MAOI + stimulant → blood pressure skyrockets.",
     source: ST,
   },
   {
@@ -417,7 +435,8 @@ export const cnsstimQuestions: Question[] = [
     options: ["MAOIs", "OTC decongestants", "CNS depressants", "Caffeine-containing products"],
     answer: 2,
     why: "Stimulants are antagonistic with CNS depressants. MAOIs → hypertensive crisis; decongestants + caffeine → ↑stimulation (additive, not opposing).",
-    source: ST,
+    clue: "Opposing = the class that slows the brain.",
+    source: "Study Guide · CNS Depressant vs. CNS Stimulant chart",
   },
   {
     id: "cs-029",
@@ -437,6 +456,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 1,
     why: "Stimulant S/E include tachycardia, dysrhythmias, chest pain, ↑BP — dangerous with cardiovascular disorders. ↑ADH → fluid overload is carbamazepine.",
+    clue: "Stimulants speed up the heart.",
     source: ST,
   },
   {
@@ -455,7 +475,8 @@ export const cnsstimQuestions: Question[] = [
       ["CNS depressant", "Antagonistic (opposing) effect"],
     ],
     why: "Stimulant INTX: MAOI → hypertensive crisis; OTC cold/decongestants with sympathomimetics + caffeine → ↑stimulation; antagonistic with CNS depressants.",
-    source: ST,
+    clue: "MAOI = crisis; decongestant/caffeine = more stimulation; depressant = opposite.",
+    source: "M8L1 CNS Stimulants · Slide 3; Study Guide · CNS Depressant vs. CNS Stimulant chart",
   },
 
   // ───────────── stim-monitor · HR, BP, height, weight, mental status ─────────────
@@ -478,6 +499,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answers: [0, 1, 3],
     why: "Stimulant monitoring: HR + BP; baseline AND follow-up height + weight (growth suppression); mental status — aggression, affect, mood. INR = warfarin; ammonia = valproic acid.",
+    clue: "Stimulant monitoring = vital signs, growth, mental status.",
     source: ST,
   },
   {
@@ -498,6 +520,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 2,
     why: "Stimulants cause ↓appetite, weight loss, and growth suppression in children → baseline AND follow-up height + weight.",
+    clue: "Stimulants ↓ appetite in growing children.",
     source: ST,
   },
   {
@@ -512,6 +535,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "For a child taking a CNS stimulant, height and weight need to be measured only once, at baseline.",
     answer: false,
     why: "False. Monitor BASELINE AND FOLLOW-UP height + weight because of growth suppression.",
+    clue: "Growth is followed over time, not once.",
     source: ST,
   },
   {
@@ -528,6 +552,7 @@ export const cnsstimQuestions: Question[] = [
     numeric: { value: 2 },
     unit: "times/week",
     why: "Weigh 2×/week, report weight loss.",
+    clue: "Home weights for stimulants: twice a week.",
     source: ST,
   },
   {
@@ -548,6 +573,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 1,
     why: "Report weight loss (↓appetite, weight loss, growth suppression). Giving doses with meals, a last dose before 4 PM, and family therapy are all correct practices.",
+    clue: "Stimulants ↓ appetite → watch for weight loss.",
     source: ST,
   },
   {
@@ -568,6 +594,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 0,
     why: "Stimulants can cause tachycardia, dysrhythmias, chest pain, ↑BP — assess HR + BP first (a core stimulant monitoring parameter).",
+    clue: "Chest pain + racing heart → check vital signs first.",
     source: ST,
   },
 
@@ -632,6 +659,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 2,
     why: "ADHD is NOT cured by medication — combine with CBT/family therapy. The other statements are correct teaching.",
+    clue: "Medication alone does not cure ADHD.",
     source: ST,
   },
   {
@@ -653,6 +681,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answers: [0, 2],
     why: "Patch on ALTERNATING hips, worn ≤ 9 HOURS. Stimulants are never stopped abruptly — taper.",
+    clue: "Patch: alternating hips, ≤ 9 hours, never stopped abruptly.",
     source: ST,
   },
   {
@@ -669,6 +698,7 @@ export const cnsstimQuestions: Question[] = [
     numeric: { value: 4 },
     unit: "PM",
     why: "Last dose no later than 4 PM (insomnia is a stimulant adverse effect).",
+    clue: "Late doses cause insomnia — the cutoff is mid-afternoon.",
     source: ST,
   },
   {
@@ -683,6 +713,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "CNS stimulants should be taken on an empty stomach, at least 1 hour before meals.",
     answer: false,
     why: "False. Give stimulants DURING or RIGHT AFTER meals on a regular schedule.",
+    clue: "Stimulants go WITH meals.",
     source: ST,
   },
   {
@@ -697,6 +728,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "Children taking stimulants for ADHD often taper off the medication for summer and then taper back on.",
     answer: true,
     why: "True. Children often taper off for summer, then taper back on — never an abrupt stop.",
+    clue: "Stimulants are tapered off — and back on.",
     source: ST,
   },
   {
@@ -717,6 +749,7 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 3,
     why: "Stimulants are NEVER stopped abruptly — taper. Children often taper off for summer and taper back on.",
+    clue: "Stimulants must never be stopped abruptly.",
     source: ST,
   },
   {
@@ -731,6 +764,7 @@ export const cnsstimQuestions: Question[] = [
     stem: "Medication cures ADHD, so behavioral therapy is not needed once symptoms improve.",
     answer: false,
     why: "False. ADHD is NOT cured by medication — combine with CBT/family therapy.",
+    clue: "ADHD is not cured by medication.",
     source: ST,
   },
   {
@@ -747,6 +781,7 @@ export const cnsstimQuestions: Question[] = [
     numeric: { value: 9 },
     unit: "hours",
     why: "Patch on alternating hips, ≤ 9 hours.",
+    clue: "Patch wear time is a single-digit number of hours.",
     source: ST,
   },
   {
@@ -766,6 +801,7 @@ export const cnsstimQuestions: Question[] = [
       ["Home weights", "Twice a week"],
     ],
     why: "Last dose ≤ 4 PM; patch on alternating hips, ≤ 9 hours; weigh 2×/week and report weight loss.",
+    clue: "4 PM · 9 hours · alternating hips · twice a week.",
     source: ST,
   },
   {
@@ -786,6 +822,114 @@ export const cnsstimQuestions: Question[] = [
     ],
     answer: 0,
     why: "Give during or right after meals on a regular schedule, with the last dose no later than 4 PM. Bedtime dosing → insomnia; stimulants are never stopped abruptly.",
+    clue: "Stimulants are given with meals on a regular schedule.",
     source: ST,
+  },
+
+  // ───────────── Learn → Practice additions (recognition + lecture gap facts) ─────────────
+  {
+    id: "cs-062",
+    topic: "cnsstim",
+    concept: "stim-ci",
+    drugs: ["amphetamine", "methylphenidate"],
+    type: "tf",
+    difficulty: 1,
+    cognitive: "understand",
+    format: "interaction",
+    stem: "Over-the-counter cold and decongestant products can increase the effects of CNS stimulants.",
+    answer: true,
+    why: "True. OTC cold/decongestant products with sympathomimetic actions — and caffeine — increase CNS stimulant effects.",
+    clue: "Decongestants are stimulating too — the effects stack.",
+    hook: THINK_CAFFEINE,
+    source: "M8L1 CNS Stimulants · Slide 3",
+  },
+  {
+    id: "cs-063",
+    topic: "cnsstim",
+    concept: "stim-monitor",
+    drugs: ["methylphenidate"],
+    type: "mcq",
+    difficulty: 1,
+    cognitive: "understand",
+    format: "nursing-action",
+    stem: "Which assessment helps the nurse detect growth suppression in a child taking methylphenidate?",
+    options: ["Height and weight at each follow-up visit", "Serum potassium level", "Liver enzymes", "Drug level in mcg/mL"],
+    answer: 0,
+    why: "Measure the child's height and weight at baseline and at follow-up appointments to make sure growth suppression isn't occurring.",
+    clue: "Growth = how tall and how heavy.",
+    source: "M8L1 CNS Stimulants · Slide 4",
+  },
+  {
+    id: "cs-064",
+    topic: "cnsstim",
+    concept: "stim-admin",
+    drugs: ["amphetamine", "methylphenidate"],
+    type: "mcq",
+    difficulty: 1,
+    cognitive: "remember",
+    format: "nursing-action",
+    stem: "When should the last daily dose of a CNS stimulant be given?",
+    options: ["At bedtime", "With the evening meal", "No later than 4 PM", "Whenever the child seems hyperactive"],
+    answer: 2,
+    why: "Give stimulants during or right after meals on a regular schedule, with the last dose no later than 4 PM — late doses cause insomnia.",
+    clue: "Think caffeine: a late-day dose keeps you up at night.",
+    source: "M8L1 CNS Stimulants · Slide 4",
+  },
+  {
+    id: "cs-065",
+    topic: "cnsstim",
+    concept: "stim-moa",
+    drugs: ["amphetamine"],
+    type: "tf",
+    difficulty: 1,
+    cognitive: "remember",
+    format: "definition",
+    stem: "Obesity is one of the listed indications for CNS stimulants such as amphetamine.",
+    answer: true,
+    why: "True. CNS stimulants are used to treat ADHD, narcolepsy, and even obesity.",
+    clue: "Stimulants decrease appetite.",
+    source: "M8L1 CNS Stimulants · Slide 3",
+  },
+  {
+    id: "cs-066",
+    topic: "cnsstim",
+    concept: "stim-admin",
+    drugs: ["methylphenidate"],
+    type: "mcq",
+    difficulty: 2,
+    cognitive: "apply",
+    format: "teaching",
+    stem: "A parent asks when and where to put on their child's methylphenidate patch. Which instruction is correct?",
+    options: [
+      "In the morning, on an alternating hip; remove it within 9 hours",
+      "At bedtime, so the dose lasts through the night",
+      "On the same hip daily, left on for 24 hours",
+      "Only on days when the child seems hyperactive",
+    ],
+    answer: 0,
+    why: "Place the patch on alternating hips daily in the morning and leave it on no longer than 9 hours. Bedtime or 24-hour wear would cause insomnia.",
+    clue: "Morning · alternating hips · ≤ 9 hours.",
+    source: "M8L1 CNS Stimulants · Slide 4",
+  },
+  {
+    id: "cs-067",
+    topic: "cnsstim",
+    concept: "stim-monitor",
+    drugs: ["amphetamine", "methylphenidate"],
+    type: "mcq",
+    difficulty: 3,
+    cognitive: "evaluate",
+    format: "case",
+    stem: "Which finding best shows that a child's ADHD treatment with a CNS stimulant is effective?",
+    options: [
+      "The child sleeps 12 hours a night",
+      "The child completes schoolwork and interacts better with peers",
+      "The child's appetite has decreased",
+      "The child's heart rate has increased",
+    ],
+    answer: 1,
+    why: "Evaluation: increased ability to focus and complete tasks, interact with peers, and manage impulsivity. ↓ appetite and ↑ HR are side effects.",
+    clue: "Look for the therapeutic goal, not a side effect.",
+    source: "M8L1 CNS Stimulants · Slide 4",
   },
 ];

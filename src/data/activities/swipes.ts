@@ -37,7 +37,7 @@ export const SWIPES: Activity[] = [
     title: "K+ down or K+ up?",
     topic: "diuretics",
     concepts: ["k-updown", "loop-se", "thz-se", "spiro-moa", "ace-hyperk"],
-    source: "Memory Aid · K+ UP / K+ DOWN; Diuretics; ACE Inhibitors; ARBs",
+    source: "M6L1 Antihypertensives · Slides 4–6; M6L2 Diuretics · Slides 3–5",
     difficulty: 1,
     data: {
       prompt: "Which way does it push potassium?",
@@ -48,9 +48,8 @@ export const SWIPES: Activity[] = [
         { text: "Spironolactone", side: "right", why: "Blocks aldosterone → retains K+. The only K-sparing diuretic." },
         { text: "Hydrochlorothiazide", side: "left", why: "Thiazide = K-wasting → hypokalemia." },
         { text: "Lisinopril", side: "right", why: "ACE inhibitors retain K+ → hyperkalemia." },
-        { text: "Salt substitute", side: "right", why: "Salt substitutes = KCl → avoid with ACE/ARB/spironolactone." },
+        { text: "Salt substitute", side: "right", why: "Salt substitutes = KCl → avoid with ACE inhibitors and spironolactone." },
         { text: "Diuretic acting in the loop of Henle", side: "left", why: "That's furosemide (loop): loses K+, plus Mg + Ca." },
-        { text: "Losartan", side: "right", why: "ARBs cause hyperkalemia, same as ACE inhibitors." },
         { text: "First-line diuretic for essential HTN", side: "left", why: "That's HCTZ (thiazide) — K-wasting." },
         { text: "Oral potassium chloride", side: "right", why: "Replaces K+; over-replacement → hyperkalemia." },
       ],
@@ -88,7 +87,7 @@ export const SWIPES: Activity[] = [
     title: "Alteplase: CI or caution?",
     topic: "coag",
     concepts: ["tpa-ci", "tpa-nursing"],
-    source: "Memory Aid · Alteplase (CI vs CAUT); Coag Notes · Slide 12; Coag Slides · Slide 12",
+    source: "Memory Aid · Alteplase (CI vs CAUT); M7L2 Coagulation Modifiers · Slide 12; M7L2 Coagulation Modifiers · Slide 12",
     difficulty: 3,
     data: {
       prompt: "Alteplase is ordered. This history is…",

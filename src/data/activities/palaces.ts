@@ -11,7 +11,7 @@ export const PALACES: Activity[] = [
     title: "Warfarin kitchen",
     topic: "coag",
     concepts: ["war-teach", "war-antidote", "war-lab", "war-moa", "war-ci", "war-intx"],
-    source: "Coag Notes · Slides 5–6; Memory Aid · Warfarin",
+    source: "M7L2 Coagulation Modifiers · Slides 5–6; Memory Aid · Warfarin",
     difficulty: 1,
     data: {
       scene: "A client's kitchen, set up for life on warfarin",
@@ -32,7 +32,7 @@ export const PALACES: Activity[] = [
     title: "Heparin & enoxaparin med room",
     topic: "coag",
     concepts: ["hep-lab", "hep-antidote", "hep-hit", "hep-admin", "lmwh-admin", "lmwh-lab"],
-    source: "Coag Notes · Slides 2–4; Memory Aid · Heparin, Enoxaparin",
+    source: "M7L2 Coagulation Modifiers · Slides 2–4; Memory Aid · Heparin, Enoxaparin",
     difficulty: 2,
     data: {
       scene: "A med room stocked for heparin and enoxaparin",
@@ -63,7 +63,7 @@ export const PALACES: Activity[] = [
         { id: "meal", icon: "salad", label: "Untouched meal", chunk: "se", fact: "Anorexia = EARLIEST toxicity sign; then N/V, abdominal pain", x: 78, y: 15 },
         { id: "eye-chart", icon: "eye", label: "Eye chart", chunk: "se", fact: "Vision changes: blurred, yellow-green or white halos", x: 55, y: 45 },
         { id: "banana", icon: "banana", label: "Banana", chunk: "intx", fact: "Loop/thiazide → low K+ → digoxin TOXICITY; check K+", x: 18, y: 62 },
-        { id: "tube", icon: "droplet", label: "Blood tube", chunk: "lab", fact: "Digoxin level 0.5–1.5 ng/mL (use the range given in the question)", x: 85, y: 60 },
+        { id: "tube", icon: "droplet", label: "Blood tube", chunk: "lab", fact: "Digoxin level 0.5–0.8 ng/mL; > 2 ng/mL = toxicity (lecture slide)", x: 85, y: 60 },
         { id: "vial", icon: "flask", label: "Rescue vial", chunk: "antidote", fact: "Antidote: digoxin immune fab", x: 48, y: 85 },
       ],
     },

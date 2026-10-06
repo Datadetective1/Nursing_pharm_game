@@ -2,20 +2,23 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Flame, Heart, X, Trophy, RotateCcw, Home as HomeIcon, Swords, Volume2, VolumeX, ArrowRight, Sparkles, Shuffle } from "lucide-react";
+import { Flame, Heart, X, Trophy, RotateCcw, Home as HomeIcon, Swords, Volume2, VolumeX, ArrowRight, Sparkles, Shuffle, Lightbulb, GraduationCap, Layers } from "lucide-react";
 import type { Question } from "@/lib/types";
 import type { Activity, ActivityResult } from "@/lib/activities/types";
 import { correctAnswerText, isCorrect, responseText, type Response } from "@/lib/engine/grade";
 import type { Confidence } from "@/lib/engine/mastery";
-import { newRuntime, nextItem, pickActivity, type Item, type SessionConfig } from "@/lib/engine/session";
+import { ASSESSMENT_MODES, masteredSelection, newRuntime, nextItem, pickActivity, teachItem, relearnConcepts, type Item, type SessionConfig } from "@/lib/engine/session";
 import { pickQuestionForConcept } from "@/lib/engine/select";
 import { CONCEPT_BY_ID, WORLD_BY_ID } from "@/data/curriculum";
+import { selKey } from "@/data/library";
+import { keyFact, microLesson } from "@/data/lessons";
 import { openMistakesByConcept, useStore } from "@/lib/store";
 import { mulberry32 } from "@/lib/rng";
 import { playSound } from "@/lib/sound";
 import { QuestionView } from "./QuestionView";
 import { Feedback } from "./Feedback";
 import { ActivityView, KIND_LABEL } from "./activities/ActivityView";
+import { LessonStepper } from "./learn/LessonStepper";
 import { Button, cx, haptic } from "./ui";
 import { celebrate } from "./celebrate";
 
@@ -35,7 +38,12 @@ interface Result {
 function pickNext(cfg: SessionConfig, rt: ReturnType<typeof newRuntime>): Item | undefined {
   const s = useStore.getState();
   const recent = s.log.slice(-40).map((l) => l.q);
-  return nextItem(cfg, rt, s.concepts, s.qstats, recent, Date.now(), undefined, openMistakesByConcept(s.mistakes));
+  return nextItem(cfg, rt, s.concepts, s.qstats, recent, Date.now(), undefined, openMistakesByConcept(s.mistakes), s.learn);
+}
+
+/** The strongest hint we have for a question: its clue, else the lesson's key fact, else its hook. */
+function hintFor(q: Question) {
+  return q.clue ?? keyFact(q.concept) ?? q.hook ?? "";
 }
 
 export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: () => void }) {
@@ -60,17 +68,25 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
   const shownAt = useRef(0);
   const [confirmExit, setConfirmExit] = useState(false);
   const [serveIdx, setServeIdx] = useState(0);
+  // guided practice state for the current question
+  const [guide, setGuide] = useState<{ tries: number; hinted: boolean; eliminated: number[] }>({ tries: 0, hinted: false, eliminated: [] });
+  const [masterDone, setMasterDone] = useState(false);
   const isBoss = cfg.mode === "boss";
+  const isAssessment = ASSESSMENT_MODES.includes(cfg.mode);
   const q = item?.kind === "q" ? item.q : undefined;
+  const guided = item?.kind === "q" && !!item.guided;
   const act = item?.kind === "a" ? item.a : undefined;
+  const teach = item?.kind === "teach" ? item : undefined;
 
   const serve = useCallback(
     (next: Item | undefined) => {
       setItem(next);
       setServeIdx((n) => n + 1);
       setLast(null);
+      setGuide({ tries: 0, hinted: false, eliminated: [] });
       setPhase(next ? "q" : "done");
-      setAskConf(confPref && Math.random() < cfg.confidenceRate);
+      // no confidence prompt on guided items — hints already show she's still learning it
+      setAskConf(confPref && !(next?.kind === "q" && next.guided) && Math.random() < cfg.confidenceRate);
       shownAt.current = Date.now();
       if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
     },
@@ -86,6 +102,15 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
         const fin = s.finishSession({ mode: cfg.mode, correct, total: res.length });
         extra += fin.bonusXp;
       }
+      if (cfg.sel && res.length > 0) {
+        const key = selKey(cfg.sel);
+        if (cfg.mode === "test") s.recordUnitTest(key, correct, res.length);
+        if (cfg.mode === "pretest") {
+          const byConcept: Record<string, boolean> = {};
+          for (const r of res) byConcept[r.concept] = (byConcept[r.concept] ?? true) && r.correct;
+          s.recordPretest(key, byConcept, Math.round((correct / res.length) * 100));
+        }
+      }
       if (isBoss && cfg.bossId) {
         const won = heartsLeft > 0 && res.length >= cfg.total;
         const b = s.recordBoss(cfg.bossId, won, correct);
@@ -98,25 +123,49 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
       setBonus(extra);
       setPhase("done");
     },
-    [cfg.bossId, cfg.mode, cfg.total, isBoss],
+    [cfg.bossId, cfg.mode, cfg.total, cfg.sel, isBoss],
   );
+
+  const settle = (correct: boolean, chosen: string, xp: number, before: number, after: number, elaborate: boolean) => {
+    if (!q) return;
+    setLast({ correct, chosen, xp, elaborate });
+    setResults((prev) => [...prev, { id: q.id, concept: q.concept, title: q.stem, correct, xp, before, after, chosen, q }]);
+    setPhase("fb");
+  };
 
   const onSubmit = (r: Response, conf?: Confidence) => {
     if (!q) return;
     const ms = shownAt.current ? Date.now() - shownAt.current : 0;
     const correct = isCorrect(q, r);
     const chosen = responseText(q, r);
+
+    // ── Guided practice: a wrong answer teaches (hint + retry) instead of counting against her
+    if (guided) {
+      if (!correct && guide.tries === 0 && q.type !== "tf") {
+        setGuide((g) => ({ tries: 1, hinted: true, eliminated: r.type === "mcq" ? [...g.eliminated, r.choice] : g.eliminated }));
+        haptic([20, 30, 20]);
+        playSound("wrong");
+        if (typeof window !== "undefined") window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const firstTry = guide.tries === 0 && !guide.hinted && correct;
+      const newStreak = firstTry ? streak + 1 : 0;
+      const res = useStore.getState().recordGuided({ q, correct, firstTry, assisted: !firstTry, responseText: chosen, ms, mode: cfg.mode, sessionId, sessionStreak: newStreak });
+      setStreak(newStreak);
+      haptic(correct ? 15 : [30, 40, 30]);
+      playSound(correct ? "correct" : "wrong");
+      return settle(correct, chosen, res.xp, res.masteryBefore, res.masteryAfter, false);
+    }
+
     const newStreak = correct ? streak + 1 : 0;
     const res = useStore.getState().recordAnswer({ q, correct, responseText: chosen, confidence: conf, ms, mode: cfg.mode, sessionId, sessionStreak: newStreak });
     setStreak(newStreak);
-    if (!correct && !isBoss) rt.current.requeue.push({ concept: q.concept, at: rt.current.served.length + 3 });
+    if (!correct && !isAssessment) rt.current.requeue.push({ concept: q.concept, at: rt.current.served.length + 3 });
     if (isBoss && !correct) setHearts((h) => h - 1);
     haptic(correct ? 15 : [30, 40, 30]);
     playSound(correct ? "correct" : "wrong");
-    const elaborate = correct && !q.steps && (q.cognitive === "apply" || q.cognitive === "analyze" || q.cognitive === "evaluate") && Math.random() < 0.3;
-    setLast({ correct, chosen, xp: res.xp, elaborate });
-    setResults((prev) => [...prev, { id: q.id, concept: q.concept, title: q.stem, correct, xp: res.xp, before: res.masteryBefore, after: res.masteryAfter, chosen, q }]);
-    setPhase("fb");
+    const elaborate = correct && !isAssessment && !q.steps && (q.cognitive === "apply" || q.cognitive === "analyze" || q.cognitive === "evaluate") && Math.random() < 0.3;
+    settle(correct, chosen, res.xp, res.masteryBefore, res.masteryAfter, elaborate);
   };
 
   const onActivityDone = (r: ActivityResult) => {
@@ -135,9 +184,43 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
     const done = results.length;
     if (isBoss && hearts <= 0) return finish(results, hearts);
     if (done >= total) return finish(results, hearts);
+    if (cfg.masterIt && done >= 6 && masteredSelection(cfg, useStore.getState().learn)) {
+      setMasterDone(true);
+      return finish(results, hearts);
+    }
     const next = pickNext(cfg, rt.current);
     if (!next) return finish(results, hearts);
     serve(next);
+  };
+
+  /** A micro-lesson finished inside the session → mark taught, then continue with its guided question. */
+  const onTeachDone = () => {
+    if (!teach) return;
+    useStore.getState().teachConcepts([teach.concept], teach.how);
+    const next = pickNext(cfg, rt.current);
+    if (!next) return finish(results, hearts);
+    serve(next);
+  };
+
+  /** "Teach me this": re-teach the missed concept now, then a fresh guided question on it. */
+  const onTeach = () => {
+    const conceptId = q?.concept;
+    if (!conceptId) return onNext();
+    const t = teachItem(conceptId, "relearn");
+    if (!t) return onNext();
+    const c = CONCEPT_BY_ID[conceptId];
+    const s = useStore.getState();
+    const served = new Set(rt.current.served);
+    const fu = c ? pickQuestionForConcept(c, { pool: [c], stats: s.concepts, qstats: s.qstats, recentQ: rt.current.served, recentConcepts: [], now: Date.now(), rng: mulberry32(Date.now() % 2 ** 31), types: cfg.types, band: [2, 3] }, served) : undefined;
+    if (fu && !served.has(fu.id)) {
+      rt.current.pending = { kind: "q", q: fu, guided: true };
+      rt.current.served.push(fu.id);
+      rt.current.servedConcepts.push(conceptId);
+      setTotal((n) => n + 1);
+    }
+    rt.current.requeue = rt.current.requeue.filter((x) => x.concept !== conceptId);
+    rt.current.taught.push(conceptId);
+    serve(t);
   };
 
   /** Retrieval retry: a different question (or a fresh activity) on the same concept, right now. */
@@ -158,7 +241,7 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
     }
     if (!next) return onNext();
     rt.current.requeue = rt.current.requeue.filter((x) => x.concept !== conceptId);
-    rt.current.served.push(next.kind === "q" ? next.q.id : next.a.id);
+    rt.current.served.push(next.kind === "q" ? next.q.id : next.kind === "a" ? next.a.id : next.concept);
     rt.current.servedConcepts.push(conceptId);
     setTotal((t) => t + 1);
     serve(next);
@@ -183,9 +266,16 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
   const answered = results.length;
   const progress = total ? (answered / total) * 100 : 0;
   const world = cfg.worldId ? WORLD_BY_ID[cfg.worldId] : undefined;
+  // repeated misses on this concept → "Teach me this" becomes the recommended action
+  const relearnNow = useMemo(() => {
+    if (!q || !last || last.correct) return false;
+    const s = useStore.getState();
+    return relearnConcepts(s.concepts, s.mistakes, [CONCEPT_BY_ID[q.concept]].filter(Boolean)).length > 0;
+  }, [q, last]);
+  const canTeach = !!q && !isAssessment && !!microLesson(q.concept);
 
   if (phase === "done") {
-    return <Summary cfg={cfg} results={results} hearts={hearts} bonus={bonus} onAgain={onAgain} />;
+    return <Summary cfg={cfg} results={results} hearts={hearts} bonus={bonus} onAgain={onAgain} masterDone={masterDone} />;
   }
 
   return (
@@ -225,17 +315,43 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
               {isBoss && <Swords size={13} className="mr-1 inline" />}
               {cfg.title}
               {world && !isBoss ? ` · W${world.num}` : ""}
+              {cfg.mode === "test" ? " · Test" : cfg.mode === "pretest" ? " · Test out" : cfg.mode === "practice" ? " · Practice" : ""}
             </span>
-            <span>
-              {Math.min(answered + (phase === "q" ? 1 : 0), total)}/{total}
-            </span>
+            <span data-testid="session-count">{teach ? "Learn" : `${Math.min(answered + (phase === "q" ? 1 : 0), total)}/${total}`}</span>
           </div>
         </div>
 
         <main className="flex-1 px-4 pb-8 pt-2">
+          {teach && (
+            <div key={`${serveIdx}-teach-${teach.concept}`} className="animate-fade-up" data-testid="session-teach" data-concept={teach.concept}>
+              <LessonStepper steps={teach.steps} compactHeader={`${teach.how === "relearn" ? "Relearn" : "Learn first"} · ${teach.lessonTitle}`} finishLabel="Got it — try one" onFinish={onTeachDone} />
+            </div>
+          )}
           {q && (
-            <div key={`${serveIdx}-${q.id}`} className="animate-fade-up">
-              <QuestionView q={q} revealed={phase === "fb"} askConfidence={askConf} onSubmit={onSubmit} />
+            <div key={`${serveIdx}-${q.id}`} className="animate-fade-up" data-guided={guided ? "true" : undefined}>
+              {guided && phase === "q" && (
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-good-soft px-2.5 py-1 text-[11px] font-extrabold uppercase tracking-wider text-good" data-testid="guided-badge">
+                    <Sparkles size={13} /> Guided practice · no penalty
+                  </span>
+                  {!guide.hinted && (
+                    <button onClick={() => setGuide((g) => ({ ...g, hinted: true }))} className="ml-auto inline-flex min-h-9 items-center gap-1 rounded-full px-3 text-[12.5px] font-extrabold text-brand" data-testid="hint-btn">
+                      <Lightbulb size={15} /> Hint
+                    </button>
+                  )}
+                </div>
+              )}
+              {guided && guide.hinted && phase === "q" && (
+                <div className="mb-3 flex items-start gap-2 rounded-2xl border-2 border-warn/35 bg-warn-soft p-3 text-[14.5px] font-semibold leading-snug" data-testid="guided-hint">
+                  <Lightbulb size={18} className="mt-0.5 shrink-0 text-warn" />
+                  <p>
+                    {guide.tries > 0 && <span className="font-extrabold">Not quite — here&apos;s a hint. </span>}
+                    {hintFor(q)}
+                    {guide.tries > 0 && <span className="text-muted"> Try again.</span>}
+                  </p>
+                </div>
+              )}
+              <QuestionView q={q} revealed={phase === "fb"} askConfidence={askConf && !guided} onSubmit={onSubmit} eliminated={guide.eliminated} highlightSuffix={guided && guide.hinted} />
             </div>
           )}
           {act && (
@@ -257,9 +373,11 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
                 xp={last.xp}
                 elaborate={last.elaborate}
                 onNext={onNext}
-                onFollowUp={!isBoss ? onFollowUp : undefined}
+                onFollowUp={!isAssessment ? onFollowUp : undefined}
+                onTeach={canTeach ? onTeach : undefined}
+                teachFirst={relearnNow}
                 nextLabel={isBoss && hearts <= 0 ? "See result" : answered >= total ? "Finish" : "Continue"}
-                scheduledNote={!isBoss}
+                scheduledNote={!isBoss && !guided}
               />
             </div>
           )}
@@ -307,13 +425,16 @@ export function SessionPlayer({ cfg, onAgain }: { cfg: SessionConfig; onAgain: (
   );
 }
 
-function Summary({ cfg, results, hearts, bonus, onAgain }: { cfg: SessionConfig; results: Result[]; hearts: number; bonus: number; onAgain: () => void }) {
+function Summary({ cfg, results, hearts, bonus, onAgain, masterDone }: { cfg: SessionConfig; results: Result[]; hearts: number; bonus: number; onAgain: () => void; masterDone: boolean }) {
   const router = useRouter();
   const correct = results.filter((r) => r.correct).length;
   const xp = results.reduce((a, r) => a + r.xp, 0) + bonus;
   const pct = results.length ? Math.round((correct / results.length) * 100) : 0;
   const isBoss = cfg.mode === "boss";
   const won = isBoss && hearts > 0 && results.length >= cfg.total;
+  const isTest = cfg.mode === "test";
+  const isPre = cfg.mode === "pretest";
+  const selHref = cfg.sel ? `/unit?sel=${encodeURIComponent(selKey(cfg.sel))}` : null;
   const improved = useMemo(() => {
     const byConcept = new Map<string, { before: number; after: number }>();
     for (const r of results) {
@@ -324,6 +445,7 @@ function Summary({ cfg, results, hearts, bonus, onAgain }: { cfg: SessionConfig;
     return [...byConcept.entries()].map(([c, v]) => ({ c, delta: v.after - v.before, after: v.after })).sort((a, b) => b.delta - a.delta);
   }, [results]);
   const missed = results.filter((r) => !r.correct);
+  const missedConcepts = Array.from(new Set(missed.map((m) => m.concept))).filter((c) => microLesson(c));
 
   if (results.length === 0) {
     return (
@@ -331,28 +453,77 @@ function Summary({ cfg, results, hearts, bonus, onAgain }: { cfg: SessionConfig;
         <div>
           <div className="text-5xl">🗂️</div>
           <p className="mt-3 text-lg font-bold">{cfg.emptyMessage ?? "Nothing to practice here yet."}</p>
-          <Button className="mt-6 w-full" onClick={() => router.push("/")}>
-            Back home
+          <Button className="mt-6 w-full" onClick={() => router.push(selHref ?? "/")}>
+            {selHref ? "Back" : "Back home"}
           </Button>
         </div>
       </div>
     );
   }
 
+  const headline = isBoss
+    ? won
+      ? `${cfg.title} defeated!`
+      : "So close — regroup and retry"
+    : isPre
+      ? pct >= 80
+        ? "You tested out!"
+        : "Let's learn this one first"
+      : isTest
+        ? pct >= 80
+          ? "Test passed"
+          : "Good check-in — now you know what to review"
+        : masterDone
+          ? "Mastered for now!"
+          : pct >= 80
+            ? "Outstanding round"
+            : pct >= 50
+              ? "Solid progress"
+              : "Every miss is a lesson";
+  const sub = isBoss
+    ? won
+      ? `Badge earned · +100 XP`
+      : `${hearts} hearts left · the bosses reward focus`
+    : isPre
+      ? pct >= 80
+        ? "Intro teaching skipped — you'll move straight to harder retrieval and application."
+        : "The lesson will make the next round feel easy."
+      : isTest
+        ? `${cfg.title} · independent test`
+        : masterDone
+          ? `Every concept in ${cfg.title} reached clinical-scenario level.`
+          : cfg.title;
+
   return (
-    <div className="mx-auto min-h-dvh max-w-md px-4 pb-10 pt-[max(env(safe-area-inset-top),24px)]" data-testid="summary">
+    <div className="mx-auto min-h-dvh max-w-md px-4 pb-10 pt-[max(env(safe-area-inset-top),24px)]" data-testid="summary" data-mode={cfg.mode}>
       <div className={cx("animate-pop rounded-3xl p-6 text-center text-white shadow-xl", isBoss ? (won ? "bg-gradient-to-br from-amber-400 via-orange-500 to-rose-500" : "bg-gradient-to-br from-slate-600 to-slate-800") : "bg-gradient-to-br from-brand to-brand-2")}>
-        <div className="text-5xl">{isBoss ? (won ? "🏆" : "🛡️") : pct >= 80 ? "🎉" : pct >= 50 ? "💪" : "🌱"}</div>
+        <div className="text-5xl">{isBoss ? (won ? "🏆" : "🛡️") : isPre ? (pct >= 80 ? "🚀" : "📘") : pct >= 80 ? "🎉" : pct >= 50 ? "💪" : "🌱"}</div>
         <h1 className="mt-2 text-2xl font-extrabold" data-testid="summary-title">
-          {isBoss ? (won ? `${cfg.title} defeated!` : "So close — regroup and retry") : pct >= 80 ? "Outstanding round" : pct >= 50 ? "Solid progress" : "Every miss is a lesson"}
+          {headline}
         </h1>
-        <p className="mt-1 text-white/85">{isBoss ? (won ? `Badge earned · +100 XP` : `${hearts} hearts left · the bosses reward focus`) : cfg.title}</p>
+        <p className="mt-1 text-white/85">{sub}</p>
         <div className="mt-5 grid grid-cols-3 gap-2">
           <Stat label="Score" value={`${correct}/${results.length}`} />
           <Stat label="Accuracy" value={`${pct}%`} />
           <Stat label="XP" value={`+${xp}`} testId="summary-xp" />
         </div>
       </div>
+
+      {(isTest || isPre) && missedConcepts.length > 0 && (
+        <div className="card mt-4 p-4" data-testid="summary-teach">
+          <h2 className="text-sm font-extrabold uppercase tracking-wider text-muted">{isPre ? "Learn these first" : "Review what you missed"}</h2>
+          <ul className="mt-2 space-y-2">
+            {missedConcepts.slice(0, 5).map((c) => (
+              <li key={c} className="flex items-center justify-between gap-2">
+                <span className="min-w-0 text-sm font-semibold leading-snug">{CONCEPT_BY_ID[c]?.label}</span>
+                <Button size="md" variant="secondary" className="shrink-0 gap-1 px-3 text-xs" onClick={() => router.push(`/learn?concept=${c}${selHref ? `&back=${encodeURIComponent(selHref)}` : ""}`)} data-testid="summary-teach-me">
+                  <GraduationCap size={15} /> Teach me this
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {improved.some((i) => i.delta > 0) && (
         <div className="card mt-4 p-4">
@@ -396,12 +567,22 @@ function Summary({ cfg, results, hearts, bonus, onAgain }: { cfg: SessionConfig;
               ),
             )}
           </ul>
-          <p className="mt-3 text-xs font-semibold text-muted">These are in your Mistake Vault and will be scheduled to return.</p>
+          {!isPre && <p className="mt-3 text-xs font-semibold text-muted">These are in your Mistake Vault and will be scheduled to return.</p>}
         </div>
       )}
 
       <div className="mt-6 grid gap-2">
-        {isBoss && !won ? (
+        {isPre && cfg.sel ? (
+          pct >= 80 ? (
+            <Button onClick={() => router.push(`/play?mode=practice&sel=${encodeURIComponent(selKey(cfg.sel!))}&min=10`)} data-testid="pretest-practice">
+              <Layers size={18} /> Practice harder questions
+            </Button>
+          ) : (
+            <Button onClick={() => router.push(`/learn?sel=${encodeURIComponent(selKey(cfg.sel!))}`)} data-testid="pretest-learn">
+              <GraduationCap size={18} /> Start the lesson
+            </Button>
+          )
+        ) : isBoss && !won ? (
           <Button onClick={onAgain} data-testid="retry">
             <RotateCcw size={18} /> Retry boss
           </Button>
@@ -410,9 +591,15 @@ function Summary({ cfg, results, hearts, bonus, onAgain }: { cfg: SessionConfig;
             <Trophy size={18} /> Another round
           </Button>
         )}
-        <Button variant="secondary" onClick={() => router.push("/")} data-testid="home">
-          <HomeIcon size={18} /> Home
-        </Button>
+        {selHref ? (
+          <Button variant="secondary" onClick={() => router.push(selHref)} data-testid="back-to-unit">
+            <ArrowRight size={18} className="rotate-180" /> Back to {cfg.title}
+          </Button>
+        ) : (
+          <Button variant="secondary" onClick={() => router.push("/")} data-testid="home">
+            <HomeIcon size={18} /> Home
+          </Button>
+        )}
       </div>
     </div>
   );

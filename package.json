@@ -10,8 +10,9 @@
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "validate": "tsx scripts/validate-content.ts && tsx scripts/validate-activities.ts",
-    "check": "npm run lint && npm run typecheck && npm run validate && npm test"
+    "validate": "tsx scripts/validate-content.ts && tsx scripts/validate-activities.ts && tsx scripts/validate-lessons.ts",
+    "check": "npm run lint && npm run typecheck && npm run validate && npm test",
+    "coverage": "tsx scripts/coverage-matrix.ts"
   },
   "dependencies": {
     "@fontsource-variable/plus-jakarta-sans": "^5.3.0",

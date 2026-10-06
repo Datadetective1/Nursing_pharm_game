@@ -8,6 +8,8 @@ import type { Confidence } from "@/lib/engine/mastery";
 import { shuffle } from "@/lib/rng";
 import { Button, cx, haptic } from "./ui";
 import { UNIT_CHOICES } from "@/data/calc";
+import { FAMILY_DRUGS } from "@/data/activities/generated";
+import { SuffixName } from "./activities/FamilyWall";
 
 export const FORMAT_LABEL: Record<string, string> = {
   definition: "Concept check",
@@ -48,9 +50,29 @@ interface Props {
   examMode?: boolean;
   examResponse?: Response;
   onExamChange?: (r: Response | undefined) => void;
+  /** guided retry: MCQ options already ruled out (struck through, not selectable) */
+  eliminated?: number[];
+  /** guided hint: highlight drug-name suffixes (lisinoPRIL) inside the options */
+  highlightSuffix?: boolean;
 }
 
-export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, examMode, examResponse, onExamChange }: Props) {
+/** Option text with drug suffixes highlighted (guided hint). */
+function OptionText({ text, highlight }: { text: string; highlight?: boolean }) {
+  if (!highlight) return <>{text}</>;
+  const lower = text.toLowerCase();
+  const d = FAMILY_DRUGS.find((x) => lower.includes(x.name.toLowerCase()));
+  if (!d) return <>{text}</>;
+  const i = lower.indexOf(d.name.toLowerCase());
+  return (
+    <>
+      {text.slice(0, i)}
+      <SuffixName name={text.slice(i, i + d.name.length)} suffix={d.suffix} />
+      {text.slice(i + d.name.length)}
+    </>
+  );
+}
+
+export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, examMode, examResponse, onExamChange, eliminated, highlightSuffix }: Props) {
   // stable shuffled option order per question
   const order = useMemo(() => {
     if (q.type === "mcq" || q.type === "sata") return shuffle(q.options.map((_, i) => i));
@@ -78,7 +100,7 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
   const build = (): Response | null => {
     switch (q.type) {
       case "mcq":
-        return choice === null ? null : { type: "mcq", choice };
+        return choice === null || eliminated?.includes(choice) ? null : { type: "mcq", choice };
       case "sata":
         return multi.length === 0 ? null : { type: "sata", choices: multi };
       case "tf":
@@ -154,13 +176,15 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
         <div className="flex flex-col gap-2.5" role="radiogroup">
           {order.map((orig, i) => {
             const st = optionState(orig);
-            const sel = choice === orig;
+            const out = !revealed && !!eliminated?.includes(orig);
+            const sel = choice === orig && !out;
             return (
               <button
                 key={orig}
                 role="radio"
                 aria-checked={sel}
-                disabled={locked}
+                disabled={locked || out}
+                data-eliminated={out ? "true" : undefined}
                 data-testid="option"
                 data-correct={revealed ? String(orig === q.answer) : undefined}
                 onClick={() => {
@@ -173,13 +197,16 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                   st === "correct" && "border-good bg-good-soft",
                   st === "wrong" && "border-warn bg-warn-soft animate-shake",
                   st === "neutral" && (sel ? "border-brand bg-brand-soft" : "border-line bg-surface"),
-                  !locked && "active:scale-[0.99]",
+                  out && "border-dashed opacity-50 line-through",
+                  !locked && !out && "active:scale-[0.99]",
                 )}
               >
                 <span className={cx("grid size-7 shrink-0 place-items-center rounded-lg text-xs font-extrabold", st === "correct" ? "bg-good text-white" : st === "wrong" ? "bg-warn text-bg" : sel ? "bg-brand text-brand-ink" : "bg-surface-2 text-muted")}>
-                  {st === "correct" ? <Check size={16} /> : st === "wrong" ? <X size={16} /> : String.fromCharCode(65 + i)}
+                  {st === "correct" ? <Check size={16} /> : st === "wrong" || out ? <X size={16} /> : String.fromCharCode(65 + i)}
                 </span>
-                <span>{q.options[orig]}</span>
+                <span>
+                  <OptionText text={q.options[orig]} highlight={highlightSuffix} />
+                </span>
               </button>
             );
           })}
@@ -218,7 +245,9 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                 <span className={cx("grid size-6 shrink-0 place-items-center rounded-md border-2", st === "correct" ? "border-good bg-good text-white" : st === "wrong" ? "border-warn bg-warn text-bg" : st === "missed" ? "border-good text-good" : sel ? "border-brand bg-brand text-brand-ink" : "border-line")}>
                   {(sel || st === "missed") && <Check size={14} strokeWidth={3} />}
                 </span>
-                <span className="flex-1">{q.options[orig]}</span>
+                <span className="flex-1">
+                  <OptionText text={q.options[orig]} highlight={highlightSuffix} />
+                </span>
                 {st === "missed" && <span className="text-[11px] font-bold uppercase text-good">missed</span>}
               </button>
             );

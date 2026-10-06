@@ -6,7 +6,7 @@ import type { TopicId } from "@/lib/types";
 
 /**
  * Activities generated from small, source-backed tables (seeded → reproducible from the Mistake Vault).
- * Every label below restates the Memory Aid / Coag Notes.
+ * Every label below restates the Memory Aid / M7L2 Coagulation Modifiers.
  */
 
 // ───────────────────────── DRUG FAMILY WALL ─────────────────────────
@@ -92,7 +92,7 @@ function raas(seed: number): Activity {
               prompt: `Compared with an ACE inhibitor, ${sartan.toLowerCase()} causes…`,
               options: ["Much less cough — bradykinin untouched", "No risk of hyperkalemia", "No risk of angioedema", "Ototoxicity"],
               answer: [0],
-              why: "ARBs block Ang II at the receptor; bradykinin is untouched → much less cough. Hyperkalemia + angioedema still possible.",
+              why: "ARBs block Ang II at the receptor; bradykinin is untouched → much less cough. Per the ARB lecture, ARBs do NOT cause hyperkalemia; angioedema is still possible.",
             },
           },
           {
@@ -164,7 +164,7 @@ function clotLab(seed: number): Activity {
     title: "Clotting Lab",
     topic: "coag",
     concepts: ["coag-classes", "ap-vs-ac", "tpa-moa", "hep-moa"],
-    source: "Coag Notes · Slides 1, 9, 12 + Memory Aid (antiplatelet = arteries; anticoagulant = veins + left atrium)",
+    source: "M7L2 Coagulation Modifiers · Slides 1, 9, 12 + Memory Aid (antiplatelet = arteries; anticoagulant = veins + left atrium)",
     difficulty: 2,
     data: {
       scenarios: shuffle(
@@ -256,7 +256,7 @@ export const SCALES: Scale[] = [
     action: { low: "Watch for clot signs: calf heat, redness, pain, swelling", in: "Continue; keep monitoring the aPTT", high: "Assess for bleeding; protamine if toxicity" },
     topic: "coag",
     concept: "hep-lab",
-    source: "Coag Notes · Slide 2",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
     values: { low: [40, 45, 50], in: [64, 70, 76], high: [95, 105, 118] },
   },
   {
@@ -275,7 +275,7 @@ export const SCALES: Scale[] = [
     action: { low: "Recognize ongoing clot risk", in: "Give as prescribed; keep PT/INR follow-ups", high: "Hold the dose; vitamin K if INR too high" },
     topic: "coag",
     concept: "war-lab",
-    source: "Coag Notes · Slides 5–6",
+    source: "M7L2 Coagulation Modifiers · Slides 5–6",
     values: { low: [1.2, 1.5], in: [2.3, 2.6], high: [4.1, 4.8] },
   },
   {
@@ -294,7 +294,7 @@ export const SCALES: Scale[] = [
     action: { low: "Recognize ongoing clot risk", in: "Give as prescribed; keep PT/INR follow-ups", high: "Hold the dose; vitamin K if INR too high" },
     topic: "coag",
     concept: "war-lab",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
     values: { low: [1.6, 2.0], in: [2.8, 3.1], high: [4.4, 5.0] },
   },
   {
@@ -313,7 +313,7 @@ export const SCALES: Scale[] = [
     action: { low: "Recognize ongoing clot risk", in: "Give as prescribed; keep PT/INR follow-ups", high: "Hold the dose; vitamin K if INR too high" },
     topic: "coag",
     concept: "war-lab",
-    source: "Coag Notes · Slide 5",
+    source: "M7L2 Coagulation Modifiers · Slide 5",
     values: { low: [2.0, 2.4], in: [3.5, 4.0], high: [5.6, 6.2] },
   },
   {
@@ -321,19 +321,19 @@ export const SCALES: Scale[] = [
     lab: "Digoxin level",
     drug: "Digoxin",
     unit: "ng/mL",
-    context: "course range 0.5–1.5",
+    context: "lecture range 0.5–0.8; > 2 = toxic",
     min: 0,
     max: 3.5,
     low: 0.5,
-    high: 1.5,
+    high: 0.8,
     bands: ["in", "high"],
-    zoneLabels: { low: "", in: "Therapeutic", high: "Toxic" },
-    meaning: { low: "", in: "Therapeutic — still check the apical pulse for a full minute", high: "Toxic range — watch for anorexia (earliest), N/V, halos" },
+    zoneLabels: { low: "", in: "Therapeutic", high: "Above range" },
+    meaning: { low: "", in: "Therapeutic — still check the apical pulse for a full minute", high: "Above the therapeutic range (> 2 ng/mL = toxicity) — watch for anorexia (earliest), N/V, halos" },
     action: { low: "", in: "Give if apical pulse ≥ 60 (full minute)", high: "Hold + notify; antidote digoxin immune fab" },
     topic: "hf",
     concept: "dig-lab",
-    source: "Memory Aid · Digoxin",
-    values: { low: [], in: [0.9, 1.0, 1.1], high: [2.6, 3.0] },
+    source: "M6L3 Heart Failure Drugs · Slide 2",
+    values: { low: [], in: [0.6, 0.7], high: [2.6, 3.0] },
   },
   anticonvulsant("phenytoin", "Phenytoin", 10, 20, { low: [5, 7], in: [14, 16], high: [27, 30] }),
   anticonvulsant("phenobarbital", "Phenobarbital", 10, 40, { low: [5, 6], in: [22, 30], high: [52, 60] }),

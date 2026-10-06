@@ -1,7 +1,7 @@
 import type { Question } from "@/lib/types";
 
 /* Module 7 · Antianginals (nitroglycerin, beta-blockers, NAOMI).
-   Source: docs/source/memory-aid.md (Nitroglycerin, Beta-blockers, NAOMI, One-member exceptions). */
+   Sources: M7L1 Antianginal Medications (lecture, primary); Exam2 Memory Aid (beta-blocker detail = Module 4 content, One-member exceptions). */
 export const anginaQuestions: Question[] = [
   // ───────── ntg-moa ─────────
   {
@@ -16,7 +16,8 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 3,
     why: "In stable angina, nitroglycerin dilates veins, which decreases venous return (preload) and lowers myocardial O2 demand.",
-    source: "Memory Aid · Nitroglycerin (MOA/USE)",
+    clue: "STABLE angina → think preload (venous return), not heart rate.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (MOA/USE)",
   },
   {
     id: "ag-002", topic: "angina", concept: "ntg-moa", drugs: ["nitroglycerin"], type: "mcq",
@@ -31,7 +32,7 @@ export const anginaQuestions: Question[] = [
     answer: 0,
     why: "In variant angina, nitroglycerin decreases coronary artery spasm, which increases O2 supply. (In stable angina it works by decreasing preload, which lowers O2 demand.)",
     clue: "Variant angina = spasm.",
-    source: "Memory Aid · Nitroglycerin (MOA/USE)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (MOA/USE)",
   },
   {
     id: "ag-003", topic: "angina", concept: "ntg-moa", drugs: ["nitroglycerin"], type: "tf",
@@ -39,7 +40,8 @@ export const anginaQuestions: Question[] = [
     stem: "In stable angina, nitroglycerin lowers myocardial oxygen demand by decreasing preload.",
     answer: true,
     why: "Nitroglycerin dilates veins, which decreases venous return (preload) and lowers O2 demand.",
-    source: "Memory Aid · Nitroglycerin (MOA/USE)",
+    clue: "'Stable' angina → nitro lowers DEMAND by reducing preload.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (MOA/USE)",
   },
   {
     id: "ag-004", topic: "angina", concept: "ntg-moa", drugs: ["nitroglycerin"], type: "fill",
@@ -47,7 +49,7 @@ export const anginaQuestions: Question[] = [
     stem: "In stable angina, nitroglycerin dilates veins and decreases venous return, also called ____.",
     accept: ["preload"],
     why: "Stable angina: dilates veins → ↓venous return (preload) → ↓O2 demand.",
-    source: "Memory Aid · Nitroglycerin (MOA/USE)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (MOA/USE)",
   },
 
   // ───────── ntg-routes ─────────
@@ -58,7 +60,7 @@ export const anginaQuestions: Question[] = [
     options: ["Transdermal patch", "Sustained-release tablet", "Sublingual tablet", "Topical ointment"],
     answer: 2,
     why: "SL tablet or spray is used for an acute attack AND for prevention. SR tablets, patches, and ointment are for prevention ONLY.",
-    source: "Memory Aid · Nitroglycerin (ROUTES)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (ROUTES)",
   },
   {
     id: "ag-006", topic: "angina", concept: "ntg-routes", drugs: ["nitroglycerin"], type: "sata",
@@ -67,7 +69,7 @@ export const anginaQuestions: Question[] = [
     options: ["Transdermal patch", "Topical ointment", "Sustained-release tablet", "Sublingual tablet", "Sublingual spray"],
     answers: [0, 1, 2],
     why: "Patch, ointment, and SR tablet = prevention only. SL tablet/spray = acute attack AND prevention. IV is used if the client is unresponsive.",
-    source: "Memory Aid · Nitroglycerin (ROUTES)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (ROUTES)",
   },
   {
     id: "ag-007", topic: "angina", concept: "ntg-routes", drugs: ["nitroglycerin"], type: "tf",
@@ -75,7 +77,8 @@ export const anginaQuestions: Question[] = [
     stem: "A nitroglycerin transdermal patch can be used to treat an acute angina attack.",
     answer: false,
     why: "Patches are for prevention only. Acute attacks are treated with SL tablets or spray.",
-    source: "Memory Aid · Nitroglycerin (ROUTES)",
+    clue: "Patches are put on ahead of time — think prevention only.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (ROUTES)",
   },
   {
     id: "ag-008", topic: "angina", concept: "ntg-routes", drugs: ["nitroglycerin"], type: "match",
@@ -87,7 +90,7 @@ export const anginaQuestions: Question[] = [
       ["IV nitroglycerin", "When unresponsive to other forms"],
     ],
     why: "SL = acute and prevention. SR tablet/patch/ointment = prevention only. IV if the client is unresponsive.",
-    source: "Memory Aid · Nitroglycerin (ROUTES)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (ROUTES)",
   },
   {
     id: "ag-009", topic: "angina", concept: "ntg-routes", drugs: ["nitroglycerin"], type: "mcq",
@@ -101,7 +104,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 0,
     why: "The patch is for prevention only. An acute attack is treated with SL nitroglycerin.",
-    source: "Memory Aid · Nitroglycerin (ROUTES, DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (ROUTES, DO/TEACH)",
   },
 
   // ───────── ntg-se ─────────
@@ -118,7 +121,7 @@ export const anginaQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "All nitroglycerin side effects come from vasodilation: headache, orthostatic hypotension (dizziness, faintness), and reflex tachycardia. Tolerance can also develop. Bradycardia is a beta-blocker effect, and a dry cough is an ACE inhibitor effect.",
-    source: "Memory Aid · Nitroglycerin (S/S)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (S/S)",
   },
   {
     id: "ag-011", topic: "angina", concept: "ntg-se", drugs: ["nitroglycerin"], type: "mcq",
@@ -132,7 +135,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 0,
     why: "Headache is a common side effect of nitroglycerin's vasodilation. Potency is checked by tingling under the tongue, not by headache.",
-    source: "Memory Aid · Nitroglycerin (S/S)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (S/S)",
   },
   {
     id: "ag-012", topic: "angina", concept: "ntg-se", drugs: ["nitroglycerin"], type: "tf",
@@ -140,7 +143,8 @@ export const anginaQuestions: Question[] = [
     stem: "Clients can develop tolerance to nitroglycerin.",
     answer: true,
     why: "Tolerance is a listed nitroglycerin effect. That is why patches are removed for 10–12 hours each day.",
-    source: "Memory Aid · Nitroglycerin (S/S, DO/TEACH)",
+    clue: "The patch comes off at night for a reason.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (S/S, DO/TEACH)",
   },
   {
     id: "ag-013", topic: "angina", concept: "ntg-se", drugs: ["nitroglycerin"], type: "mcq",
@@ -149,7 +153,8 @@ export const anginaQuestions: Question[] = [
     options: ["Beta-1 blockade", "Vasodilation", "Bradykinin buildup", "Fluid retention"],
     answer: 1,
     why: "All nitroglycerin side effects come from vasodilation.",
-    source: "Memory Aid · Nitroglycerin (S/S)",
+    clue: "All three effects come from widened blood vessels.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (S/S)",
   },
   {
     id: "ag-014", topic: "angina", concept: "ntg-se", drugs: ["nitroglycerin"], type: "mcq",
@@ -163,7 +168,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 0,
     why: "Vasodilation causes orthostatic hypotension, which leads to dizziness or faintness. Clients should sit or lie down and stay seated after nitroglycerin.",
-    source: "Memory Aid · Nitroglycerin (S/S, DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (S/S, DO/TEACH)",
   },
 
   // ───────── ntg-ci ─────────
@@ -180,7 +185,7 @@ export const anginaQuestions: Question[] = [
     answer: 3,
     why: "“-afil” erectile dysfunction drugs such as sildenafil combined with nitroglycerin can cause a FATAL drop in BP.",
     clue: "Sildenafil ends in “-afil.”",
-    source: "Memory Aid · Nitroglycerin (INTX)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (INTX)",
   },
   {
     id: "ag-016", topic: "angina", concept: "ntg-ci", drugs: ["nitroglycerin"], type: "sata",
@@ -195,7 +200,7 @@ export const anginaQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Nitroglycerin contraindications: allergy, severe anemia, traumatic head injury, and closed-angle glaucoma. Hyperthyroidism is a CAUTION. Variant angina is an indication.",
-    source: "Memory Aid · Nitroglycerin (CI, CAUT)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (CI, CAUT)",
   },
   {
     id: "ag-017", topic: "angina", concept: "ntg-ci", drugs: ["nitroglycerin"], type: "tf",
@@ -203,7 +208,8 @@ export const anginaQuestions: Question[] = [
     stem: "Taking nitroglycerin with an “-afil” erectile dysfunction drug such as sildenafil can cause a fatal drop in blood pressure.",
     answer: true,
     why: "“-afil” ED drugs + nitroglycerin cause a fatal BP drop. Other antihypertensives and alcohol also add to hypotension.",
-    source: "Memory Aid · Nitroglycerin (INTX)",
+    clue: "'-afil' + a nitrate = BP crash.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (INTX)",
   },
   {
     id: "ag-018", topic: "angina", concept: "ntg-ci", drugs: ["nitroglycerin"], type: "mcq",
@@ -217,7 +223,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 3,
     why: "The danger of combining “-afil” ED drugs with nitroglycerin is a fatal drop in BP.",
-    source: "Memory Aid · Nitroglycerin (INTX)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (INTX)",
   },
   {
     id: "ag-019", topic: "angina", concept: "ntg-ci", drugs: ["nitroglycerin"], type: "fill",
@@ -225,7 +231,7 @@ export const anginaQuestions: Question[] = [
     stem: "Erectile dysfunction drugs ending in ____ (such as sildenafil) must not be combined with nitroglycerin.",
     accept: ["-afil", "afil"],
     why: "“-afil” ED drugs + nitroglycerin cause a fatal BP drop.",
-    source: "Memory Aid · Nitroglycerin (INTX)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (INTX)",
   },
   {
     id: "ag-020", topic: "angina", concept: "ntg-ci", drugs: ["nitroglycerin"], type: "tf",
@@ -233,7 +239,7 @@ export const anginaQuestions: Question[] = [
     stem: "Nitroglycerin is an appropriate choice for chest pain in a client who has a traumatic head injury.",
     answer: false,
     why: "Traumatic head injury is a nitroglycerin contraindication, as are closed-angle glaucoma, severe anemia, and allergy.",
-    source: "Memory Aid · Nitroglycerin (CI)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (CI)",
   },
 
   // ───────── ntg-admin ─────────
@@ -249,7 +255,7 @@ export const anginaQuestions: Question[] = [
       "Take a third dose 5 minutes later if the pain continues",
     ],
     why: "Sit or lie down, then take SL doses 5 minutes apart (up to 3). Call 911 after the FIRST unrelieved dose, THEN take the 2nd. Never drive.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-022", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "mcq",
@@ -264,7 +270,7 @@ export const anginaQuestions: Question[] = [
     answer: 3,
     why: "Call 911 after the FIRST unrelieved dose, then take the 2nd. The client should never drive. Patches are for prevention only.",
     clue: "First dose unrelieved → 911 before the next dose.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-023", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "mcq",
@@ -278,7 +284,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 2,
     why: "The client must never drive. Call 911 after the first unrelieved dose.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-024", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "sata",
@@ -293,7 +299,7 @@ export const anginaQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "SL nitro: sit or lie down, up to 3 doses 5 minutes apart, call 911 after the first unrelieved dose. Don't crush or chew, and swallowing makes it ineffective. Stay seated about 30 minutes after the last dose.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-025", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "fill",
@@ -303,7 +309,7 @@ export const anginaQuestions: Question[] = [
     numeric: { value: 5 },
     unit: "minutes",
     why: "SL nitroglycerin: up to 3 doses, 5 minutes apart. Call 911 after the first unrelieved dose.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-026", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "tf",
@@ -311,7 +317,8 @@ export const anginaQuestions: Question[] = [
     stem: "Right after taking SL nitroglycerin, the client should stand and walk around to help the medicine circulate.",
     answer: false,
     why: "Sit or lie down to take the dose, and stay seated 30 minutes after the last dose, because nitroglycerin causes orthostatic hypotension.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    clue: "Nitro drops the BP — the client should sit or lie down.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
 
   // ───────── ntg-storage ─────────
@@ -327,7 +334,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 2,
     why: "Store nitroglycerin in its ORIGINAL dark container at room temperature, in a dry place. It is good for 3–6 months once opened.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-028", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "mcq",
@@ -341,7 +348,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 0,
     why: "Tingling = still potent. Once opened, the tablets are good for 3–6 months.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-029", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "mcq",
@@ -355,7 +362,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 1,
     why: "Patch on 12–14 hours and off 10–12 hours to prevent tolerance. (Every 72 hours is the fentanyl patch schedule.)",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-030", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "sata",
@@ -370,7 +377,7 @@ export const anginaQuestions: Question[] = [
     ],
     answers: [0, 1, 2],
     why: "Patch: hairless site, no hot tubs or saunas, never cut, 12–14 hours on / 10–12 hours off. Patches are for prevention only.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-031", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "fill",
@@ -380,7 +387,7 @@ export const anginaQuestions: Question[] = [
     numeric: { value: 6 },
     unit: "months",
     why: "Keep the tablets in the original dark container at room temperature, in a dry place. They are good for 3–6 months once opened.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-032", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "tf",
@@ -388,7 +395,8 @@ export const anginaQuestions: Question[] = [
     stem: "To prevent tolerance, a nitroglycerin patch should be worn 24 hours a day.",
     answer: false,
     why: "Tolerance is prevented by REMOVING the patch: 12–14 hours on, 10–12 hours off.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    clue: "Tolerance is prevented by a patch-free period at night.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
   {
     id: "ag-033", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "mcq",
@@ -402,7 +410,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 0,
     why: "Wear gloves for ointment and patches, and apply to a hairless site. Never cut the patch, and remove it for 10–12 hours each day.",
-    source: "Memory Aid · Nitroglycerin (DO/TEACH)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (DO/TEACH)",
   },
 
   // ───────── ntg-hold ─────────
@@ -419,7 +427,7 @@ export const anginaQuestions: Question[] = [
     answer: 3,
     why: "Hold nitroglycerin if SBP is below 90 and withhold further doses. Patches are for prevention only.",
     clue: "SBP 86 < 90.",
-    source: "Memory Aid · Nitroglycerin (HOLD)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (HOLD)",
   },
   {
     id: "ag-035", topic: "angina", concept: "ntg-hold", drugs: ["nitroglycerin"], type: "mcq",
@@ -433,7 +441,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 1,
     why: "Chest pain that is unrelieved after nitroglycerin means perfusion has NOT been restored. It is an MI until proven otherwise.",
-    source: "Memory Aid · Nitroglycerin (HOLD)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (HOLD)",
   },
   {
     id: "ag-036", topic: "angina", concept: "ntg-hold", drugs: ["nitroglycerin"], type: "fill",
@@ -443,7 +451,7 @@ export const anginaQuestions: Question[] = [
     numeric: { value: 90 },
     unit: "mm Hg",
     why: "Nitroglycerin hold parameter: SBP < 90 → withhold further doses. (Beta-blockers use SBP < 100.)",
-    source: "Memory Aid · Nitroglycerin (HOLD)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (HOLD)",
   },
   {
     id: "ag-037", topic: "angina", concept: "ntg-hold", drugs: ["nitroglycerin"], type: "tf",
@@ -451,7 +459,8 @@ export const anginaQuestions: Question[] = [
     stem: "Chest pain that is not relieved by nitroglycerin should be treated as a myocardial infarction until proven otherwise.",
     answer: true,
     why: "Unrelieved chest pain after nitroglycerin = perfusion not restored = MI until proven otherwise.",
-    source: "Memory Aid · Nitroglycerin (HOLD)",
+    clue: "Unrelieved pain means perfusion was not restored.",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (HOLD)",
   },
   {
     id: "ag-038", topic: "angina", concept: "ntg-hold", drugs: ["nitroglycerin", "metoprolol"], type: "mcq",
@@ -461,7 +470,7 @@ export const anginaQuestions: Question[] = [
     answer: 0,
     why: "Beta-blockers are held if SBP < 100 or HR < 60, so metoprolol is held (SBP 96). Nitroglycerin is held only if SBP < 90, and HR 70 does not affect either drug.",
     clue: "Beta-blocker: SBP < 100. Nitroglycerin: SBP < 90.",
-    source: "Memory Aid · Nitroglycerin (HOLD); Beta-blockers (HOLD)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (HOLD); Beta-blockers (HOLD)",
   },
   {
     id: "ag-039", topic: "angina", concept: "ntg-hold", drugs: ["nitroglycerin"], type: "sata",
@@ -470,7 +479,7 @@ export const anginaQuestions: Question[] = [
     options: ["84/50", "88/56", "92/60", "118/76", "140/90"],
     answers: [0, 1],
     why: "Hold nitroglycerin when SBP is below 90. Only 84 and 88 are below 90.",
-    source: "Memory Aid · Nitroglycerin (HOLD)",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin (HOLD)",
   },
 
   // ───────── bb-moa ─────────
@@ -487,6 +496,7 @@ export const anginaQuestions: Question[] = [
     answer: 1,
     why: "B1 = HEART (blocking it decreases HR); B2 = LUNGS. Nonselective blockers block both, causing bronchoconstriction.",
     hook: "You have 1 heart (B1) and 2 lungs (B2).",
+    clue: "1 heart (B1), 2 lungs (B2).",
     source: "Memory Aid · Beta-blockers (MOA/USE)",
   },
   {
@@ -503,6 +513,7 @@ export const anginaQuestions: Question[] = [
     stem: "Beta-blockers block the sympathetic nervous system at beta-adrenergic receptors, competing with norepinephrine and epinephrine.",
     answer: true,
     why: "Beta-blockers block the SNS at beta-adrenergic receptors by competing with NE and epinephrine. They are used for angina, MI, dysrhythmias, HTN, and HF.",
+    clue: "Beta-BLOCKERS block the sympathetic messengers at beta receptors.",
     source: "Memory Aid · Beta-blockers (MOA/USE)",
   },
   {
@@ -624,6 +635,7 @@ export const anginaQuestions: Question[] = [
     stem: "Beta-blockers can mask the tachycardia that normally warns a client of hypoglycemia.",
     answer: true,
     why: "Beta-blockers mask hypoglycemia by blocking the warning tachycardia.",
+    clue: "Blocked beta-1 = no warning fast heartbeat.",
     source: "Memory Aid · Beta-blockers (S/S)",
   },
   {
@@ -681,10 +693,11 @@ export const anginaQuestions: Question[] = [
   },
   {
     id: "ag-058", topic: "angina", concept: "bb-ci", drugs: ["betablockers"], type: "tf",
-    difficulty: 2, cognitive: "understand", format: "contraindication",
+    difficulty: 1, cognitive: "understand", format: "contraindication",
     stem: "Beta-blockers are recommended as monotherapy for hypertension in African American clients.",
     answer: false,
     why: "Beta-blockers are NOT monotherapy for HTN in African American clients. Combine with a diuretic.",
+    clue: "Course guidance: combine with a diuretic — not alone.",
     source: "Memory Aid · Beta-blockers (CI)",
   },
 
@@ -734,6 +747,7 @@ export const anginaQuestions: Question[] = [
     stem: "Beta-blockers should be tapered over 1–2 weeks rather than stopped abruptly.",
     answer: true,
     why: "Never stop a beta-blocker abruptly. Taper over 1–2 weeks to avoid rebound HTN, angina, or MI.",
+    clue: "Abrupt stop → rebound HTN, angina, MI.",
     source: "Memory Aid · Beta-blockers (HOLD)",
   },
   {
@@ -797,6 +811,7 @@ export const anginaQuestions: Question[] = [
     stem: "Flumazenil is used to treat a beta-blocker overdose.",
     answer: false,
     why: "Flumazenil reverses benzodiazepines. Beta-blocker overdose: withhold doses, atropine for symptomatic bradycardia, and glucagon + insulin.",
+    clue: "Flumazenil belongs to a different drug family (benzodiazepines).",
     source: "Memory Aid · Beta-blockers (ANTIDOTE); Benzodiazepines (ANTIDOTE)",
   },
 
@@ -832,10 +847,11 @@ export const anginaQuestions: Question[] = [
   },
   {
     id: "ag-070", topic: "angina", concept: "bb-dup", drugs: ["clonidine", "betablockers"], type: "tf",
-    difficulty: 2, cognitive: "understand", format: "interaction",
+    difficulty: 1, cognitive: "understand", format: "interaction",
     stem: "A client prescribed both clonidine and a beta-blocker for stubborn hypertension represents a therapeutic duplication.",
     answer: false,
     why: "Clonidine and beta-blockers are different classes, so this combination is intentional for stubborn HTN. Duplication means two drugs from the same class (e.g., sotalol + metoprolol).",
+    clue: "Different classes (clonidine vs an -olol) = intentional combo.",
     source: "Memory Aid · One-member exceptions (-olol)",
   },
 
@@ -847,13 +863,13 @@ export const anginaQuestions: Question[] = [
     pairs: [
       ["N", "Nitroglycerin"],
       ["A", "Aspirin"],
-      ["O", "Oxygen if SpO2 < 94% on room air"],
+      ["O", "Oxygen if the O2 saturation is low"],
       ["M", "Morphine"],
       ["I", "Intervention (stent in the cath lab)"],
     ],
-    why: "NAOMI for acute MI / unstable angina: Nitroglycerin, Aspirin, Oxygen (if sat < 94% on RA), Morphine, Intervention (stent). Time is muscle.",
+    why: "NAOMI for acute MI / unstable angina: Nitroglycerin, Aspirin, Oxygen (only if the saturation is low), Morphine, Intervention (stent). Time is muscle.",
     hook: "NAOMI = Nitro · Aspirin · Oxygen · Morphine · Intervention.",
-    source: "Memory Aid · NAOMI",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI",
   },
   {
     id: "ag-072", topic: "angina", concept: "naomi", drugs: ["naomi"], type: "mcq",
@@ -861,9 +877,9 @@ export const anginaQuestions: Question[] = [
     stem: "A client with a suspected MI has an SpO2 of 97% on room air. Which part of NAOMI is NOT indicated at this time?",
     options: ["Nitroglycerin", "Aspirin", "Oxygen", "Morphine"],
     answer: 2,
-    why: "In NAOMI, oxygen is given only if the saturation is < 94% on room air. At 97%, it is not indicated.",
-    clue: "97% is not below 94%.",
-    source: "Memory Aid · NAOMI",
+    why: "In NAOMI, oxygen is given only if the saturation is low (the slide says < 90%; the notes say < 94% on room air). At 97% it is above both cut-offs, so it is not indicated.",
+    clue: "97% is above either oxygen cut-off taught (slide < 90%, notes < 94%).",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI",
   },
   {
     id: "ag-073", topic: "angina", concept: "naomi", drugs: ["naomi", "morphine"], type: "mcq",
@@ -877,7 +893,8 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 0,
     why: "In NAOMI, morphine decreases anxiety, heart rate, and O2 demand.",
-    source: "Memory Aid · NAOMI",
+    clue: "Morphine lowers the heart's workload — it doesn't touch the clot.",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI",
   },
   {
     id: "ag-074", topic: "angina", concept: "naomi", drugs: ["naomi", "nitroglycerin", "aspirin"], type: "mcq",
@@ -890,18 +907,17 @@ export const anginaQuestions: Question[] = [
       "Give oxygen only, regardless of saturation, and wait",
     ],
     answer: 0,
-    why: "Aspirin is usually given first, but if it is unavailable, don't delay: give the nitroglycerin. Time is muscle. Oxygen is given only if sat < 94% on room air.",
-    source: "Memory Aid · NAOMI",
+    why: "Aspirin is usually given first, but if it is unavailable, don't delay: give the nitroglycerin. Time is muscle. Oxygen is given only if the saturation is low.",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI",
   },
   {
     id: "ag-075", topic: "angina", concept: "naomi", drugs: ["naomi"], type: "fill",
     difficulty: 1, cognitive: "remember", format: "nursing-action",
-    stem: "In NAOMI, oxygen is given if the SpO2 is below ____% on room air.",
-    accept: ["94"],
-    numeric: { value: 94 },
-    unit: "%",
-    why: "NAOMI: Oxygen only if the saturation is < 94% on room air.",
-    source: "Memory Aid · NAOMI",
+    stem: "In the NAOMI mnemonic for acute MI, the letter O stands for ____.",
+    accept: ["oxygen", "O2", "supplemental oxygen"],
+    why: "O = Oxygen, given only if the O2 saturation is low (the slide says < 90%; the notes say < 94% on room air — the exact cut-off is not tested here).",
+    clue: "Heart cells deprived of this die during an MI.",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI",
   },
   {
     id: "ag-076", topic: "angina", concept: "naomi", drugs: ["naomi"], type: "tf",
@@ -909,7 +925,8 @@ export const anginaQuestions: Question[] = [
     stem: "In NAOMI, the “I” stands for intervention, such as stent placement in the cath lab.",
     answer: true,
     why: "I = INTERVENTION (stent in the cath lab). Time is muscle.",
-    source: "Memory Aid · NAOMI",
+    clue: "NAOMI ends with the step that actually removes the blockage.",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI",
   },
   {
     id: "ag-077", topic: "angina", concept: "naomi", drugs: ["naomi", "metoprolol", "propranolol", "sotalol"], type: "mcq",
@@ -923,7 +940,7 @@ export const anginaQuestions: Question[] = [
     ],
     answer: 1,
     why: "A cardioselective beta-blocker (metoprolol, atenolol) is preferred after an MI. Propranolol and sotalol are nonselective.",
-    source: "Memory Aid · NAOMI; One-member exceptions (-olol)",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI; One-member exceptions (-olol)",
   },
   {
     id: "ag-078", topic: "angina", concept: "naomi", drugs: ["naomi"], type: "sata",
@@ -937,8 +954,8 @@ export const anginaQuestions: Question[] = [
       "Delaying all medications until the cath lab",
     ],
     answers: [0, 1, 2],
-    why: "NAOMI = Nitroglycerin, Aspirin, Oxygen (ONLY if sat < 94% on RA), Morphine, Intervention. Treatment is not delayed, because time is muscle.",
-    source: "Memory Aid · NAOMI",
+    why: "NAOMI = Nitroglycerin, Aspirin, Oxygen (ONLY if the saturation is low), Morphine, Intervention. Treatment is not delayed, because time is muscle.",
+    source: "M7L1 Antianginal Medications · Slide 5; Memory Aid · NAOMI",
   },
   {
     id: "ag-079", topic: "angina", concept: "naomi", drugs: ["naomi", "morphine"], type: "mcq",
@@ -947,6 +964,188 @@ export const anginaQuestions: Question[] = [
     options: ["Meperidine", "Fentanyl", "Morphine", "Tramadol"],
     answer: 2,
     why: "Morphine is the opioid used in NAOMI for acute MI. It decreases anxiety, heart rate, and O2 demand.",
+    clue: "Think of the M in NAOMI.",
     source: "Memory Aid · One-member exceptions (opioids); NAOMI",
+  },
+
+  // ───────── added: recognition (guided practice) + lecture gap facts ─────────
+  {
+    id: "ag-080", topic: "angina", concept: "ntg-routes", drugs: ["nitroglycerin"], type: "mcq",
+    difficulty: 1, cognitive: "understand", format: "definition",
+    stem: "Which form of nitroglycerin can be used for BOTH an acute angina attack and prevention?",
+    options: ["Sublingual tablet or spray", "Transdermal patch", "Topical ointment", "Sustained-release tablet"],
+    answer: 0,
+    why: "SL tablets/spray treat an acute attack and can prevent one when exertion is anticipated. Patches, ointment, and SR tablets are for prevention only.",
+    clue: "Only one route acts under the tongue to stop an attack in progress.",
+    source: "M7L1 Antianginal Medications · Slide 3 (notes)",
+  },
+  {
+    id: "ag-081", topic: "angina", concept: "ntg-ci", drugs: ["nitroglycerin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "contraindication",
+    stem: "Because nitroglycerin can increase intracranial pressure, which condition is a contraindication?",
+    options: ["Traumatic head injury", "Hyperthyroidism", "Stable angina", "Variant angina"],
+    answer: 0,
+    why: "Nitroglycerin can increase intracranial pressure, so traumatic head injury (and closed-angle glaucoma) are contraindications. Hyperthyroidism is a caution; angina is the indication.",
+    clue: "Intracranial = inside the skull.",
+    source: "M7L1 Antianginal Medications · Slide 3",
+  },
+  {
+    id: "ag-082", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "tf",
+    difficulty: 1, cognitive: "remember", format: "nursing-action",
+    stem: "Sublingual nitroglycerin tablets should be crushed or chewed so they work faster.",
+    answer: false,
+    why: "Do not crush or chew nitroglycerin tablets — SL nitroglycerin is ineffective if swallowed. Place it under the tongue and let it dissolve.",
+    clue: "SL = dissolves under the tongue; swallowed nitro doesn't work.",
+    source: "M7L1 Antianginal Medications · Slide 4 (teaching)",
+  },
+  {
+    id: "ag-083", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "teaching",
+    stem: "Once the bottle is opened, about how long do SL nitroglycerin tablets last?",
+    options: ["About 3–6 months", "About 1 week", "About 2 years", "They do not expire"],
+    answer: 0,
+    why: "Once the bottle is opened, the pills last only about 3–6 months. Store them in the original dark container, at room temperature, away from light, and dry.",
+    clue: "Potency fades within months — not days, not years.",
+    source: "M7L1 Antianginal Medications · Slide 4 (teaching)",
+  },
+  {
+    id: "ag-084", topic: "angina", concept: "ntg-hold", drugs: ["nitroglycerin"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "lab-interpretation",
+    stem: "Nitroglycerin should be withheld if the systolic blood pressure is below:",
+    options: ["90 mm Hg", "100 mm Hg", "120 mm Hg", "140 mm Hg"],
+    answer: 0,
+    why: "A systolic BP below 90 mm Hg is a reason to withhold nitroglycerin. (SBP < 100 is the hold number for beta-blockers, ACE inhibitors, ARBs, and CCBs.)",
+    clue: "Nitro's hold number is lower than the beta-blocker's 100.",
+    source: "M7L1 Antianginal Medications · Slides 4–5",
+  },
+  {
+    id: "ag-085", topic: "angina", concept: "bb-select", drugs: ["metoprolol", "propranolol", "sotalol", "clonidine"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "class-id",
+    stem: "Which beta-blocker is cardioselective (blocks beta-1 only)?",
+    options: ["Metoprolol", "Propranolol", "Sotalol", "Clonidine"],
+    answer: 0,
+    why: "Metoprolol and atenolol are cardioselective (B1 only). Propranolol and sotalol are nonselective. Clonidine is a central alpha-2 agonist, not a beta-blocker.",
+    clue: "Propranolol and sotalol were taught as the NONselective pair.",
+    source: "Memory Aid · One-member exceptions (-olol)",
+  },
+  {
+    id: "ag-086", topic: "angina", concept: "bb-select", drugs: ["propranolol"], type: "tf",
+    difficulty: 1, cognitive: "understand", format: "contraindication",
+    stem: "Nonselective beta-blockers such as propranolol are contraindicated in clients with asthma or COPD.",
+    answer: true,
+    why: "Nonselective beta-blockers block B2 in the lungs → bronchoconstriction, so they are contraindicated in asthma and COPD. Cardioselective ones are not.",
+    clue: "Nonselective = also blocks B2 (the 2 lungs).",
+    source: "Memory Aid · Beta-blockers (CI); One-member exceptions (-olol)",
+  },
+  {
+    id: "ag-087", topic: "angina", concept: "bb-se", drugs: ["betablockers"], type: "mcq",
+    difficulty: 1, cognitive: "understand", format: "side-effect",
+    stem: "Which is a common side effect of beta-blockers?",
+    options: ["Bradycardia", "Reflex tachycardia", "Tinnitus", "Gallstones"],
+    answer: 0,
+    why: "Blocking beta-1 slows the heart → bradycardia (plus hypotension, dizziness, fatigue, depression, ED). Reflex tachycardia is a nitroglycerin effect; tinnitus is aspirin's; gallstones are gemfibrozil's.",
+    clue: "Blocking beta-1 slows the heart.",
+    source: "Exam2 Memory Aid · Beta-blockers (Module 4 content)",
+  },
+  {
+    id: "ag-088", topic: "angina", concept: "bb-hold", drugs: ["betablockers"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "teaching",
+    stem: "How should a beta-blocker be discontinued?",
+    options: ["Tapered off over 1–2 weeks", "Stopped all at once", "Stopped as soon as the client feels better", "Doubled for 1 day, then stopped"],
+    answer: 0,
+    why: "Do not stop beta-blockers abruptly — taper over 1–2 weeks. An abrupt stop can cause rebound hypertension, worse angina, and MI.",
+    clue: "Abrupt stop → rebound HTN, angina, MI.",
+    source: "M7L1 Antianginal Medications · Slide 6",
+  },
+  {
+    id: "ag-089", topic: "angina", concept: "bb-overdose", drugs: ["betablockers"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "antidote",
+    stem: "Which medication treats symptomatic bradycardia from a beta-blocker overdose?",
+    options: ["Atropine", "Flumazenil", "Naloxone", "Protamine sulfate"],
+    answer: 0,
+    why: "Beta-blocker overdose: withhold doses, give atropine for symptomatic bradycardia (pale, diaphoretic, lightheaded), and glucagon + insulin. Flumazenil = benzodiazepines, naloxone = opioids, protamine = heparin.",
+    clue: "A slow, symptomatic heart needs the drug that speeds it up.",
+    source: "Exam2 Memory Aid · Beta-blockers (ANTIDOTE)",
+  },
+  {
+    id: "ag-090", topic: "angina", concept: "bb-dup", drugs: ["sotalol", "metoprolol"], type: "mcq",
+    difficulty: 1, cognitive: "understand", format: "interaction",
+    stem: "A client is prescribed sotalol and metoprolol together. This is an example of:",
+    options: ["Therapeutic duplication", "An intentional combination for stubborn hypertension", "A cardioselective-only regimen", "A beta-blocker overdose antidote"],
+    answer: 0,
+    why: "Two drugs from the SAME class (two beta-blockers) = therapeutic duplication — a red flag to question. Two different classes (clonidine + a beta-blocker) can be intentional.",
+    clue: "Both names end in -lol: same class, twice.",
+    source: "Memory Aid · One-member exceptions (-olol)",
+  },
+  {
+    id: "ag-091", topic: "angina", concept: "bb-ci", drugs: ["betablockers"], type: "mcq",
+    difficulty: 1, cognitive: "remember", format: "contraindication",
+    stem: "Which condition is a contraindication to beta-blockers?",
+    options: ["Cardiogenic shock", "Stable angina", "Hypertension", "Recovery after an MI"],
+    answer: 0,
+    why: "Beta-blocker contraindications: heart block, bradycardia, cardiogenic shock, acute HF, sick sinus syndrome, severe PAD. Angina, HTN, and post-MI care are indications.",
+    clue: "Three options are reasons TO give a beta-blocker.",
+    source: "Exam2 Memory Aid · Beta-blockers (CI)",
+  },
+  {
+    id: "ag-092", topic: "angina", concept: "naomi", drugs: ["naomi", "aspirin"], type: "fill",
+    difficulty: 1, cognitive: "remember", format: "nursing-action",
+    stem: "In NAOMI for a suspected MI, aspirin is given as ____ mg PO, chewed.",
+    accept: ["325"],
+    numeric: { value: 325 },
+    unit: "mg",
+    why: "NAOMI slide: Aspirin 325 mg PO, chewed up. (81 mg daily is the prevention dose.)",
+    clue: "It's the larger aspirin dose — not the 81 mg prevention dose.",
+    source: "M7L1 Antianginal Medications · Slide 5",
+  },
+  {
+    id: "ag-093", topic: "angina", concept: "naomi", drugs: ["naomi", "aspirin"], type: "mcq",
+    difficulty: 2, cognitive: "apply", format: "nursing-action",
+    stem: "A client with sudden substernal chest pain radiating to the jaw is to receive aspirin as part of NAOMI. How should the nurse give it?",
+    options: ["325 mg PO, chewed", "81 mg PO, swallowed whole", "325 mg placed under the tongue to dissolve", "81 mg chewed, repeated every 5 minutes × 3"],
+    answer: 0,
+    why: "NAOMI: aspirin 325 mg PO, chewed. Its antiplatelet effect helps prevent extension of the coronary clot. 81 mg daily is the prevention dose; q5 min × 3 is the SL nitro schedule.",
+    clue: "Acute MI aspirin = the bigger dose, chewed.",
+    source: "M7L1 Antianginal Medications · Slide 5",
+  },
+  {
+    id: "ag-094", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "fill",
+    difficulty: 1, cognitive: "remember", format: "nursing-action",
+    stem: "After the last SL nitroglycerin dose, the client should remain sitting or lying down for at least ____ minutes.",
+    accept: ["30", "thirty"],
+    numeric: { value: 30 },
+    unit: "minutes",
+    why: "Sitting or lying reduces cardiac workload and prevents orthostatic hypotension; the client stays seated or lying for at least 30 minutes after the last dose.",
+    source: "M7L1 Antianginal Medications · Slide 4 (implementation)",
+  },
+  {
+    id: "ag-095", topic: "angina", concept: "ntg-admin", drugs: ["nitroglycerin"], type: "mcq",
+    difficulty: 2, cognitive: "apply", format: "nursing-action",
+    stem: "Before giving an SL nitroglycerin tablet, the nurse notes the client's mouth is very dry. What should the nurse do?",
+    options: [
+      "Offer a sip of water, then place the tablet under the tongue",
+      "Have the client swallow the tablet with a full glass of water",
+      "Crush the tablet so it absorbs faster",
+      "Apply a nitroglycerin patch instead",
+    ],
+    answer: 0,
+    why: "A dry mouth can decrease absorption, so offer a sip of water before SL nitro, then let the tablet dissolve under the tongue. Swallowed or crushed nitro is ineffective; a patch is prevention only.",
+    clue: "Dry mouth ↓ absorption of an SL tablet.",
+    source: "M7L1 Antianginal Medications · Slide 4 (implementation)",
+  },
+  {
+    id: "ag-096", topic: "angina", concept: "ntg-storage", drugs: ["nitroglycerin"], type: "sata",
+    difficulty: 2, cognitive: "apply", format: "teaching",
+    stem: "The nurse teaches a client about a nitroglycerin transdermal patch. Which instructions are correct? Select all that apply.",
+    options: [
+      "Avoid distal extremities and areas with cuts or calluses",
+      "Press firmly, especially around the edges",
+      "Showering is fine — the patch is waterproof",
+      "Trim the patch if the headaches are bad",
+      "Leave a loose patch on and add tape over it",
+    ],
+    answers: [0, 1, 2],
+    why: "Apply to any hairless site (not distal extremities, cuts, or calluses), press firmly especially at the edges, and showering is fine. Never cut or trim the patch; apply a new one if it loosens or falls off.",
+    source: "M7L1 Antianginal Medications · Slide 4 (teaching)",
   },
 ];

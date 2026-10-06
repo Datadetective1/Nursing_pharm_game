@@ -2,88 +2,16 @@
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, Play } from "lucide-react";
+import { Play, GraduationCap, ClipboardCheck } from "lucide-react";
+import Link from "next/link";
+import { GROUPS, UNIT_BY_ID } from "@/data/library";
 import { Screen, TopBar, Ring, Button, cx, masteryColor, Bar, useNow } from "@/components/ui";
 import { useStore } from "@/lib/store";
 import { NODE_BY_ID, WORLD_BY_ID, conceptsForNode } from "@/data/curriculum";
 import { cardsForNode } from "@/data/bank";
 import { nodeProgress } from "@/lib/engine/progress";
 import { effectiveMastery, masteryState, STATE_LABEL } from "@/lib/engine/mastery";
-import type { ChunkKey, DrugCard } from "@/lib/types";
-
-const CHUNK_LABEL: Record<ChunkKey, { label: string; cls: string }> = {
-  moa: { label: "MOA", cls: "bg-indigo-500" },
-  use: { label: "USE", cls: "bg-sky-500" },
-  se: { label: "SIDE EFFECTS", cls: "bg-amber-500" },
-  ci: { label: "CONTRAINDICATED", cls: "bg-rose-600" },
-  caution: { label: "CAUTION", cls: "bg-orange-500" },
-  intx: { label: "INTERACTIONS", cls: "bg-fuchsia-500" },
-  lab: { label: "LABS", cls: "bg-teal-500" },
-  hold: { label: "HOLD", cls: "bg-red-600" },
-  antidote: { label: "ANTIDOTE", cls: "bg-emerald-600" },
-  action: { label: "NURSING ACTION", cls: "bg-violet-500" },
-  teach: { label: "TEACHING", cls: "bg-cyan-600" },
-};
-const ORDER: ChunkKey[] = ["moa", "use", "se", "ci", "caution", "intx", "lab", "hold", "antidote", "action", "teach"];
-
-function Card({ card }: { card: DrugCard }) {
-  const [open, setOpen] = useState<Set<ChunkKey>>(new Set());
-  const keys = ORDER.filter((k) => card.chunks[k]?.length);
-  const all = open.size === keys.length;
-  return (
-    <div className="card p-4" data-testid="drug-card">
-      <div className="flex items-start justify-between gap-2">
-        <div className="min-w-0">
-          <h3 className="text-lg font-extrabold leading-tight">{card.name}</h3>
-          <p className="text-xs font-semibold text-muted">{card.classLabel}</p>
-          {card.examples && <p className="mt-0.5 text-xs text-muted">{card.examples}</p>}
-        </div>
-        <button onClick={() => setOpen(all ? new Set() : new Set(keys))} className="shrink-0 rounded-full bg-surface-2 px-3 py-1.5 text-xs font-bold text-muted">
-          {all ? "Hide all" : "Reveal all"}
-        </button>
-      </div>
-      <p className="mt-2 text-xs font-semibold text-muted">Predict each chunk in your head, then tap to check.</p>
-      <div className="mt-3 flex flex-col gap-2">
-        {keys.map((k) => {
-          const isOpen = open.has(k);
-          return (
-            <button
-              key={k}
-              onClick={() => {
-                const n = new Set(open);
-                if (isOpen) n.delete(k);
-                else n.add(k);
-                setOpen(n);
-              }}
-              className={cx("rounded-xl border px-3 py-2.5 text-left transition-colors", isOpen ? "border-line bg-surface" : "border-dashed border-line bg-surface-2")}
-              data-testid="chunk"
-            >
-              <span className={cx("inline-block rounded-md px-1.5 py-0.5 text-[10px] font-extrabold tracking-wider text-white", CHUNK_LABEL[k].cls)}>{CHUNK_LABEL[k].label}</span>
-              {isOpen ? (
-                <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-[14px] leading-snug">
-                  {card.chunks[k]!.map((b, i) => (
-                    <li key={i}>{b}</li>
-                  ))}
-                </ul>
-              ) : (
-                <span className="ml-2 inline-flex items-center gap-1 text-xs font-semibold text-muted">
-                  <Eye size={13} /> tap to reveal
-                </span>
-              )}
-            </button>
-          );
-        })}
-      </div>
-      {card.hook && (
-        <div className="mt-3 rounded-xl bg-brand-soft p-3 text-sm">
-          <span className="font-extrabold text-brand">Memory hook: </span>
-          {card.hook}
-        </div>
-      )}
-      <p className="mt-2 text-[11px] text-muted">Source: {card.source}</p>
-    </div>
-  );
-}
+import { DrugCardView } from "@/components/DrugCardView";
 
 function NodeInner() {
   const router = useRouter();
@@ -106,6 +34,9 @@ function NodeInner() {
   const concepts = conceptsForNode(node.id);
   const cards = cardsForNode(node.id);
   const isCalc = node.id === "calc";
+  // library units that teach this node's concepts (in library order)
+  const nodeConcepts = new Set(concepts.map((c) => c.id));
+  const lessonUnits = GROUPS.flatMap((g) => g.units).filter((u) => UNIT_BY_ID[u]?.concepts.some((c) => nodeConcepts.has(c)));
 
   return (
     <Screen>
@@ -127,6 +58,29 @@ function NodeInner() {
         <Button onClick={() => router.push(isCalc ? "/dojo" : `/play?mode=node&node=${node.id}`)} data-testid="practice-node">
           <Play size={18} className="fill-current" /> {isCalc ? "Open Dosage Dojo" : "Practice this node"}
         </Button>
+        {lessonUnits.length > 0 && (
+          <div className="grid grid-cols-2 gap-2" data-testid="node-learn">
+            <Button variant="secondary" size="md" onClick={() => router.push(`/learn?sel=${encodeURIComponent(`unit:${lessonUnits[0]}`)}`)}>
+              <GraduationCap size={17} /> Learn first
+            </Button>
+            <Button variant="secondary" size="md" onClick={() => router.push(`/unit?sel=${encodeURIComponent(`unit:${lessonUnits[0]}`)}`)}>
+              <ClipboardCheck size={17} /> Learn · Practice · Test
+            </Button>
+          </div>
+        )}
+        {lessonUnits.length > 1 && (
+          <p className="text-center text-[12.5px] font-semibold text-muted">
+            Lessons here:{" "}
+            {lessonUnits.map((u, i) => (
+              <span key={u}>
+                {i > 0 && " · "}
+                <Link href={`/unit?sel=${encodeURIComponent(`unit:${u}`)}`} className="font-extrabold text-brand">
+                  {UNIT_BY_ID[u].title}
+                </Link>
+              </span>
+            ))}
+          </p>
+        )}
       </div>
 
       {!isCalc && (
@@ -162,7 +116,7 @@ function NodeInner() {
         <div className="mt-3 flex flex-col gap-3">
           {cards.length === 0 && <p className="text-sm text-muted">No cards for this node.</p>}
           {cards.map((c) => (
-            <Card key={c.id} card={c} />
+            <DrugCardView key={c.id} card={c} />
           ))}
         </div>
       )}

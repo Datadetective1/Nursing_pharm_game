@@ -36,7 +36,7 @@ export const TREES: Partial<Record<WorldId, TreeNode[]>> = {
       label: "Antihypertensives",
       children: [
         { label: "ACE inhibitors (-pril)", badges: [K("cough"), K("PARK"), L("K+")] },
-        { label: "ARBs (-sartan)", badges: [K("less cough"), L("K+")] },
+        { label: "ARBs (-sartan)", badges: [K("less cough"), L("BP")] },
         { label: "Calcium channel blockers", children: [{ label: "-pine", badges: [K("edema · reflex tachy")] }, { label: "Diltiazem · verapamil", badges: [K("↓HR")] }] },
       ],
     },
@@ -50,7 +50,7 @@ export const TREES: Partial<Record<WorldId, TreeNode[]>> = {
       ],
     },
     { label: "Potassium replacement", badges: [K("NEVER IV push")] },
-    { label: "Heart failure — digoxin", badges: [A("digoxin immune fab"), L("0.5–1.5 ng/mL"), K("apical < 60 hold")] },
+    { label: "Heart failure — digoxin", badges: [A("digoxin immune fab"), L("0.5–0.8 ng/mL"), K("apical < 60 hold")] },
   ],
   w7: [
     {

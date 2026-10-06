@@ -73,7 +73,7 @@ interface QBase {
   clue?: string;
   /** Optional memory hook. Must restate the real fact, never replace it. */
   hook?: string;
-  /** Where the fact comes from, e.g. "Memory Aid · Opioids" or "Coag Notes · Slide 2". */
+  /** Where the fact comes from, e.g. "Memory Aid · Opioids" or "M7L2 Coagulation Modifiers · Slide 2". */
   source: string;
   /** Worked solution steps (dosage calculations). */
   steps?: string[];

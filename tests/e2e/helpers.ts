@@ -10,15 +10,33 @@ export async function onboard(page: Page) {
   await page.getByTestId("conf-somewhat").click();
   await page.getByTestId("onboard-start").click();
   await page.waitForURL(/\/play\?mode=mission/);
-  await page.getByTestId("question").waitFor();
+  await page.locator(ITEM).first().waitFor();
+}
+
+/** Any session item: a question, an activity, or a teach-first micro-lesson. */
+export const ITEM = '[data-testid="question"], [data-testid="session-activity"], [data-testid="session-teach"]';
+
+/** Walk through an in-session micro-lesson (tap/check steps answered correctly). */
+export async function finishTeach(page: Page) {
+  for (let i = 0; i < 6 && (await page.getByTestId("session-teach").count()); i++) {
+    const tap = page.locator('[data-testid="tap-target"][data-correct="true"]');
+    if (await tap.count()) await tap.first().click();
+    const chk = page.locator('[data-testid="check-option"][data-correct="true"]');
+    if (await chk.count()) await chk.first().click();
+    const skip = page.getByTestId("activity-skip-lesson");
+    if (await skip.count()) await skip.click();
+    await page.getByTestId("lesson-next").click();
+    await page.waitForTimeout(150);
+  }
 }
 
 /** Sessions interleave visual activities with questions; swap any activity for a question. */
 export async function toQuestion(page: Page) {
-  await page.locator('[data-testid="question"], [data-testid="session-activity"]').first().waitFor();
-  for (let i = 0; i < 4 && (await page.getByTestId("session-activity").count()); i++) {
-    await page.getByTestId("activity-skip").click();
-    await page.locator('[data-testid="question"], [data-testid="session-activity"]').first().waitFor();
+  await page.locator(ITEM).first().waitFor();
+  for (let i = 0; i < 8 && !(await page.getByTestId("question").count()); i++) {
+    if (await page.getByTestId("session-teach").count()) await finishTeach(page);
+    else if (await page.getByTestId("session-activity").count()) await page.getByTestId("activity-skip").click();
+    await page.locator(ITEM).first().waitFor();
   }
 }
 
@@ -63,6 +81,13 @@ export async function answerCurrent(page: Page, opts: { wrongOnPurpose?: boolean
   const check = page.getByTestId("check");
   if (await check.count()) await check.click();
   else await page.getByTestId("conf-confident").click();
+  // guided practice: a first wrong answer shows a hint instead of feedback → answer again
+  await page.locator('[data-testid="feedback"], [data-testid="guided-hint"]').first().waitFor();
+  if (!(await page.getByTestId("feedback").count())) {
+    if (type === "mcq") await q.locator('[data-testid="option"]:not([disabled])').first().click();
+    if (type === "fill") await q.getByTestId("fill-input").fill(opts.wrongOnPurpose ? "zzzzz" : "2");
+    await page.getByTestId("check").click();
+  }
   await expect(page.getByTestId("feedback")).toBeVisible();
   return type;
 }

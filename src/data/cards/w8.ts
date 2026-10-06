@@ -8,9 +8,9 @@ export const w8Cards: DrugCard[] = [
     classLabel: "CNS depressant (-pam / -lam)",
     node: "benzos",
     topic: "cnsdep",
-    examples: "lorazepam, diazepam, midazolam",
+    examples: "lorazepam, diazepam, clonazepam, alprazolam, temazepam, triazolam, estazolam, midazolam",
     chunks: {
-      moa: ["↑GABA → CNS depression"],
+      moa: ["Enhances the action of GABA → CNS depression"],
       use: [
         "Anxiety, seizures, insomnia, muscle spasm",
         "ETOH withdrawal, panic disorder, anesthesia induction",
@@ -27,7 +27,10 @@ export const w8Cards: DrugCard[] = [
         "Substance use history, liver dysfunction, kidney failure",
         "OLDER ADULTS — lower doses, memory difficulty",
       ],
-      intx: ["CNS depressants, ETOH, KAVA KAVA, VALERIAN → profound resp arrest, coma, death"],
+      intx: [
+        "CNS depressants + ETOH → profound resp arrest, coma, death",
+        "Study Guide adds herbals: KAVA KAVA, VALERIAN",
+      ],
       hold: [
         "Respiratory depression or excessive sedation",
         "Insomnia use ≤ 3–4 weeks (tolerance + addiction)",
@@ -38,11 +41,15 @@ export const w8Cards: DrugCard[] = [
         "Oral ingestion → gastric lavage or activated charcoal",
         "Also: monitor VS, maintain airway, fluids for BP",
       ],
-      action: ["Dx: RISK FOR INJURY for every client", "Give at bedtime; USE A BED ALARM"],
-      teach: ["Avoid driving/machinery", "No ETOH, kava kava, valerian", "Nonpharmacologic sleep strategies"],
+      action: [
+        "Assess drug history (ETOH, other CNS depressants)",
+        "Dx: RISK FOR INJURY for every client",
+        "Give at bedtime; bed alarm in hospital (Study Guide)",
+      ],
+      teach: ["Avoid driving/machinery", "No ETOH or other CNS depressants", "Nonpharmacologic sleep strategies"],
     },
-    hook: "THINK ALCOHOL — benzos depress the CNS like ETOH, treat ETOH withdrawal, and must never be mixed with ETOH.",
-    source: "Memory Aid · Benzodiazepines",
+    hook: "Pam's and Lam's. THINK ALCOHOL — benzos depress the CNS like ETOH and must never be mixed with ETOH.",
+    source: "M8L2 CNS Depressants Notes · Slides 3, 5 & 6; Study Guide · CNS depressants",
   },
   {
     id: "card-zolpidem",
@@ -63,10 +70,11 @@ export const w8Cards: DrugCard[] = [
         "Children: CNS depression may show as irritability + hyperactivity",
         "Impaired kidney, liver, or respiratory function",
       ],
-      intx: ["CNS depressants + ETOH → severe respiratory depression"],
+      intx: ["CNS depressants + ETOH (like the benzos)"],
+      action: ["Dx: RISK FOR INJURY; give at bedtime"],
     },
     hook: "ZOLPIDEM is the one with sleep-related complex behaviors — short-term insomnia only, not in pregnancy.",
-    source: "Memory Aid · Zolpidem + Muscle Relaxants; One-member exceptions",
+    source: "M8L2 CNS Depressants Notes · Slides 4–6",
   },
   {
     id: "card-cyclobenzaprine",
@@ -83,12 +91,28 @@ export const w8Cards: DrugCard[] = [
         "Muscle spasm from injury",
         "Contrast: dantrolene = CP, SCI, MS, MALIGNANT HYPERTHERMIA/NMS",
       ],
-      se: ["Sleepiness, lightheadedness, fatigue", "Dependence with long-term use"],
-      caution: ["Older adults; impaired kidney, liver, or respiratory function"],
+      se: ["CNS depression: sleepiness, lightheadedness, fatigue", "Physical dependence with long-term use"],
       intx: ["CNS depressants + ETOH → severe respiratory depression"],
     },
     hook: "C = Centrally acting (cyclobenzaprine, spasm from injury) · D = Direct acting (dantrolene, the only one for malignant hyperthermia).",
-    source: "Memory Aid · Zolpidem + Muscle Relaxants; One-member exceptions",
+    source: "M8L2 CNS Depressants Notes · Slides 7–8",
+  },
+  {
+    id: "card-dantrolene",
+    name: "Dantrolene",
+    classLabel: "Direct-acting (peripheral) skeletal muscle relaxant",
+    node: "zolpidem-musc",
+    topic: "cnsdep",
+    chunks: {
+      moa: [
+        "D = DIRECT acting on spastic muscle",
+        "Prevents calcium release in skeletal muscle → inhibits contraction",
+      ],
+      use: ["Muscle spasms; spasticity from CP, spinal cord injury, MS"],
+      action: ["Treats MALIGNANT HYPERTHERMIA + neuroleptic malignant syndrome"],
+    },
+    hook: "D = Direct acting dantrolene (calcium) · C = Centrally acting cyclobenzaprine (GABA).",
+    source: "M8L2 CNS Depressants Notes · Slide 8",
   },
 
   // ───────────── CNS STIMULANTS ─────────────
@@ -117,7 +141,7 @@ export const w8Cards: DrugCard[] = [
       intx: [
         "MAOI → HYPERTENSIVE CRISIS",
         "OTC cold/decongestants (sympathomimetics) + caffeine → ↑stimulation",
-        "Antagonistic with CNS depressants",
+        "Antagonistic with CNS depressants (Study Guide)",
       ],
       lab: [
         "HR + BP",
@@ -136,9 +160,13 @@ export const w8Cards: DrugCard[] = [
         "Children often taper off for summer, then taper back on",
         "ADHD is NOT cured by medication — add CBT/family therapy",
       ],
+      action: [
+        "Dx: risk-prone behavior, risk for injury, interrupted family processes",
+        "Goal: more focused + alert; better peer interaction; stays awake",
+      ],
     },
     hook: "THINK CAFFEINE — stimulants act like too much coffee: insomnia, jitters, ↓appetite, ↑HR, ↑BP.",
-    source: "Memory Aid · CNS Stimulants",
+    source: "M8L1 CNS Stimulants · Slides 3–4; Memory Aid · CNS Stimulants",
   },
 
   // ───────────── ANTICONVULSANTS ─────────────
@@ -162,13 +190,17 @@ export const w8Cards: DrugCard[] = [
         "NEVER stop any anticonvulsant abruptly",
       ],
       caution: ["PREGNANCY — many cause birth defects; talk to provider BEFORE conceiving"],
+      action: [
+        "Assess: level, seizure type/last/duration, liver disease, pregnancy, drug hx",
+        "Dx: RISK FOR INJURY — pad rails, bed low, O₂ flow-meter in room",
+      ],
       teach: [
         "Take at the same time daily (± 1 hr OK)",
         "Report rash, fever, stiff neck, jaundice, mood changes/suicidal thoughts",
       ],
     },
     hook: "Below the range = seizures; above the range = toxicity → hold + notify.",
-    source: "Memory Aid · Anticonvulsants — Levels (MO8.7); Phenobarbital/Carbamazepine/… (CAUT, DO/TEACH)",
+    source: "M8L3 Anticonvulsants Notes · Slides 3–7 & 9; Memory Aid · Anticonvulsants (DO/TEACH)",
   },
   {
     id: "card-phenytoin",
@@ -190,10 +222,11 @@ export const w8Cards: DrugCard[] = [
       ],
       ci: ["IV in sinus bradycardia, SA block, 2nd/3rd° AV block, Stokes-Adams syndrome"],
       intx: [
-        "↓Warfarin effect",
-        "Oral contraceptives less effective",
-        "↓Topiramate levels (carbamazepine does too)",
-        "Bile acid sequestrants block phenytoin absorption",
+        "↑ Level: acute ETOH, diazepam, cimetidine, valproic, oxcarbazepine, topiramate",
+        "↓ Level: chronic ETOH, carbamazepine, phenobarbital",
+        "Phenytoin ↓ OCs, warfarin, glucocorticoids, carbamazepine",
+        "Additive with CNS depressants",
+        "Bile acid sequestrants block phenytoin absorption (M7L3)",
       ],
       lab: ["Level 10–20 mcg/mL"],
       hold: [
@@ -207,7 +240,7 @@ export const w8Cards: DrugCard[] = [
       ],
     },
     hook: "Phenytoin = the gums + IV-rules drug: NS only, ≤ 50 mg/min, flush, never IM.",
-    source: "Memory Aid · Phenytoin (MO8.6); One-member exceptions",
+    source: "M8L3 Anticonvulsants Notes · Slides 3 & 9; Memory Aid · Phenytoin (MO8.6)",
   },
   {
     id: "card-phenobarbital",
@@ -216,20 +249,23 @@ export const w8Cards: DrugCard[] = [
     node: "anticonv-other",
     topic: "anticonv",
     chunks: {
-      moa: ["Long-acting BARBITURATE"],
-      use: ["Seizures; high-dose phenobarbital in status epilepticus (after midazolam/propofol)"],
+      moa: ["Long-acting BARBITURATE (CNS depressant)"],
+      use: [
+        "Simple/complex partial, secondarily generalized, tonic-clonic seizures",
+        "High-dose phenobarbital in status epilepticus (after midazolam/propofol)",
+      ],
       se: [
         "Adults: drowsiness/sedation/depression",
         "Older adults: confusion + anxiety",
         "CHILDREN: irritability + HYPERACTIVITY",
       ],
-      intx: ["↓Warfarin effect"],
+      intx: ["↓ Oral contraceptives + warfarin", "↓ Carbamazepine + phenytoin"],
       lab: ["Level 10–40 mcg/mL"],
       hold: ["ABRUPT WITHDRAWAL CAUSES SEIZURES — must taper"],
       teach: ["Sedation + tolerance — dose raised per level and response"],
     },
     hook: "PHENOBARBital is the BARBiturate — abrupt withdrawal causes seizures.",
-    source: "Memory Aid · Phenobarbital/Carbamazepine/…; Warfarin (INTX); Status Epilepticus",
+    source: "M8L3 Anticonvulsants Notes · Slides 4, 9 & 10",
   },
   {
     id: "card-carbamazepine",
@@ -238,7 +274,10 @@ export const w8Cards: DrugCard[] = [
     node: "anticonv-other",
     topic: "anticonv",
     chunks: {
-      use: ["Many seizure types + bipolar + pain adjunct"],
+      use: [
+        "Many seizure types",
+        "Bipolar disorder · trigeminal neuralgia (analgesic) · alcohol withdrawal",
+      ],
       se: [
         "Nystagmus, diplopia, vertigo, staggering gait, HA",
         "BLOOD DYSCRASIAS (leukopenia, anemia, thrombocytopenia)",
@@ -247,13 +286,15 @@ export const w8Cards: DrugCard[] = [
       ],
       intx: [
         "GRAPEFRUIT → ↑levels → toxicity",
-        "↓Topiramate levels; ↓warfarin effect",
+        "↓ Oral contraceptives, warfarin, phenytoin, topiramate",
+        "Phenytoin + phenobarbital ↓ carbamazepine",
       ],
       lab: ["Level 4–12 mcg/mL — the NARROWEST range"],
-      hold: ["ANY RASH → HOLD + NOTIFY (Stevens-Johnson)"],
+      hold: ["ANY RASH → HOLD + NOTIFY (Stevens-Johnson) — Study Guide"],
+      teach: ["Avoid grapefruit juice"],
     },
     hook: "Carbamazepine = narrowest range (4–12) + blood dyscrasias + grapefruit + rash/SJS.",
-    source: "Memory Aid · Phenobarbital/Carbamazepine/…; One-member exceptions; Warfarin (INTX)",
+    source: "M8L3 Anticonvulsants Notes · Slides 5 & 9; Study Guide · Ten traps",
   },
   {
     id: "card-topiramate",
@@ -263,7 +304,7 @@ export const w8Cards: DrugCard[] = [
     topic: "anticonv",
     chunks: {
       moa: ["Blocks Na channels, ↑GABA, blocks excitatory receptors"],
-      use: ["Seizures, migraine, bipolar"],
+      use: ["Partial + generalized (tonic-clonic, myoclonic) seizures; migraine; bipolar"],
       se: [
         "↑SUICIDE RISK",
         "Somnolence, dizziness, ataxia, diplopia, confusion",
@@ -276,7 +317,7 @@ export const w8Cards: DrugCard[] = [
       teach: ["Report mood changes/suicidal thoughts"],
     },
     hook: "Topiramate is the one with ↓sweating + angle-closure glaucoma.",
-    source: "Memory Aid · Phenobarbital/Carbamazepine/Topiramate/…; One-member exceptions",
+    source: "M8L3 Anticonvulsants Notes · Slide 6",
   },
   {
     id: "card-valproic-acid",
@@ -297,7 +338,7 @@ export const w8Cards: DrugCard[] = [
       teach: ["Report jaundice"],
     },
     hook: "VALPROIC is the HEPATOTOXIC one (anorexia, abdominal pain, jaundice).",
-    source: "Memory Aid · Phenobarbital/Carbamazepine/Topiramate/Valproic/…; One-member exceptions",
+    source: "M8L3 Anticonvulsants Notes · Slides 7 & 9",
   },
   {
     id: "card-lamotrigine",
@@ -306,18 +347,21 @@ export const w8Cards: DrugCard[] = [
     node: "anticonv-other",
     topic: "anticonv",
     chunks: {
-      use: ["Seizures + bipolar"],
+      moa: ["Blocks voltage-gated Na⁺ channels; inhibits glutamate + aspartate release"],
+      use: ["Partial + generalized (tonic-clonic, absence, myoclonic) seizures; bipolar"],
       se: [
         "Dizziness, somnolence, aphasia, diplopia, HA, depression",
         "↑SUICIDE RISK",
         "ASEPTIC MENINGITIS (HA, fever, STIFF NECK, N/V, rash, photophobia)",
         "SJS + toxic epidermal necrolysis",
       ],
-      hold: ["ANY RASH → HOLD + NOTIFY (Stevens-Johnson)"],
+      ci: ["Pregnancy or breastfeeding — only if benefits outweigh risks"],
+      lab: ["No therapeutic range given in the course notes"],
+      hold: ["ANY RASH → HOLD + NOTIFY (Stevens-Johnson) — Study Guide"],
       teach: ["Report rash, fever, stiff neck, mood changes/suicidal thoughts"],
     },
     hook: "Lamotrigine + carbamazepine are the rash/SJS ones — any rash = hold + notify.",
-    source: "Memory Aid · Phenobarbital/Carbamazepine/…/Lamotrigine; One-member exceptions",
+    source: "M8L3 Anticonvulsants Notes · Slide 8; Study Guide · Anticonvulsant chart",
   },
 
   // ───────────── STATUS EPILEPTICUS ─────────────
@@ -336,7 +380,7 @@ export const w8Cards: DrugCard[] = [
         "3) If continuing: midazolam or propofol → high-dose PHENOBARBITAL",
         "PRIORITY AFTERWARD = AIRWAY + BREATHING; may need mechanical ventilation",
       ],
-      hold: ["NEVER put a tablet in a seizing client's mouth"],
+      hold: ["NEVER put a tablet in a seizing client's mouth (rectal benzo works, but slower)"],
       lab: [
         "Assess drug level, seizure type/last/duration",
         "Hepatic disease, PREGNANCY, drug history",
@@ -348,6 +392,6 @@ export const w8Cards: DrugCard[] = [
       ],
     },
     hook: "Benzo STOPS it → phenytoin PREVENTS more → midazolam/propofol → phenobarbital. Then airway + breathing.",
-    source: "Memory Aid · Anticonvulsant Nursing + Status Epilepticus (MO8.8); One-member exceptions",
+    source: "M8L3 Anticonvulsants Notes · Slides 9–10",
   },
 ];

@@ -236,7 +236,7 @@ export const BODY: Activity[] = [
     title: "Heparin: body map",
     topic: "coag",
     concepts: ["hep-bleeding", "hep-hit", "hep-moa"],
-    source: "Coag Notes · Slides 2, 4; Memory Aid · Heparin",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 4; Memory Aid · Heparin",
     difficulty: 2,
     data: {
       drug: "Heparin",

@@ -222,7 +222,7 @@ export const CHARTS: Activity[] = [
     title: "Alteplase for Stroke?",
     topic: "coag",
     concepts: ["tpa-ci", "tpa-nursing"],
-    source: "Coag Notes · Slides 12–13",
+    source: "M7L2 Coagulation Modifiers · Slides 12–13",
     difficulty: 3,
     data: {
       patient: "Client with acute ischemic stroke",

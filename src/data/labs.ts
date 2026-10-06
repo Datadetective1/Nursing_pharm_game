@@ -4,7 +4,7 @@ import type { TopicId } from "@/lib/types";
 /**
  * LAB LOCK puzzles. Each lock = a client scenario with 3–4 "tumblers":
  *   1) which lab/assessment, 2) target range (if the course gives one), 3) interpret the value, 4) nursing response.
- * Every value, range and action comes from the Memory Aid / Coag Notes. Responses are limited to actions the
+ * Every value, range and action comes from the Memory Aid / M7L2 Coagulation Modifiers. Responses are limited to actions the
  * materials state (hold, notify, antidote, assess for bleeding/clot signs, etc).
  */
 export interface LockStep {
@@ -51,7 +51,7 @@ const heparinAptt: LockGen = (rng) => {
     topic: "coag",
     concept: "hep-lab",
     scenario: `A client receiving heparin for a DVT has a new aPTT of ${value} seconds.`,
-    source: "Coag Notes · Slide 2",
+    source: "M7L2 Coagulation Modifiers · Slide 2",
     steps: [
       step("lab", "Which lab measures the client's therapeutic response to heparin?", "aPTT (PTT)", ["PT/INR", "Creatinine clearance", "Digoxin level"], "Heparin response is assessed with the aPTT/PTT."),
       step("range", "What is the usual heparin goal?", "1.5–2.5× normal ≈ 60–80 seconds", ["18–24 seconds", "INR 2–3", "10–20 mcg/mL"], "Goal is commonly 1.5–2.5× the normal aPTT, about 60–80 seconds."),
@@ -74,7 +74,7 @@ const heparinPlatelets: LockGen = (rng) => {
     topic: "coag",
     concept: "hep-hit",
     scenario: `Day 6 of ${drug} therapy: the client's ${v.text}.`,
-    source: "Coag Notes · Slide 4 (nursing process)",
+    source: "M7L2 Coagulation Modifiers · Slide 4 (nursing process)",
     steps: [
       step("lab", `Which lab screens for heparin-induced thrombocytopenia (HIT) on ${drug}?`, "Platelet count", ["aPTT", "INR", "Fibrinogen"], "Platelet count is monitored to assess for HIT."),
       step("range", "Which finding should make the nurse suspect HIT?", "Platelets drop ≥ 50% or fall below 100,000", ["Platelets rise above 400,000", "aPTT above 80 seconds", "INR above 3"], "HIT criterion: a drop of 50% or more, or platelets below 100,000."),
@@ -90,7 +90,7 @@ const enoxaparinLab: LockGen = () => ({
   topic: "coag",
   concept: "lmwh-lab",
   scenario: "A client with chronic kidney disease is started on enoxaparin for DVT prophylaxis after hip surgery.",
-  source: "Coag Notes · Slides 3–4",
+  source: "M7L2 Coagulation Modifiers · Slides 3–4",
   steps: [
     step("lab", "Which lab measures enoxaparin's therapeutic effect?", "None — no lab measures it; effect = no new or extending clots", ["aPTT 60–80 seconds", "PT 18–24 seconds", "INR 2–3"], "LMWH therapeutic response can't be assessed with labs — it's judged by absence of new/extending clots."),
     step("lab", "Which lab is monitored to decide whether the dose needs adjusting?", "Creatinine clearance", ["aPTT", "Digoxin level", "BNP"], "LMWHs are eliminated by the kidneys → creatinine clearance guides dose adjustment."),
@@ -121,7 +121,7 @@ const warfarinInr: LockGen = (rng) => {
     topic: "coag",
     concept: "war-lab",
     scenario: `A client taking warfarin for ${v.who} has an INR of ${v.inr}.`,
-    source: "Coag Notes · Slides 5–6",
+    source: "M7L2 Coagulation Modifiers · Slides 5–6",
     steps: [
       step("lab", "Which labs evaluate warfarin's therapeutic response?", "PT and INR", ["aPTT", "Platelet count only", "Creatinine clearance"], "Warfarin response = PT/INR (PT 1.5–2× control = 18–24 sec)."),
       step("range", `Target for ${v.who}?`, v.range, otherRanges.slice(0, 3), "INR 2–3 for most indications; 2.5–3.5 for PE treatment; 3–4.5 for mechanical valve/recurrent systemic embolism."),
@@ -134,8 +134,8 @@ const warfarinInr: LockGen = (rng) => {
 const digoxinLock: LockGen = (rng) => {
   const v = pick(rng, [
     { text: "digoxin level 2.6 ng/mL; the client reports loss of appetite", band: "toxic" as const },
-    { text: "digoxin level 0.9 ng/mL; apical pulse 74 counted for a full minute", band: "ok" as const },
-    { text: "digoxin level 1.0 ng/mL; apical pulse 54 counted for a full minute", band: "brady" as const },
+    { text: "digoxin level 0.7 ng/mL; apical pulse 74 counted for a full minute", band: "ok" as const },
+    { text: "digoxin level 0.6 ng/mL; apical pulse 54 counted for a full minute", band: "brady" as const },
   ]);
   const interp = {
     toxic: "Above range with an early toxicity sign (anorexia) — digoxin toxicity",
@@ -156,7 +156,7 @@ const digoxinLock: LockGen = (rng) => {
     source: "Memory Aid · Digoxin",
     steps: [
       step("lab", "Besides the digoxin level, which electrolyte matters most?", "Potassium (low K+ → digoxin toxicity)", ["Sodium", "Calcium", "Glucose"], "Hypokalemia increases digoxin toxicity risk (loop/thiazide + digoxin = highest-risk pairing)."),
-      step("range", "Therapeutic digoxin level (course notes)?", "0.5–1.5 ng/mL", ["10–20 mcg/mL", "60–80 seconds", "4–12 mcg/mL"], "Memory aid: 0.5–1.5 ng/mL (a quiz printed 0.5–2.0 — use the range given in the question)."),
+      step("range", "Therapeutic digoxin level (lecture slide)?", "0.5–0.8 ng/mL", ["10–20 mcg/mL", "60–80 seconds", "4–12 mcg/mL"], "Lecture slide: 0.5–0.8 ng/mL; > 2 ng/mL = toxicity. (Study guides list 0.5–1.5 — on the exam, use the range given in the question.)"),
       step("interpret", "Interpretation?", interp[v.band], Object.entries(interp).filter(([k]) => k !== v.band).map(([, x]) => x).concat(["Subtherapeutic — increase the dose"]), "Check level AND apical pulse AND toxicity signs (anorexia is the earliest)."),
       step("response", "Nursing action?", resp[v.band], Object.entries(resp).filter(([k]) => k !== v.band).map(([, x]) => x).concat(["Give with an antacid to reduce nausea"]), "HOLD for apical pulse < 60 (full 60 seconds) or any sign of toxicity. Antidote: digoxin immune fab."),
     ],
@@ -178,7 +178,7 @@ const apapLock: LockGen = (rng) => {
     source: "Memory Aid · Acetaminophen",
     steps: [
       step("lab", "Which labs reflect liver injury from acetaminophen?", "AST/ALT", ["aPTT", "CK", "BNP"], "Monitor AST/ALT; acetaminophen toxicity damages the liver."),
-      step("range", "Therapeutic acetaminophen level?", "10–20 mcg/mL (toxic > 200)", ["50–100 mcg/mL (toxic > 150)", "0.5–1.5 ng/mL", "4–12 mcg/mL"], "Level 10–20 mcg/mL; toxic > 200. Draw within 4 hr; after 4 hr assume toxic and treat."),
+      step("range", "Therapeutic acetaminophen level?", "10–20 mcg/mL (toxic > 200)", ["50–100 mcg/mL (toxic > 150)", "0.5–0.8 ng/mL", "4–12 mcg/mL"], "Level 10–20 mcg/mL; toxic > 200. Draw within 4 hr; after 4 hr assume toxic and treat."),
       step("interpret", "Interpretation?", v.toxic ? "Treat as toxic" : "Therapeutic — not toxic", [v.toxic ? "Therapeutic — not toxic" : "Treat as toxic", "Wait for jaundice before deciding", "Repeat the level tomorrow before acting"], v.toxic ? "Above 200 = toxic; after 4 hours, ASSUME toxic and treat." : "15 is within 10–20 mcg/mL."),
       step("response", "Antidote / action?", v.toxic ? "Acetylcysteine (IV better tolerated)" : "No antidote needed; teach one APAP product at a time", [v.toxic ? "No antidote needed; teach one APAP product at a time" : "Acetylcysteine (IV better tolerated)", "Naloxone", "Vitamin K"], "Acetaminophen antidote = acetylcysteine."),
     ],
@@ -274,10 +274,10 @@ const potassiumLock: LockGen = (rng) => {
     scenario: `A client taking ${v.drug.startsWith("An ") ? "an ACE inhibitor (-pril)" : v.drug.toLowerCase()}: ${v.text}`,
     source: "Memory Aid · Diuretics / K+ summary",
     steps: [
-      step("lab", `Which lab is the priority to watch for this drug?`, "Potassium (K+)", ["aPTT", "CK", "Ammonia"], "Diuretics and ACE/ARBs shift potassium."),
-      step("interpret", "Is this the expected direction for this drug?", wasting ? "Yes — this drug WASTES K+ (look LOW)" : "Yes — this drug RAISES/SPARES K+ (look HIGH)", [wasting ? "No — this drug should raise K+" : "No — this drug should lower K+", "K+ is unaffected by this drug", "Only sodium changes with this drug"], "K+ DOWN: loop, thiazide. K+ UP: ACE, ARB, spironolactone, K+ supplements, salt substitutes."),
+      step("lab", `Which lab is the priority to watch for this drug?`, "Potassium (K+)", ["aPTT", "CK", "Ammonia"], "Diuretics and ACE inhibitors shift potassium."),
+      step("interpret", "Is this the expected direction for this drug?", wasting ? "Yes — this drug WASTES K+ (look LOW)" : "Yes — this drug RAISES/SPARES K+ (look HIGH)", [wasting ? "No — this drug should raise K+" : "No — this drug should lower K+", "K+ is unaffected by this drug", "Only sodium changes with this drug"], "K+ DOWN: loop, thiazide. K+ UP: ACE inhibitors, spironolactone, K+ supplements, salt substitutes."),
       step("response", "Teaching that fits this drug?", wasting ? "Eat more K+ foods (bananas, OJ, avocado, potato, raisins, spinach)" : "Limit high-K+ foods and AVOID salt substitutes", [wasting ? "Limit high-K+ foods and AVOID salt substitutes" : "Eat more K+ foods (bananas, OJ, avocado, potato, raisins, spinach)", "Take K+ supplements by IV push", "Double fluid intake"], "WASTING → eat more K+; SPARING → limit K+ (salt substitutes = KCl)."),
-      step("response", "Which matters if the client also takes digoxin?", wasting ? "Low K+ → digoxin TOXICITY" : "High K+ → decreased digoxin effect", [wasting ? "High K+ → decreased digoxin effect" : "Low K+ → digoxin TOXICITY", "Digoxin has no K+ interaction", "Digoxin raises K+ to normal"], "Loop/thiazide → hypoK → digoxin toxicity; ACE/ARB → hyperK → ↓digoxin effect."),
+      step("response", "Which matters if the client also takes digoxin?", wasting ? "Low K+ → digoxin TOXICITY" : "High K+ → decreased digoxin effect", [wasting ? "High K+ → decreased digoxin effect" : "Low K+ → digoxin TOXICITY", "Digoxin has no K+ interaction", "Digoxin raises K+ to normal"], "Loop/thiazide → hypoK → digoxin toxicity; ACE inhibitors/ARBs (listed on the digoxin slide) → hyperK → ↓digoxin effect."),
     ],
   };
 };
@@ -305,7 +305,7 @@ const alteplaseLock: LockGen = () => ({
   topic: "coag",
   concept: "tpa-nursing",
   scenario: "A client with an acute ischemic stroke (symptom onset 90 minutes ago) is being prepared for alteplase.",
-  source: "Coag Notes · Slides 12–13",
+  source: "M7L2 Coagulation Modifiers · Slides 12–13",
   steps: [
     step("lab", "Which baseline labs are drawn before alteplase?", "CBC (H&H, platelets), aPTT, PT, INR, and fibrinogen", ["Digoxin and potassium only", "CK and AST only", "Ammonia and lipase"], "Thrombolytic assessment: baseline VS, CBC, aPTT, PT, INR, fibrinogen."),
     step("interpret", "Timing matters because:", "Alteplase works best given as soon as possible — within 3 hours of onset", ["It must be delayed 24 hours", "It only works after the clot organizes", "Timing doesn't affect thrombolytics"], "Administer ASAP after onset — within 3 hours is best."),

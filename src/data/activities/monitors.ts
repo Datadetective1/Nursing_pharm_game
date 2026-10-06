@@ -11,7 +11,7 @@ export const MONITORS: Activity[] = [
     title: "Heparin Drip Dashboard",
     topic: "coag",
     concepts: ["hep-lab", "hep-bleeding", "hep-hit"],
-    source: "Coag Notes · Slides 2, 4",
+    source: "M7L2 Coagulation Modifiers · Slides 2, 4",
     difficulty: 2,
     data: {
       client: "Client, 59, PE on IV heparin",
@@ -34,7 +34,7 @@ export const MONITORS: Activity[] = [
     title: "Warfarin Clinic Board",
     topic: "coag",
     concepts: ["war-lab", "war-intx", "war-teach"],
-    source: "Coag Notes · Slides 5–6",
+    source: "M7L2 Coagulation Modifiers · Slides 5–6",
     difficulty: 2,
     data: {
       client: "Client, 72, a-fib on warfarin (no valve)",
@@ -64,7 +64,7 @@ export const MONITORS: Activity[] = [
       meds: ["Digoxin PO daily", "Furosemide PO daily"],
       tiles: [
         { label: "Apical pulse (full min)", value: "56", unit: "/min", action: true, why: "< 60 → hold digoxin." },
-        { label: "Digoxin level", value: "1.0", unit: "ng/mL", action: false, why: "Within 0.5–1.5 ng/mL." },
+        { label: "Digoxin level", value: "0.7", unit: "ng/mL", action: false, why: "Within 0.5–0.8 ng/mL (lecture range)." },
         { label: "K+", value: "LOW", action: true, why: "Low K+ → digoxin toxicity risk; furosemide is held for low K+." },
         { label: "Weight", value: "+6 lb in 2 days", action: true, why: "Report a gain > 5 lb in 2 days." },
         { label: "BP", value: "122/74", unit: "mmHg", action: false, why: "No hypotension." },

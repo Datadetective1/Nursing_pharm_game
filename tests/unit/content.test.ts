@@ -44,7 +44,8 @@ describe("question bank structure", () => {
       const qs = QUESTIONS.filter((q) => q.topic === t.id);
       expect(qs.filter((q) => ["mcq", "sata", "fill", "tf"].includes(q.type)).length).toBeGreaterThanOrEqual(t.examCount * 5);
       const app = qs.filter((q) => ["apply", "analyze", "evaluate"].includes(q.cognitive)).length;
-      expect(app / qs.length).toBeGreaterThanOrEqual(0.45);
+      // ≥ 40%: guided practice needs easy recognition items too (Learn → Practice → Test); exams still draw application-heavy
+      expect(app / qs.length).toBeGreaterThanOrEqual(0.4);
     }
   });
 

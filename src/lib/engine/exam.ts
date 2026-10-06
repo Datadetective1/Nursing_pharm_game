@@ -11,7 +11,7 @@ const TYPE_TARGET: Record<string, number> = { mcq: 0.52, sata: 0.2, fill: 0.14, 
 
 /**
  * Builds a 50-question simulated Exam 2 following the blueprint distribution (TOPICS[].examCount),
- * spreading items across concepts, mixing formats, and favoring application-level items (~60%).
+ * spreading items across concepts, mixing formats, and favoring application-level items (~70%, as the blueprint does).
  */
 export function buildExam(rng: Rng): Question[] {
   const out: Question[] = [];
@@ -39,15 +39,21 @@ export function buildExam(rng: Rng): Question[] {
       const desired = (Object.keys(TYPE_TARGET) as QuestionType[]).sort(
         (a, b) => (typeCount[a] - TYPE_TARGET[a] * n) - (typeCount[b] - TYPE_TARGET[b] * n),
       );
-      const wantApp = rng() < 0.6;
+      // the blueprint is application-heavy (most content areas list more A than R/U items)
+      const wantApp = rng() < 0.7;
       let pick: Question | undefined;
-      for (const ty of desired) {
-        const byType = cands.filter((q) => q.type === ty);
-        if (!byType.length) continue;
-        const byCog = byType.filter((q) => isApplication(q.cognitive, q.difficulty) === wantApp);
-        const list = byCog.length ? byCog : byType;
-        pick = list[Math.floor(rng() * list.length)];
-        break;
+      // first pass: the wanted cognitive level in the most-needed format; second pass: any level
+      for (const strict of [true, false]) {
+        for (const ty of desired) {
+          const byType = cands.filter((q) => q.type === ty);
+          if (!byType.length) continue;
+          const byCog = byType.filter((q) => isApplication(q.cognitive, q.difficulty) === wantApp);
+          if (strict && !byCog.length) continue;
+          const list = byCog.length ? byCog : byType;
+          pick = list[Math.floor(rng() * list.length)];
+          break;
+        }
+        if (pick) break;
       }
       pick = pick ?? cands[Math.floor(rng() * cands.length)];
       used.add(pick.id);

@@ -1,7 +1,8 @@
 import type { DrugCard } from "@/lib/types";
 
 /* World 7 · Blood & Heart drug cards.
-   Sources: docs/source/coag-notes.md, coag-slides.md, memory-aid.md (Module 7). */
+   Sources: M7L1 Antianginal, M7L2 Coagulation Modifiers, M7L3 Lipid-Lowering Agents (lecture slides + notes, primary);
+   Exam2 Memory Aid (beta-blocker detail = Module 4 content; One-member exceptions); Study Guide (Slide 9 image). */
 export const w7Cards: DrugCard[] = [
   {
     id: "heparin",
@@ -28,7 +29,7 @@ export const w7Cards: DrugCard[] = [
       teach: ["Soft-bristle toothbrush, electric razor", "Do not massage injection sites", "Report bruising, gum bleeding, nosebleeds, tarry stools"],
     },
     hook: "PRO-tamine PROtects from HEParin. 4 G herbals (garlic, ginger, glucosamine, ginkgo) ↑bleeding.",
-    source: "Coag Notes · Slides 2 & 4; Memory Aid · Heparin",
+    source: "M7L2 Coagulation Modifiers · Slides 1, 2 & 4; Memory Aid · Heparin",
   },
   {
     id: "enoxaparin",
@@ -36,7 +37,7 @@ export const w7Cards: DrugCard[] = [
     classLabel: "Low-molecular-weight heparin (LMWH)",
     node: "heparins",
     topic: "coag",
-    examples: "enoxaparin (dalteparin is the other LMWH on the slide)",
+    examples: "enoxaparin, dalteparin (the two LMWHs on the slide)",
     chunks: {
       moa: ["Inactivates factor Xa ONLY → fewer factors affected", "No routine lab monitoring; safe for home use"],
       use: ["Post-op DVT prophylaxis", "Treat DVT and PE", "Prevent complications of angina and MI"],
@@ -59,7 +60,7 @@ export const w7Cards: DrugCard[] = [
       teach: ["Teach self-injection before discharge home", "Soft toothbrush, electric razor; report bleeding"],
     },
     hook: "Enoxaparin = Xa only → no routine lab. Check CrCl because the kidneys clear it.",
-    source: "Coag Notes · Slides 3 & 4; Memory Aid · Enoxaparin",
+    source: "M7L2 Coagulation Modifiers · Slides 3 & 4; Memory Aid · Enoxaparin",
   },
   {
     id: "warfarin",
@@ -92,7 +93,7 @@ export const w7Cards: DrugCard[] = [
       ],
     },
     hook: "Warfarin is the only one reversed by vitamin K. Keep vitamin K Konsistent.",
-    source: "Coag Notes · Slides 5 & 6; Memory Aid · Warfarin",
+    source: "M7L2 Coagulation Modifiers · Slides 5 & 6; Memory Aid · Warfarin",
   },
   {
     id: "dabigatran",
@@ -109,7 +110,7 @@ export const w7Cards: DrugCard[] = [
       antidote: ["Idarucizumab: for emergency surgery or serious bleeding"],
     },
     hook: "Dabigatran is the only one with idarucizumab.",
-    source: "Coag Notes · Slide 7; Coag Slides · Slide 7; Memory Aid · DTI + Xa inhibitors",
+    source: "M7L2 Coagulation Modifiers · Slide 7; Memory Aid · DTI + Xa inhibitors",
   },
   {
     id: "argatroban",
@@ -125,7 +126,7 @@ export const w7Cards: DrugCard[] = [
       caution: ["Liver disease"],
     },
     hook: "ARGatroban = the one used when heparin cannot be (HIT).",
-    source: "Coag Notes · Slide 7; Memory Aid · One-member exceptions (anticoagulants)",
+    source: "M7L2 Coagulation Modifiers · Slide 7 (notes); Memory Aid · One-member exceptions",
   },
   {
     id: "rivaroxaban",
@@ -135,13 +136,13 @@ export const w7Cards: DrugCard[] = [
     topic: "coag",
     examples: "rivaroxaban (apixaban is the other example on the slide)",
     chunks: {
-      moa: ["Directly inhibits factor Xa, preventing thrombin formation"],
+      moa: ["Newer oral anticoagulant: directly inhibits factor Xa → no thrombin formed"],
       use: ["Prevent stroke in a-fib", "Prevent DVT and PE"],
       se: ["GI, GU, cranial, retinal, or epidural bleeding", "Elevated liver enzymes and bilirubin"],
       ci: ["Active bleeding", "Severe kidney impairment", "Moderate to severe liver impairment"],
       antidote: ["Andexanet alfa (FDA-approved 2018)"],
     },
-    source: "Coag Notes · Slide 8; Coag Slides · Slide 8",
+    source: "M7L2 Coagulation Modifiers · Slide 8",
   },
   {
     id: "aspirin-antiplatelet",
@@ -155,6 +156,7 @@ export const w7Cards: DrugCard[] = [
         "Prevent stroke, CAD, ACS, CVD, PAD",
         "Thromboembolism with certain heart valves",
         "81 mg PO daily = common MI/stroke prevention dose",
+        "Acute MI (NAOMI): 325 mg PO, chewed",
       ],
       se: [
         "GI: N/V, dyspepsia, GI ulcers + bleeding",
@@ -171,8 +173,8 @@ export const w7Cards: DrugCard[] = [
       ],
       teach: ["May legitimately take an antiplatelet AND an anticoagulant; monitor for bleeding"],
     },
-    hook: "Antiplatelets → Arteries (high velocity: CAD, CVA, PAD).",
-    source: "Coag Notes · Slides 9–10; Coag Slides · Slide 10; Memory Aid · Antiplatelets",
+    hook: "Antiplatelets → Arteries (high velocity: CAD, CVA, PAD) — rule of thumb from the Slide 9 image (Study Guide).",
+    source: "M7L2 Coagulation Modifiers · Slides 9–10; M7L1 · Slide 5; Memory Aid · Antiplatelets",
   },
   {
     id: "clopidogrel",
@@ -189,7 +191,7 @@ export const w7Cards: DrugCard[] = [
       intx: ["NSAIDs, anticoagulants → ↑bleeding", "With an anticoagulant: doses adjusted, monitor bleeding closely"],
     },
     hook: "Clopidogrel = P2Y12; aspirin = COX. Both are antiplatelets for arteries.",
-    source: "Coag Notes · Slide 11; Coag Slides · Slide 11; Memory Aid · Antiplatelets",
+    source: "M7L2 Coagulation Modifiers · Slide 11; Memory Aid · Antiplatelets",
   },
   {
     id: "alteplase",
@@ -219,7 +221,7 @@ export const w7Cards: DrugCard[] = [
       teach: ["Teach side effects and the treatment plan"],
     },
     hook: "Only the thrombolytic dissolves. Anticoagulants and antiplatelets only prevent.",
-    source: "Coag Notes · Slides 12–13; Coag Slides · Slide 12; Memory Aid · Alteplase",
+    source: "M7L2 Coagulation Modifiers · Slides 12–13; Memory Aid · Alteplase",
   },
   {
     id: "statins",
@@ -227,12 +229,17 @@ export const w7Cards: DrugCard[] = [
     classLabel: "HMG-CoA reductase inhibitors (-statin)",
     node: "lipids",
     topic: "lipids",
-    examples: "rosuvastatin",
+    examples: "pravastatin, simvastatin, atorvastatin, fluvastatin, rosuvastatin, pitavastatin",
     chunks: {
       moa: ["Inhibit HMG-CoA reductase → ↓cholesterol synthesis", "↓LDL, VLDL, triglycerides; ↑HDL"],
-      use: ["Lower cholesterol, always WITH diet, activity, weight control"],
-      se: ["Hepatotoxicity (↑AST)", "Myopathy: muscle aches/pain/tenderness → rhabdomyolysis", "Rhabdo: ↑CK, dark urine, profound weight loss"],
-      ci: ["Liver disorders", "Pregnancy"],
+      use: ["Primary hypercholesterolemia; prevent coronary events, MI, stroke", "Always WITH diet, activity, weight control"],
+      se: [
+        "Hepatotoxicity (↑AST)",
+        "Myopathy: muscle aches/pain/tenderness → rhabdomyolysis",
+        "Rhabdo: ↑CK, dark urine, profound weight loss",
+        "Cataract formation",
+      ],
+      ci: ["Liver disorders", "Pregnancy", "Allergy"],
       caution: [
         "Older adults, frail/small-framed → ↑myopathy risk",
         "Rosuvastatin: avoid or reduce dose in clients of Asian descent",
@@ -244,7 +251,7 @@ export const w7Cards: DrugCard[] = [
       teach: ["Report muscle pain, tenderness, weakness, profound weight loss", "Avoid grapefruit; keep follow-ups; never stop abruptly"],
     },
     hook: "Statin + sore muscles + dark urine = hold + check CK (rhabdo).",
-    source: "Memory Aid · Lipid-lowering agents; One-member exceptions (-statin)",
+    source: "M7L3 Lipid-Lowering Agents · Slides 2 & 6; Memory Aid · Lipid-lowering agents",
   },
   {
     id: "colesevelam",
@@ -252,19 +259,25 @@ export const w7Cards: DrugCard[] = [
     classLabel: "Bile acid sequestrant",
     node: "lipids",
     topic: "lipids",
-    examples: "colesevelam (cholestyramine is the other sequestrant named)",
+    examples: "colesevelam",
     chunks: {
       moa: ["Binds bile acids → body makes more bile acid from cholesterol"],
+      use: ["Hyperlipidemia"],
       se: ["CONSTIPATION"],
       ci: ["Bowel obstruction", "Pancreatitis from high triglycerides"],
+      caution: ["Dysphagia, GI disorders"],
       intx: [
         "Blocks absorption: levothyroxine, 2nd-gen sulfonylureas, phenytoin",
         "Blocks absorption: ADEK vitamins, OCPs, thiazides, digoxin, warfarin",
       ],
-      teach: ["Other meds 1 hr BEFORE or 4–6 hr AFTER", "Mix powder in juice or water", "↑Fluid, fiber, ambulation for constipation"],
+      teach: [
+        "Other meds 1 hr BEFORE or 4–6 hr AFTER (slide: 4 hr after)",
+        "Mix powder in juice or water",
+        "↑Fluid, fiber, ambulation for constipation",
+      ],
     },
     hook: "Sequestrants sequester other drugs too: space meds 1 hr before / 4–6 hr after.",
-    source: "Memory Aid · Lipid-lowering agents; One-member exceptions",
+    source: "M7L3 Lipid-Lowering Agents · Slides 3 & 6; Memory Aid · Lipid-lowering agents",
   },
   {
     id: "gemfibrozil",
@@ -273,13 +286,14 @@ export const w7Cards: DrugCard[] = [
     node: "lipids",
     topic: "lipids",
     chunks: {
-      moa: ["Activates lipoprotein lipase"],
-      se: ["GI distress", "GALLSTONES: RUQ pain, fat intolerance, bloating", "Myopathy, hepatotoxicity"],
+      moa: ["Activates lipoprotein lipase (breaks down cholesterol)"],
+      use: ["Hyperlipidemia"],
+      se: ["GI distress (usually mild, self-limiting)", "GALLSTONES: RUQ pain, fat intolerance, bloating", "Myopathy, hepatotoxicity"],
       ci: ["Liver disorders", "Severe kidney dysfunction", "Gallbladder disease"],
-      intx: ["+ Warfarin → ↑bleeding"],
+      intx: ["+ Warfarin → ↑bleeding", "+ Statins → ↑myopathy"],
     },
     hook: "Gemfibrozil = Gallstones.",
-    source: "Memory Aid · Lipid-lowering agents; One-member exceptions",
+    source: "M7L3 Lipid-Lowering Agents · Slide 4; Memory Aid · Lipid-lowering agents",
   },
   {
     id: "ezetimibe",
@@ -289,11 +303,17 @@ export const w7Cards: DrugCard[] = [
     topic: "lipids",
     chunks: {
       moa: ["↓Cholesterol absorption from bile and food"],
+      use: ["Hyperlipidemia"],
       se: ["Hepatitis", "Myopathy"],
       ci: ["Pregnancy", "Moderate/severe liver disorders"],
-      intx: ["+ Statin → ↑liver dysfunction + myopathy"],
+      caution: ["Mild liver disorders"],
+      intx: [
+        "+ Statin → ↑liver dysfunction + myopathy",
+        "Bile acid sequestrants → interfere with absorption",
+        "+ Fibrates → ↑cholelithiasis + myopathy",
+      ],
     },
-    source: "Memory Aid · Lipid-lowering agents",
+    source: "M7L3 Lipid-Lowering Agents · Slide 5",
   },
   {
     id: "nitroglycerin",
@@ -309,7 +329,12 @@ export const w7Cards: DrugCard[] = [
       caution: ["Hyperthyroidism, kidney or liver dysfunction"],
       intx: ["“-afil” ED drugs (sildenafil) → FATAL BP drop", "Other antihypertensives + alcohol add hypotension"],
       hold: ["SBP <90 → withhold further doses", "Unrelieved pain after nitro = MI until proven otherwise"],
-      action: ["SL ×3 doses, 5 min apart; sit or lie down", "Stay seated 30 min after the last dose", "Gloves for ointment/patch"],
+      action: [
+        "SL ×3 doses, 5 min apart; sit or lie down",
+        "Sip of water first (dry mouth ↓absorption); tingling = working",
+        "Stay seated 30 min after the last dose",
+        "Gloves for ointment/patch",
+      ],
       teach: [
         "Call 911 after the FIRST unrelieved dose, THEN take the 2nd; never drive",
         "Original dark container, room temp, dry; good 3–6 months once opened",
@@ -318,7 +343,7 @@ export const w7Cards: DrugCard[] = [
       ],
     },
     hook: "One SL dose fails → call 911, then dose #2. SBP <90 → hold.",
-    source: "Memory Aid · Nitroglycerin",
+    source: "M7L1 Antianginal Medications · Slides 3–4; Memory Aid · Nitroglycerin",
   },
   {
     id: "betablockers",
@@ -348,7 +373,7 @@ export const w7Cards: DrugCard[] = [
       teach: ["Home BP + radial pulse daily; rise slowly", "Diabetics check glucose more often"],
     },
     hook: "1 heart (B1), 2 lungs (B2). Cardioselective (metoprolol, atenolol) is safe in asthma/COPD.",
-    source: "Memory Aid · Beta-blockers; One-member exceptions (-olol)",
+    source: "M7L1 Antianginal Medications · Slide 6; Memory Aid · Beta-blockers (Module 4 content); One-member exceptions (-olol)",
   },
   {
     id: "naomi",
@@ -359,15 +384,15 @@ export const w7Cards: DrugCard[] = [
     chunks: {
       use: ["Acute MI or unstable angina: TIME IS MUSCLE", "Post-MI: cardioselective beta-blocker preferred"],
       action: [
-        "N: Nitroglycerin",
-        "A: Aspirin (usually first; if unavailable, don't delay the nitro)",
-        "O: Oxygen if SpO2 <94% on room air",
-        "M: Morphine (↓anxiety, HR, O2 demand)",
+        "N: Nitroglycerin SL q5 min ×3 (unless SBP <90)",
+        "A: Aspirin 325 mg PO, chewed (usually first; if unavailable, give the nitro)",
+        "O: Oxygen if O2 sat is low (slide <90%; notes <94% on RA)",
+        "M: Morphine (↓anxiety, HR, O2 demand); not for every MI client",
         "I: Intervention (stent in the cath lab)",
       ],
-      hold: ["Nitro: withhold if SBP <90", "Oxygen only if SpO2 <94% on room air"],
+      hold: ["Nitro: withhold if SBP <90", "Oxygen only if the O2 saturation is low"],
     },
     hook: "NAOMI = Nitro · Aspirin · Oxygen · Morphine · Intervention.",
-    source: "Memory Aid · NAOMI; One-member exceptions (opioids, -olol)",
+    source: "M7L1 Antianginal Medications · Slides 5–6; Memory Aid · NAOMI",
   },
 ];

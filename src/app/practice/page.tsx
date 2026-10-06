@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Zap, Brain, Archive, FlaskConical, Lock, Shuffle, Calculator, Timer, Sparkles, Layers } from "lucide-react";
+import { Zap, Brain, Archive, FlaskConical, Lock, Shuffle, Calculator, Timer, Sparkles, Layers, BookOpen, ChevronRight } from "lucide-react";
 import { Screen, cx, SectionTitle } from "@/components/ui";
 import { useStore } from "@/lib/store";
 import { WORLDS } from "@/data/curriculum";
@@ -25,7 +25,18 @@ export default function PracticePage() {
       <h1 className="text-[26px] font-extrabold tracking-tight">Practice</h1>
       <p className="text-sm text-muted">Pick a mode. Every answer feeds your mastery map.</p>
 
-      <Link href="/visual" className="relative mt-4 block overflow-hidden rounded-3xl bg-gradient-to-br from-[#2b1f7a] via-brand to-fuchsia-500 p-5 text-white shadow-xl" data-testid="visual-labs">
+      <Link href="/library" className="card mt-4 flex items-center gap-4 p-4 transition-transform active:scale-[0.99]" data-testid="practice-library">
+        <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-brand to-brand-2 text-white shadow-md">
+          <BookOpen size={22} />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-extrabold leading-tight">Study by Drug Type</span>
+          <span className="block text-xs text-muted">Pick a module, class or drug · Learn → Practice → Test</span>
+        </span>
+        <ChevronRight size={18} className="shrink-0 text-muted" />
+      </Link>
+
+      <Link href="/visual" className="relative mt-3 block overflow-hidden rounded-3xl bg-gradient-to-br from-[#2b1f7a] via-brand to-fuchsia-500 p-5 text-white shadow-xl" data-testid="visual-labs">
         <div className="absolute -right-8 -top-8 size-36 rounded-full bg-white/10" />
         <div className="absolute -bottom-10 right-10 size-24 rounded-full bg-white/10" />
         <p className="text-xs font-extrabold uppercase tracking-widest text-white/80">New · {VISUAL_LABS.length} hands-on labs</p>

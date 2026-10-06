@@ -4,15 +4,16 @@ This app is a study tool for **NURS 3365 Exam 2** (nursing pharmacology). Conten
 
 ## Source-of-truth rule (non-negotiable)
 
-The ONLY authorities are the files in `docs/source/`:
+The ONLY authorities are the course files kept locally in `docs/source/` (not committed — the repo is public):
 
-| File | What it is |
-|---|---|
-| `blueprint.md` | What is tested and how much (Exam 2 blueprint) |
-| `memory-aid.md` | High-yield consolidated knowledge base for Modules 5–8 (the main source) |
-| `coag-notes.md` | Instructor narration notes for the M7L2 coagulation slides (extra depth for coag) |
-| `coag-slides.md` | The on-slide text of those same coag slides |
+| Priority | Files | Role |
+|---|---|---|
+| 1 | `M5L1 … M8L3` lecture files (instructor notes + on-slide text) | PRIMARY teaching source |
+| 2 | Exam 2 Blueprint · Chapters objectives · syllabus | scope, weighting, objectives |
+| 3 | Memory Aid · Study Guide · Rapid Reference | supporting review material (partly AI-made) |
 
+* When files conflict, the most specific LECTURE source wins. Don't invent a reconciliation — teach the lecture, avoid testing the conflicting detail, and record it on the Sources page. Decided conflicts: digoxin 0.5–0.8 ng/mL (> 2 toxic) per the M6L3 slide; ARBs do NOT cause hyperkalemia (M6L1); MI oxygen cutoff (94% notes vs 90% slide) is never tested; colesevelam "1 hr before or 4–6 hr after".
+* Cite the real source in `source`, e.g. `"M6L2 Diuretics · Slide 3"`; facts found only in support files cite them (`"Exam2 Memory Aid · Digoxin"`).
 * Every fact in a question, option, explanation, hook, or card MUST be supported by these files.
 * Do **not** "correct" the course material with outside knowledge. If outside knowledge differs, the course wins.
 * Do **not** invent doses, ranges, contraindications, antidotes, labs, or nursing actions that are not in the sources.
@@ -21,7 +22,7 @@ The ONLY authorities are the files in `docs/source/`:
 
 ### Specific source quirks to respect
 
-* **Digoxin level**: memory aid says 0.5–1.5 ng/mL, and notes a quiz printed 0.5–2.0 ("use the range given in the question"). So: either state the range in the stem, or only use values clearly inside 0.5–1.5 or clearly above 2.0. Never use a value between 1.5 and 2.0.
+* **Digoxin level**: lecture slide 0.5–0.8 ng/mL, > 2 = toxic (study guides say 0.5–1.5). Only use values ≤ 0.8 as therapeutic or > 2 as toxic, or state the range in the stem. Never use a value between 0.8 and 2.0 as the deciding fact.
 * **Heparin aPTT** goal: 1.5–2.5 × normal ≈ 60–80 seconds. Below = subtherapeutic (still at clot risk); above = supratherapeutic (bleeding risk).
 * **Warfarin**: PT 1.5–2 × control = 18–24 sec; INR 2–3 most indications; 2.5–3.5 PE treatment; 3–4.5 mechanical heart valve / recurrent systemic embolism. Hold if PT or INR above therapeutic range.
 * **Antidotes (only these)**: opioids → naloxone; acetaminophen → acetylcysteine; heparin AND enoxaparin → protamine (sulfate), give slowly ≤ 50 mg/10 min; warfarin → vitamin K (phytonadione); dabigatran → idarucizumab; rivaroxaban/apixaban (Xa inhibitors) → andexanet alfa (Coag slide 8, "approved in 2018 by FDA"); alteplase → aminocaproic acid; digoxin → digoxin immune fab; benzodiazepines → flumazenil (IV toxicity; oral ingestion → gastric lavage or activated charcoal); beta-blocker overdose → withhold, atropine for symptomatic bradycardia, glucagon + insulin. **Do not ask for an argatroban antidote** (sources are ambiguous). **Do not invent antidotes for anything else.**
@@ -67,3 +68,9 @@ Validate with: `npx tsx scripts/validate-content.ts <topicFileName>` (e.g. `anal
 ## Drug card rules
 
 One card per drug or tight drug group in your nodes (use node ids from `curriculum.ts`). `chunks` keys: `moa`, `use`, `se`, `ci`, `caution`, `intx`, `lab`, `hold`, `antidote`, `action`, `teach`. Each chunk is an array of SHORT bullet strings (≤ ~90 chars), taken from the sources. Include the course mnemonic in `hook` when one exists (restating the fact). `source` names the source section.
+
+## Lessons (Learn mode)
+
+Every leaf unit in `src/data/library.ts` has a micro-lesson in `src/data/lessons/<m5|m6|m7|m8|calc>.ts` (schema: `src/lib/lessons/types.ts`). One idea per screen, cause → effect chains, existing visuals, a key fact per concept (`keys`, used as the guided-practice hint), and a source on every step. Every concept must be taught by at least one step — that is what lets the game teach before it tests. Guided practice also needs ≥ 2 easy recognition items per concept (difficulty 1, MCQ/TF, remember/understand) with a `clue`.
+
+Validate: `npm run validate` (questions, activities, lessons). Coverage matrix: `npm run coverage` → `docs/COVERAGE.md`.

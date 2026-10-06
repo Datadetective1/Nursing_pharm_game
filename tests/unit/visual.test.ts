@@ -13,6 +13,8 @@ import { mulberry32 } from "@/lib/rng";
 import type { Activity } from "@/lib/activities/types";
 
 const T0 = Date.UTC(2026, 9, 1, 12);
+/** composer tests run as a learner who has been taught everything (teach-first is tested in learning.test.ts) */
+const ALL_TAUGHT = Object.fromEntries(CONCEPTS.map((c) => [c.id, { exposed: T0, guided: [0, 0] as [number, number], recall: [0, 0] as [number, number], apply: [0, 0] as [number, number], level: 4 as const, run: 0 }]));
 
 describe("activity content", () => {
   it("every static activity passes the validator", () => {
@@ -103,9 +105,9 @@ describe("session composer", () => {
       let qs = 0;
       const total = Math.max(cfg.total, 8);
       for (let i = 0; i < total; i++) {
-        const it = nextItem(cfg, rt, {}, {}, [], T0, mulberry32(100 + i));
+        const it = nextItem(cfg, rt, {}, {}, [], T0, mulberry32(100 + i), undefined, ALL_TAUGHT);
         expect(it).toBeDefined();
-        const id = it!.kind === "q" ? it!.q.id : it!.a.id;
+        const id = it!.kind === "q" ? it!.q.id : it!.kind === "a" ? it!.a.id : it!.concept;
         expect(seen.has(id)).toBe(false);
         seen.add(id);
         if (it!.kind === "a") acts++;
@@ -119,7 +121,7 @@ describe("session composer", () => {
   it("activity kinds vary within a session", () => {
     const cfg = buildSession({ mode: "mission", stats: {}, mistakes: {}, exams: [], dailyMinutes: 30, now: T0 });
     const rt = newRuntime();
-    for (let i = 0; i < 20; i++) nextItem(cfg, rt, {}, {}, [], T0, mulberry32(i + 9));
+    for (let i = 0; i < 20; i++) nextItem(cfg, rt, {}, {}, [], T0, mulberry32(i + 9), undefined, ALL_TAUGHT);
     expect(new Set(rt.actKinds).size).toBeGreaterThanOrEqual(Math.min(4, rt.actKinds.length));
   });
 
@@ -129,7 +131,7 @@ describe("session composer", () => {
       const cfg = buildSession({ mode, world: "w7", stats: {}, mistakes: mistakes as never, exams: [], dailyMinutes: 10, now: T0 });
       const rt = newRuntime();
       for (let i = 0; i < Math.min(cfg.total, 10); i++) {
-        const it = nextItem(cfg, rt, {}, {}, [], T0, mulberry32(i + 1));
+        const it = nextItem(cfg, rt, {}, {}, [], T0, mulberry32(i + 1), undefined, ALL_TAUGHT);
         if (!it) break;
         expect(it.kind).toBe("q");
       }
@@ -140,9 +142,9 @@ describe("session composer", () => {
     const cfg = buildSession({ mode: "focus", concepts: ["hep-lab", "war-lab"], stats: {}, mistakes: {}, exams: [], dailyMinutes: 10, now: T0 });
     const rt = newRuntime();
     for (let i = 0; i < cfg.total; i++) {
-      const it = nextItem(cfg, rt, {}, {}, [], T0, mulberry32(i + 5));
+      const it = nextItem(cfg, rt, {}, {}, [], T0, mulberry32(i + 5), undefined, ALL_TAUGHT);
       if (!it) break;
-      const concepts = it.kind === "q" ? [it.q.concept] : it.a.concepts;
+      const concepts = it.kind === "q" ? [it.q.concept] : it.kind === "a" ? it.a.concepts : [it.concept];
       expect(concepts.some((c) => c === "hep-lab" || c === "war-lab")).toBe(true);
     }
   });
@@ -172,7 +174,8 @@ describe("visual explainers", () => {
     expect(g("co-064")).toMatchObject({ low: 2, high: 3, value: 4.2 });
     expect(g("co-063")).toMatchObject({ low: 3, high: 4.5, value: 3.8 });
     expect(g("co-021")).toMatchObject({ low: 60, high: 80, value: 110 });
-    expect(g("hf-035")).toBeNull(); // the stem quotes a lab report's own 0.5–2.0 range
+    // hf-035 now quotes the lecture range (0.5–0.8) in its stem, so the gauge matches it
+    expect(g("hf-035")).toMatchObject({ low: 0.5, high: 0.8 });
     expect(g("co-067")?.value ?? null).toBeNull(); // fill-in-the-blank: no needle
   });
 

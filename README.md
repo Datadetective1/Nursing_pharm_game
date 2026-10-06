@@ -8,6 +8,7 @@ No account needed — all progress (XP, streak, mastery, answers, mistakes, conf
 
 | Area | What it does |
 |---|---|
+| Drug Library | **Study by drug type**: Module → drug type → class/drug, with search. Every pick offers **Learn → Practice → Test** (5/10/20 min or Master it) and "Already know this? Test out." |
 | Home | Readiness %, days to exam, streak, XP/level, **Continue Quest**, **Quick 5**, Today's Mission |
 | Quest | Worlds 5–8 (+ Calc Camp) as a path of topic nodes (Unseen → Shaky → Learning → Strong → Mastered) with boss battles (10 mixed questions, 3 hearts) |
 | Practice | Quick 5 · Weak Spots · Mistake Vault · Antidote Arena · Lab Lock · Don't Mix These Up · Dosage Dojo · Rapid Review · High-Yield Sprint · World practice |
@@ -15,6 +16,10 @@ No account needed — all progress (XP, streak, mastery, answers, mistakes, conf
 | Exam | 50-question simulated Exam 2 following the blueprint distribution (MCQ / SATA / fill-in / T-F), resumable, with full analytics and **Study My Misses** |
 
 ## Learning engine (`src/lib/engine`)
+
+* **Teach → practice → test** (`learning.ts`, `session.ts`): a separate knowledge state per concept (exposure, lesson, guided %, recall %, application %, scaffold level 1–6) alongside mastery. Learning modes never cold-test an untaught concept — a 1–3 screen micro-lesson comes first, then guided practice (hints, safe retry, no mastery penalty). Hints fade as levels rise: recognition + hints → recognition → recall → application → clinical scenario → exam-style discrimination. Test, Test-out, Boss and Exam modes never teach first.
+* **Continue Quest** plans each session: relearn (repeated misses) → new micro-lesson → guided practice → visual → spaced review → retrieval → application.
+* **Mistake Vault**: Relearn · Try again · Similar question; repeated misses recommend Relearn first.
 
 * **Mastery 0–100 per concept** (`mastery.ts`) from accuracy, difficulty, confidence (guess/unsure/confident), response time and repeated retrieval. Caps enforce mastery learning: no application-level success → max 55; < 2 application wins, < 3 correct, or < 2 sessions → max 79. Overdue concepts decay.
 * **Spaced repetition**: Leitner boxes (0 → 10 min → 1 h → 6 h → 1 d → 3 d), compressed for an exam days away. Wrong answers return within the same session (re-queued 3 questions later) and reset the box.

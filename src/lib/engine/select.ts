@@ -3,6 +3,7 @@ import { TOPIC_BY_ID } from "@/data/curriculum";
 import { questionsForConcept } from "@/data/bank";
 import { effectiveMastery, type ConceptStat } from "./mastery";
 import type { Rng } from "@/lib/rng";
+import { bandFor, questionLevel, type Level } from "./learning";
 
 export interface QStat {
   seen: number;
@@ -32,6 +33,12 @@ export interface SelectCtx {
   lastType?: QuestionType;
   /** bucket weights [weak, medium, review, mastered]; default 50/25/15/10 */
   mix?: [number, number, number, number];
+  /** learner scaffold level per concept (1–6): picks items from the matching level band */
+  levels?: Record<string, Level>;
+  /** explicit item-level band for this pick (overrides levels) */
+  band?: Level[];
+  /** drug-level study: prefer questions about these drugs */
+  drugIds?: string[];
 }
 
 export type Bucket = "weak" | "medium" | "review" | "mastered";
@@ -116,6 +123,22 @@ export function targetDifficulty(s: ConceptStat | undefined, now: number) {
 export function pickQuestionForConcept(c: Concept, ctx: SelectCtx, exclude?: Set<string>): Question | undefined {
   let qs = questionsForConcept(c.id);
   if (ctx.types) qs = qs.filter((q) => ctx.types!.includes(q.type));
+  if (ctx.drugIds?.length) {
+    // single-drug study: stay on that drug (class-level items with no other drug still qualify)
+    const about = qs.filter((q) => q.drugs.some((d) => ctx.drugIds!.includes(d)));
+    if (about.length) qs = about;
+  }
+  // scaffolding: serve items from the learner's level band (best band first, nearest fallback)
+  const band = ctx.band ?? (ctx.levels?.[c.id] ? bandFor(ctx.levels[c.id]) : undefined);
+  if (band && !c.id.startsWith("calc-")) {
+    for (const lv of band) {
+      const at = qs.filter((q) => questionLevel(q) === lv);
+      if (at.length) {
+        qs = at;
+        break;
+      }
+    }
+  }
   if (ctx.minDifficulty) {
     const hard = qs.filter((q) => q.difficulty >= ctx.minDifficulty!);
     if (hard.length) qs = hard;
