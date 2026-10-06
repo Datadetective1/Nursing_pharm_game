@@ -169,7 +169,7 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                   !locked && "active:scale-[0.99]",
                 )}
               >
-                <span className={cx("grid size-7 shrink-0 place-items-center rounded-lg text-xs font-extrabold", sel || st === "correct" ? "bg-brand text-brand-ink" : "bg-surface-2 text-muted", st === "correct" && "bg-good text-white", st === "wrong" && "bg-bad text-white")}>
+                <span className={cx("grid size-7 shrink-0 place-items-center rounded-lg text-xs font-extrabold", st === "correct" ? "bg-good text-white" : st === "wrong" ? "bg-bad text-white" : sel ? "bg-brand text-brand-ink" : "bg-surface-2 text-muted")}>
                   {st === "correct" ? <Check size={16} /> : st === "wrong" ? <X size={16} /> : String.fromCharCode(65 + i)}
                 </span>
                 <span>{q.options[orig]}</span>
@@ -208,7 +208,7 @@ export function QuestionView({ q, revealed, askConfidence, onSubmit, pickUnit, e
                   st === "neutral" && (sel ? "border-brand bg-brand-soft" : "border-line bg-surface"),
                 )}
               >
-                <span className={cx("grid size-6 shrink-0 place-items-center rounded-md border-2", sel ? "border-brand bg-brand text-brand-ink" : "border-line", st === "correct" && "border-good bg-good text-white", st === "wrong" && "border-bad bg-bad text-white", st === "missed" && "border-good text-good")}>
+                <span className={cx("grid size-6 shrink-0 place-items-center rounded-md border-2", st === "correct" ? "border-good bg-good text-white" : st === "wrong" ? "border-bad bg-bad text-white" : st === "missed" ? "border-good text-good" : sel ? "border-brand bg-brand text-brand-ink" : "border-line")}>
                   {(sel || st === "missed") && <Check size={14} strokeWidth={3} />}
                 </span>
                 <span className="flex-1">{q.options[orig]}</span>

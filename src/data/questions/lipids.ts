@@ -279,7 +279,7 @@ export const lipidsQuestions: Question[] = [
     id: "li-024", topic: "lipids", concept: "lip-seq", drugs: ["colesevelam"], type: "fill",
     difficulty: 2, cognitive: "remember", format: "teaching",
     stem: "Other medications should be taken 1 hour before or ____ hours after colesevelam.",
-    accept: ["4–6", "4-6", "4 to 6", "4 - 6"],
+    accept: ["4–6", "4-6", "4 to 6", "4 - 6", "four to six"],
     why: "Space other meds 1 hour BEFORE or 4–6 hours AFTER a bile acid sequestrant, because it blocks their absorption.",
     source: "Memory Aid · Lipid-lowering agents (DO/TEACH)",
   },

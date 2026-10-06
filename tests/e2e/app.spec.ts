@@ -56,9 +56,20 @@ test("wrong answer shows full error-based feedback, follow-up, and lands in the 
   expect(wrong).toBe(true);
   await page.goto("/vault");
   await expect(page.getByTestId("vault-item").first()).toBeVisible();
-  await page.getByTestId("vault-understand").first().click();
+  const openBefore = await page.getByTestId("vault-item").count();
+  // retry one from the vault
+  await page.getByTestId("vault-retry").first().click();
+  await expect(page.getByTestId("question")).toBeVisible();
   await page.goto("/vault");
-  await page.getByTestId("retry-all").click().catch(() => {});
+  // mark one as understood → it moves to Fixed
+  const openNow = await page.getByTestId("vault-item").count();
+  if (openNow > 0) {
+    await page.getByTestId("vault-understand").first().click();
+    await expect(page.getByTestId("vault-item")).toHaveCount(openNow - 1);
+  }
+  await page.getByRole("button", { name: /Fixed \(/ }).click();
+  await expect(page.getByTestId("vault-item").first()).toBeVisible();
+  expect(openBefore).toBeGreaterThan(0);
 });
 
 test("boss battle: 3 hearts and a result screen", async ({ page }) => {

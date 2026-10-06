@@ -22,7 +22,7 @@ for (const scheme of ["light", "dark"]) {
     else if (t === "order") { while (await q.getByTestId("order-item").count()) await q.getByTestId("order-item").first().click(); }
     else await q.getByTestId("option").first().click();
     if (await page.getByTestId("check").count()) await page.getByTestId("check").click(); else await page.getByTestId("conf-unsure").click();
-    await page.getByTestId("feedback").waitFor();
+    await page.getByTestId("feedback").waitFor(); await page.waitForTimeout(500);
     await page.screenshot({ path: `${out}/${scheme}-02-feedback-${i}.png`, fullPage: true });
     await page.getByTestId("next").click();
   }

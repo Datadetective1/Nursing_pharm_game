@@ -98,14 +98,14 @@ export default function VaultPage() {
               )}
               {tab === "open" && (
                 <div className="mt-3 grid grid-cols-3 gap-2">
-                  <Button size="md" variant="secondary" onClick={() => router.push(`/play?mode=vault&qid=${encodeURIComponent(m.qid)}`)} data-testid="vault-retry">
+                  <Button size="md" variant="secondary" className="gap-1 px-1.5 text-xs" onClick={() => router.push(`/play?mode=vault&qid=${encodeURIComponent(m.qid)}`)} data-testid="vault-retry">
                     <RotateCcw size={15} /> Retry
                   </Button>
-                  <Button size="md" variant="secondary" onClick={() => router.push(`/play?mode=similar&concept=${m.concept}&qid=${encodeURIComponent(m.qid)}`)} data-testid="vault-similar">
+                  <Button size="md" variant="secondary" className="gap-1 px-1.5 text-xs" onClick={() => router.push(`/play?mode=similar&concept=${m.concept}&qid=${encodeURIComponent(m.qid)}`)} data-testid="vault-similar">
                     <Copy size={15} /> Similar
                   </Button>
-                  <Button size="md" variant="secondary" onClick={() => markUnderstood(m.qid)} data-testid="vault-understand">
-                    <CheckCheck size={15} /> Got it
+                  <Button size="md" variant="secondary" className="gap-1 px-1.5 text-xs" onClick={() => markUnderstood(m.qid)} data-testid="vault-understand">
+                    <CheckCheck size={15} /> I understand
                   </Button>
                 </div>
               )}

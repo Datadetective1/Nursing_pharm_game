@@ -20,7 +20,7 @@ export const w8Cards: DrugCard[] = [
         "CNS depression: lightheadedness, drowsiness, incoordination",
         "PARADOXICAL: insomnia, excitation, euphoria, anxiety, RAGE",
         "N/V, anorexia, respiratory depression, physical dependence",
-        "Toxicity: drowsiness → lethargy → confusion → resp depression, arrest, ↓↓BP",
+        "Toxicity: drowsiness → lethargy → confusion → resp depression, cardiac arrest, ↓↓BP",
       ],
       ci: ["Allergy, PREGNANCY, SLEEP APNEA, respiratory depression, organic brain disease"],
       caution: [
@@ -192,7 +192,8 @@ export const w8Cards: DrugCard[] = [
       intx: [
         "↓Warfarin effect",
         "Oral contraceptives less effective",
-        "With carbamazepine → ↓topiramate levels; sequestrants block absorption",
+        "↓Topiramate levels (carbamazepine does too)",
+        "Bile acid sequestrants block phenytoin absorption",
       ],
       lab: ["Level 10–20 mcg/mL"],
       hold: [

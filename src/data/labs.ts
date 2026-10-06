@@ -41,9 +41,9 @@ const heparinAptt: LockGen = (rng) => {
     supra: "Supratherapeutic — the client is at greater risk for bleeding",
   };
   const resp = {
-    sub: "Monitor for clot signs — assess the calf for heat, redness, pain, swelling",
-    ok: "Continue therapy and keep monitoring the aPTT",
-    supra: "Assess for bleeding (↓BP, ↑HR, bruising, epistaxis, blood in stool/urine); protamine is the antidote",
+    sub: "aPTT is too low (still at risk for clots) — assess the calf for heat, redness, pain, swelling",
+    ok: "aPTT is in the goal range — continue therapy and keep monitoring the aPTT",
+    supra: "aPTT is too high — assess for bleeding (↓BP, ↑HR, bruising, epistaxis, blood in stool/urine); protamine is the antidote",
   };
   return {
     id: "lock-heparin-aptt",
@@ -94,7 +94,7 @@ const enoxaparinLab: LockGen = () => ({
   steps: [
     step("lab", "Which lab measures enoxaparin's therapeutic effect?", "None — no lab measures it; effect = no new or extending clots", ["aPTT 60–80 seconds", "PT 18–24 seconds", "INR 2–3"], "LMWH therapeutic response can't be assessed with labs — it's judged by absence of new/extending clots."),
     step("lab", "Which lab is monitored to decide whether the dose needs adjusting?", "Creatinine clearance", ["aPTT", "Digoxin level", "BNP"], "LMWHs are eliminated by the kidneys → creatinine clearance guides dose adjustment."),
-    step("interpret", "Why does this client's kidney disease matter?", "Enoxaparin is renally eliminated — it may accumulate, so the dose needs adjustment", ["It changes the antidote to vitamin K", "It makes HIT impossible", "It means aPTT must be drawn every 6 hours"], "Kidney dysfunction = caution; dosage adjustment needed."),
+    step("interpret", "Why does this client's kidney disease matter?", "Enoxaparin is eliminated by the kidneys, so the dose needs adjustment", ["It changes the antidote to vitamin K", "It makes HIT impossible", "It means aPTT must be drawn every 6 hours"], "Kidney dysfunction = caution; dosage adjustment needed."),
     step("response", "Which other labs does the nurse track?", "Platelets (HIT) and H&H (bleeding)", ["PT/INR and vitamin K intake", "Ammonia and amylase", "CK and AST"], "For LMWH: H&H for bleeding, platelets for HIT, creatinine clearance for renal function."),
   ],
 });
@@ -110,9 +110,9 @@ const warfarinInr: LockGen = (rng) => {
   ]);
   const interp = { low: "Below range — subtherapeutic, still at risk for clots", ok: "Within the therapeutic range", high: "Above range — high bleeding risk" };
   const resp = {
-    low: "Recognize ongoing clot risk; assess the calf for heat, redness, pain, swelling",
-    ok: "Give the dose as prescribed and keep regular PT/INR monitoring",
-    high: "Hold the dose; vitamin K (phytonadione) is the antidote if the INR is too high",
+    low: "INR is below range (still at risk for clots) — assess the calf for heat, redness, pain, swelling",
+    ok: "INR is in range — give the dose as prescribed and keep regular PT/INR monitoring",
+    high: "INR is above range — hold the dose; vitamin K (phytonadione) is the antidote",
   };
   const otherRanges = ["INR 2–3", "INR 2.5–3.5", "INR 3–4.5", "aPTT 60–80 seconds"].filter((r) => r !== v.range);
   return {
@@ -143,9 +143,9 @@ const digoxinLock: LockGen = (rng) => {
     brady: "Level is in range, but the apical pulse is below 60",
   };
   const resp = {
-    toxic: "Hold the dose and notify; digoxin immune fab is the antidote",
-    ok: "Give the dose",
-    brady: "Hold the dose (apical < 60) and notify",
+    toxic: "Hold the dose — level above range + anorexia = toxicity; notify (antidote: digoxin immune fab)",
+    ok: "Give the dose — the level and apical pulse are acceptable",
+    brady: "Hold the dose — the apical pulse is below 60; notify",
   };
   return {
     id: "lock-digoxin",
@@ -201,7 +201,11 @@ const anticonvLock: LockGen = (rng) => {
     band === "low" ? Math.max(1, Math.round(d.low * pick(rng, [0.5, 0.6, 0.7]))) : band === "high" ? Math.round(d.high * pick(rng, [1.3, 1.5, 1.8])) : Math.round((d.low + d.high) / 2);
   const others = ACS.filter((x) => x.range !== d.range).map((x) => x.range);
   const interp = { low: "Below range — risk of SEIZURES", ok: "Within the therapeutic range", high: "Above range — risk of TOXICITY" };
-  const resp = { low: "Report the low level — the client is at risk for breakthrough seizures", ok: "Give as scheduled; same time daily", high: "Hold the dose and notify the provider" };
+  const resp = {
+    low: "Level is below range — report it; the client is at risk for breakthrough seizures",
+    ok: "Level is in range — give as scheduled at the same time daily",
+    high: "Level is above range — hold the dose and notify the provider",
+  };
   return {
     id: `lock-ac-${d.drug.toLowerCase().replace(/\s/g, "")}`,
     drug: d.drug,

@@ -114,7 +114,7 @@ export const RAPID: RapidCard[] = [
   r("ci", "coag", "war-ci", "Warfarin CI?", "Allergy, acute or chronic bleeding, PREGNANCY.", `${CN} · Slide 5`),
   r("ci", "coag", "hep-use-ci", "Heparin CI?", "Thrombocytopenia, uncontrolled bleeding, eye/brain surgery.", `${CN} · Slide 2`),
   r("ci", "angina", "bb-select", "Which beta-blockers are CI in asthma/COPD?", "NONSELECTIVE only (propranolol, sotalol). Cardioselective (metoprolol, atenolol) are not.", `${MA} · One-member exceptions`),
-  r("ci", "angina", "ntg-ci", "Nitroglycerin CI?", "Allergy, severe anemia, traumatic head injury, closed-angle glaucoma (↑ICP).", `${MA} · Nitroglycerin`),
+  r("ci", "angina", "ntg-ci", "Nitroglycerin CI?", "Allergy, severe anemia, traumatic head injury, closed-angle glaucoma.", `${MA} · Nitroglycerin`),
   r("ci", "lipids", "lip-statin-ci", "Statin CI + pharmacogenomics item?", "Liver disorders, PREGNANCY. Rosuvastatin avoided/reduced in clients of Asian descent.", `${MA} · Lipids`),
   r("ci", "cnsdep", "bz-ci", "Benzodiazepine CI?", "Allergy, pregnancy, SLEEP APNEA, respiratory depression, organic brain disease.", `${MA} · Benzodiazepines`),
   r("ci", "anticonv", "pht-ci", "IV phenytoin CI?", "Sinus bradycardia, SA block, 2nd/3rd° AV block, Stokes-Adams syndrome.", `${MA} · Phenytoin`),

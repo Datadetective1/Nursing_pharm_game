@@ -61,7 +61,7 @@ export const w6Cards: DrugCard[] = [
       hold: ["SBP < 100"],
       teach: ["Avoid salt substitutes", "Rise slowly", "Report swelling", "Never stop abruptly"],
     },
-    hook: "-SARTAN skips the cough: blocks angiotensin II at the receptor, bradykinin untouched — but hyperK + angioedema remain",
+    hook: "-SARTAN = much less cough: blocks angiotensin II at the receptor, bradykinin untouched — but hyperK + angioedema remain",
     source: "Memory Aid · ARBs",
   },
   {

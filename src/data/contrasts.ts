@@ -30,7 +30,7 @@ export const CONTRASTS: ContrastSet[] = [
       { label: "Setting", cells: ["Needs aPTT monitoring", "Safe for home use; teach self-injection"] },
       { label: "Injection tip", cells: ["SubQ abdomen ≥ 2 in from umbilicus; do NOT aspirate", "Do NOT expel the air bubble; no massage 1–2 min"] },
       { label: "HIT risk", cells: ["Higher", "Still possible but less likely"] },
-      { label: "Caution", cells: ["Hemophilia, PUD, severe HTN, hepatic/kidney dz", "Kidney dysfunction — renally eliminated, dose adjust"] },
+      { label: "Caution", cells: ["Hemophilia, PUD, severe HTN, hepatic/kidney dz", "Same as heparin + kidney dysfunction (renally eliminated → dose adjust)"] },
       { label: "Antidote", cells: ["Protamine sulfate", "Protamine sulfate (same)"] },
     ],
     quiz: [
@@ -129,7 +129,7 @@ export const CONTRASTS: ContrastSet[] = [
     quiz: [
       { q: "Which drug is monitored with PT/INR?", answer: 1, why: "Warfarin = PT/INR. Heparin = aPTT." },
       { q: "Which drug is reversed with vitamin K?", answer: 1, why: "Warfarin is the only one reversed by vitamin K." },
-      { q: "Which antidote must be given no faster than 50 mg per 10 minutes?", answer: 0, why: "Protamine (heparin's antidote) given slowly — it causes hypotension." },
+      { q: "Which drug's antidote must be given no faster than 50 mg per 10 minutes?", answer: 0, why: "Protamine (heparin's antidote) given slowly — it causes hypotension." },
       { q: "Which drug requires teaching about consistent leafy-green intake?", answer: 1, why: "Vitamin K foods decrease warfarin's effect — keep intake consistent." },
       { q: "Which one is contraindicated in pregnancy per the course notes?", answer: 1, why: "Warfarin CI: allergy, acute/chronic bleeding, pregnancy." },
     ],
@@ -152,7 +152,7 @@ export const CONTRASTS: ContrastSet[] = [
       { q: "A client developed HIT on heparin. Which anticoagulant is used instead?", answer: 1, why: "Argatroban prevents/treats thrombosis in clients who cannot take heparin due to HIT." },
       { q: "Which drug is reversed by idarucizumab?", answer: 0, why: "Dabigatran is the one with idarucizumab." },
       { q: "Which one directly inhibits factor Xa?", answer: 2, why: "Rivaroxaban (and apixaban) are direct Xa inhibitors." },
-      { q: "Which antidote matches rivaroxaban per the slides?", answer: 2, why: "Slide 8: Xa-inhibitor antidote andexanet alfa." },
+      { q: "Which drug is reversed by andexanet alfa per the slides?", answer: 2, why: "Slide 8: Xa-inhibitor antidote andexanet alfa." },
     ],
     takeaway: "ARGatroban = when HIT ARGues against heparin. Dabigatran → idarucizumab. Rivaroxaban (Xa) → andexanet alfa.",
     source: "Coag Notes · Slides 7–8",
@@ -277,7 +277,7 @@ export const CONTRASTS: ContrastSet[] = [
       { q: "Which one is a centrally acting muscle relaxant?", answer: 2, why: "Cyclobenzaprine: C = Centrally acting." },
       { q: "Which one is contraindicated in sleep apnea per the notes?", answer: 0, why: "Benzo CI: allergy, pregnancy, sleep apnea, resp depression, organic brain disease." },
     ],
-    takeaway: "All ↑GABA + all add to ETOH. Benzo → flumazenil. Zolpidem → sleep-walking-type behaviors. Cyclobenzaprine → Central.",
+    takeaway: "All ↑GABA + all add to ETOH. Benzo → flumazenil. Zolpidem → sleep-related complex behaviors. Cyclobenzaprine → Central.",
     source: "Memory Aid · Benzodiazepines / Zolpidem + muscle relaxants",
   },
 ];

@@ -42,7 +42,11 @@ export const w7Cards: DrugCard[] = [
       use: ["Post-op DVT prophylaxis", "Treat DVT and PE", "Prevent complications of angina and MI"],
       se: ["Bleeding (#1)", "HIT still possible, but less likely than with heparin", "Neuro damage from spinal/epidural hematoma"],
       ci: ["Thrombocytopenia, uncontrolled bleeding", "Surgery of eyes, brain, spinal cord; lumbar puncture; regional anesthesia"],
-      caution: ["Kidney dysfunction: renally eliminated → dose adjustment"],
+      caution: [
+        "Same as heparin: hemophilia, ↑capillary permeability, dissecting aneurysm",
+        "PUD, severe HTN, hepatic disease",
+        "Kidney dysfunction: renally eliminated → dose adjustment",
+      ],
       intx: ["Same as heparin: ASA, NSAIDs, antiplatelets, anticoagulants, herbals"],
       lab: ["NO lab measures its effect", "Monitor creatinine clearance, platelets, H&H", "Effective = no new or extending venous clots"],
       hold: ["Platelets drop ≥50% or <100,000 → hold + notify"],
